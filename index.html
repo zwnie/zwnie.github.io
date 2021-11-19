@@ -172,6 +172,278 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/11/19/graphviz/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="kklai">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="kklai的小站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/11/19/graphviz/" class="post-title-link" itemprop="url">graphviz学习笔记</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-11-19 21:21:52 / 修改时间：23:10:29" itemprop="dateCreated datePublished" datetime="2021-11-19T21:21:52+08:00">2021-11-19</time>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>graphviz应用dot语法生成流程图，对dot语法，<a target="_blank" rel="noopener" href="https://itopic.org/graphviz.html">这里</a>可以找到中文手册。</p>
+<p>dot使用图（digraph/graph/subgraph）、节点（node）和边（edge）来描述流程图，每个组分的特征都可以通过参数进行设置。</p>
+<h1 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h1><h2 id="example-01：基本语法"><a href="#example-01：基本语法" class="headerlink" title="example-01：基本语法"></a>example-01：基本语法</h2><pre><code>digraph flow0 &#123;
+    label=&quot;example&quot;
+    bgcolor=&quot;beige&quot;
+
+    node[color=&quot;grey&quot;]
+
+    father[label=&quot;爸爸&quot;, shape=&quot;box&quot;]
+    mother[label=&quot;妈妈&quot;, shape=&quot;box&quot;]
+    brother[label=&quot;哥哥&quot;, shape=&quot;circle&quot;]
+    sister[label=&quot;姐姐&quot;, shape=&quot;circle&quot;]
+
+    node[color=&quot;#FF6347&quot;]
+
+    strangers[label=&quot;路人&quot;]
+
+    edge[color=&quot;#FF6347&quot;]
+
+    father-&gt;mother[label=&quot;夫妻&quot;, dir=&quot;both&quot;]
+    father-&gt;brother[label=&quot;父子&quot;]
+    father-&gt;sister[label=&quot;父子&quot;]
+    father-&gt;我[label=&quot;父子&quot;]
+    mother-&gt;&#123;brother,sister,我&#125;[label=&quot;母子&quot;]
+
+    &#123;rank=same; father, mother&#125;
+    &#123;rank=same; brother, sister, 我&#125;
+&#125;
+</code></pre>
+<ul>
+<li><input disabled="" type="checkbox"> 对“我”这个变量，没有定义也可以直接使用</li>
+<li><input disabled="" type="checkbox"> node定义节点的默认属性，edge定义边的默认属性，作用域从本次定义到下一次定义为止</li>
+</ul>
+<div  align="center"> 
+<img src="/images/viz-exp1.png" width = "410" height = "235" alt="example-01" align=center />
+</div>
+
+<h2 id="example-02：子图"><a href="#example-02：子图" class="headerlink" title="example-02：子图"></a>example-02：子图</h2><p>一个图可以包含多个子图，子图也可以镶嵌子图；子图名字必须为cluster*，否则直接当作节点渲染了。</p>
+<pre><code>digraph example &#123;
+    bgcolor=&quot;beige&quot;
+
+    subgraph cluster_husband &#123;
+        node[color=&quot;grey&quot;]
+        &#123;&quot;爸爸&quot;, &quot;妈妈&quot;&#125; -&gt; &quot;我&quot;
+    &#125;
+
+    subgraph cluster_wife &#123;
+        &#123;&quot;岳父&quot;, &quot;岳母&quot;&#125; -&gt; &quot;老婆&quot;
+    &#125;
+
+    &quot;我&quot; -&gt; &quot;老婆&quot;[label=&quot;夫妻&quot;, dir=&quot;both&quot;]
+    &#123;rank=same; &quot;我&quot;, &quot;老婆&quot;&#125;
+&#125;
+</code></pre>
+<div  align="center"> 
+<img src="/images/viz-exp2.png" width = "456" height = "177" alt="example-02" align=center />
+</div>
+
+<h2 id="example-03：二叉树"><a href="#example-03：二叉树" class="headerlink" title="example-03：二叉树"></a>example-03：二叉树</h2><p>shape=”record”，用“|”隔开绘制出来的节点会在中间展示为一个分隔符，用&lt;&gt;括起来的称为锚点。</p>
+<pre><code>digraph demo &#123;
+    bgcolor=&quot;beige&quot;
+    node [shape=&quot;record&quot;, height=.1]
+    node0[label=&quot;&lt;f0&gt; | &lt;f1&gt; G | &lt;f2&gt;&quot;]
+    node1[label=&quot;&lt;f0&gt; | &lt;f1&gt; E | &lt;f2&gt;&quot;]
+    node2[label=&quot;&lt;f0&gt; | &lt;f1&gt; B | &lt;f2&gt;&quot;]
+    node0:f0 -&gt; node1:f1
+    node0:f2 -&gt; node2:f1
+&#125;
+</code></pre>
+<div  align="center"> 
+<img src="/images/viz-exp3.png" width = "219" height = "123" alt="example-03" align=center />
+</div>
+
+<ul>
+<li><input disabled="" type="checkbox"> “|”默认纵向分开，用{}包围则可以横向分开。</li>
+</ul>
+<h2 id="example-04：复杂的例子"><a href="#example-04：复杂的例子" class="headerlink" title="example-04：复杂的例子"></a>example-04：复杂的例子</h2><pre><code>digraph G &#123;
+# 定义全局属性
+    fontname = &quot;Courier New&quot;
+    fontsize = 8
+    # 从下往上
+    rankdir = BT
+# 定义节点属性
+    node [
+            shape = &quot;record&quot; # 矩形，默认是椭圆
+            color = &quot;blue&quot; # 边框蓝色
+    ]
+
+# 定义边的属性
+    edge [
+            fontsize = 9
+    ]
+# 换行符是\l，而要新建一个新的单元格，则需要是用|。&#123;&#125;里面的是内容
+    Reportable [
+        label = &quot;&#123;Reportable | + getSummary() : Map\&lt;String, Integer\&gt; | + getDetail() : Map\&lt;String, Integer\&gt; | + isDetailVisible() : boolean&#125;&quot;
+    ]
+# 特殊字符要转义
+    LineCounter [
+        label = &quot;&#123;LineCounter | + count(String line) : boolean | + getType() : String&#125;&quot;
+    ]
+
+    CharCounter [
+        label = &quot;&#123;CharCounter | + count(Character c) : boolean | + getType() : String&#125;&quot;
+    ]
+
+AbstractCharCounter [
+        label = &quot;&#123;AbstractCharCounter | characterMap : Map\&lt;Character, Integer\&gt; | + count(Character c) : boolean | + getSummary() : Map\&lt;String, Integer\&gt; | +getDetail() : Map\&lt;String, Integer\&gt; &#125;&quot;
+    ]
+
+AbstractLineCounter [
+        label = &quot;&#123;AbstractLineCounter |  + count(String line) : boolean | + getSummary() : Map\&lt;String, Integer\&gt; | +getDetail() : Map\&lt;String, Integer\&gt; &#125;&quot;
+    ]
+
+PredicateCharacter[label = &quot;&#123;Predicate\&lt;Character\&gt; | + apply(Character c) : boolean&#125;&quot;]
+PredicateString[label = &quot;&#123;Predicate\&lt;String\&gt; | + apply(String line) : boolean&#125;&quot;]
+
+BlankCharCounter[label = &quot;&#123;BlankCharCounter | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
+ChineseCharCounter[label = &quot;&#123;ChineseCharCounter | - chinesePattern : Pattern | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
+LetterCharCounter[label = &quot;&#123;LetterCharCounter | - chinesePattern : Pattern | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
+    NumberCharCounter[label = &quot;&#123;NumberCharCounter | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
+    LineNumberCounter[label = &quot;&#123;LineNumberCounter | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
+
+
+    parentInterface [label = &quot;parent interface&quot; color = &quot;green&quot; style=filled]
+    childInterface [label = &quot;child interface&quot; color = &quot;green&quot; style=filled]
+    abstractClass [ label = &quot;abstract class : implement some methods using the abstract methods&quot; color = &quot;green&quot; style=filled]
+    specificClass [ label = &quot;specific class : implement all unimplemented methods&quot; color = &quot;green&quot; style=filled]
+
+    LineProcessor [label = &quot;&#123;LineProcessor\&lt;List\&lt;Reportable\&gt;\&gt;&#125;&quot; ]
+    ReportableLineProcessor [ label = &quot;&#123;ReportableLineProcessor | + ReportableLineProcessor() | + processsLine(String line) : boolean | + getResult() : List\&lt;Reportable\&gt;&#125;&quot;]
+
+    # 定义在同一层
+    &#123;rank = same; parentInterface; Reportable; LineProcessor&#125;
+    &#123;rank = same; childInterface; LineCounter; CharCounter; PredicateCharacter; PredicateString&#125;
+    &#123;rank = same; abstractClass; AbstractLineCounter; AbstractCharCounter;&#125;
+    &#123;rank = same; specificClass; LineNumberCounter; BlankCharCounter; ChineseCharCounter; LetterCharCounter; NumberCharCounter; ReportableLineProcessor&#125;
+    
+# 箭头为空心，接口之间的继承
+LineCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
+CharCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
+AbstractCharCounter -&gt; CharCounter[arrowhead=&quot;empty&quot;]
+AbstractLineCounter -&gt; LineCounter[arrowhead=&quot;empty&quot;]
+
+AbstractCharCounter -&gt; PredicateCharacter[arrowhead=&quot;empty&quot;]
+AbstractLineCounter -&gt; PredicateString[arrowhead=&quot;empty&quot;]
+
+# 实现类的UML
+BlankCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
+ChineseCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
+LetterCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
+NumberCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
+LineNumberCounter -&gt; AbstractLineCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
+
+ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
+
+&#125;
+</code></pre>
+<div  align="center"> 
+<img src="/images/viz-exp4.png" width = "410" height = "97" alt="example-04" align=center />
+</div>
+
+<h2 id="example-05：更复杂的例子"><a href="#example-05：更复杂的例子" class="headerlink" title="example-05：更复杂的例子"></a>example-05：更复杂的例子</h2><pre><code>digraph otherOp&#123;
+        node [
+            shape = &quot;record&quot;
+            color = &quot;blue&quot;
+        ]
+    edge[
+        arrowhead = &quot;empty&quot;
+    ]
+    
+    // 子图，必须以cluster开头
+    subgraph cluster0&#123;
+        // 子图用浅灰色填充
+        style = filled
+        color = lightgray
+        // 子图名字
+        label = &quot;web server&quot;
+        // 制定整个client_socket填充，且填充的颜色为red，这时边缘是蓝色。不指定颜色，则会用上面的边缘颜色blue填充，导致无法看到边缘。
+            // 这里使用s0,s1...占位符号
+        client_socket [label = &quot;&#123;&lt;s0&gt;|&lt;s1&gt;head|&lt;s2&gt;|&lt;s3&gt;...|&lt;s4&gt;|&lt;s5&gt;tail|&lt;s6&gt;&#125;&quot; style = &quot;filled&quot; fillcolor = &quot;red&quot;]
+
+            // 指定边上的文字
+        master_thread -&gt; client_socket : s1[label = &quot;produce socket&quot;]
+
+        worker_thread [label = &quot;&#123;&lt;w0&gt; worker_thread 1| &lt;w1&gt; worker_thread 2 | &lt;w2&gt;worker_thread 3&#125;&quot;]
+        client_socket : s5 -&gt; worker_thread : w0
+            client_socket : s4 -&gt; worker_thread : w1 [ label = &quot;consume socket&quot;]
+            client_socket : s3 -&gt; worker_thread : w2
+    
+        producer[ label = &quot;producer&quot; style = filled fillcolor = &quot;green&quot;]
+        consumer[ label = &quot;comsumer&quot; style = filled fillcolor = &quot;green&quot;]
+        Queue[ label = &quot;Queue&quot; style = filled fillcolor = &quot;green&quot;]
+        &#123;rank = same; producer; master_thread&#125;
+        &#123;rank = same; consumer; worker_thread&#125;
+        &#123;rank = same; Queue; client_socket&#125;
+    &#125;
+
+    request1 -&gt; master_thread[color = &quot;red&quot;]
+    request2 -&gt; master_thread[color = &quot;red&quot;]
+    request3 -&gt; master_thread[color = &quot;red&quot;]
+    // 边是虚线，且是橙色
+    request1 -&gt; worker_thread : w0 [ style = &quot;dashed&quot; color = &quot;orange&quot;, label = &quot;process request&quot;]
+    request2 -&gt; worker_thread : w1 [ style = &quot;dashed&quot; color = &quot;orange&quot; label = &quot;process request&quot;]
+    request3 -&gt; worker_thread : w2 [ style = &quot;dashed&quot; color = &quot;orange&quot; label = &quot;process request&quot;]
+
+        Browser[ label = &quot;Browser&quot; style = filled fillcolor = &quot;green&quot;]
+    &#123;rank = same; Browser; request1; request2; request3&#125;
+
+&#125;
+</code></pre>
+<p>注意这种格式：client_socket : s5 -&gt; worker_thread : w0</p>
+<p>此外疑惑的是箭头为何会拐弯？</p>
+<div  align="center"> 
+<img src="/images/viz-exp5.png" width = "385" height = "327" alt="example-05" align=center />
+</div>
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://example.com/2021/11/15/program/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -439,7 +711,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-17 21:49:14" itemprop="dateModified" datetime="2021-11-17T21:49:14+08:00">2021-11-17</time>
+                <time title="修改时间：2021-11-19 20:36:36" itemprop="dateModified" datetime="2021-11-19T20:36:36+08:00">2021-11-19</time>
               </span>
 
           
@@ -495,7 +767,11 @@
 <p>在新经济政策完善的过程中，如何看待私商、“富农”、私人贸易，如何看待市场关系，已经成为必须面对的问题。部分党员认为新经济政策将加剧贫富分化、导致资本主义在俄国复辟。以季诺维也夫和斯大林为代表的一派对新经济政策总体上持否定的态度，念念不忘限制甚至取消这一政策，他们将新经济政策看作是一种暂时的退却——同农民妥协以拯救苏维埃，退却必然伴随着进攻，那便是同资本主义相斗争。</p>
 <p>“左”的思潮决定了新经济政策的最终命运。1929年斯大林在马克思主义者土地问题专家代表会议上宣称：“我们所以采取新经济政策，就是因为它为社会主义事业服务。当它不再为社会主义事业服务的时候，我们就让它见鬼去。”贯穿20年代的新经济政策在与军事共产主义的斗争中终于见鬼去了。</p>
 <p>事实上，采取新经济政策的深层次原因，正是俄国落后，不具备立即实行社会主义的物质条件，需要通过市场来改变资源配置的方法，促进生产的发展，为社会主义准备条件。而害怕资本主义，害怕在发展生产力的同时“资本主义”的增长，想借助于阶级斗争的方法，靠专政的力量来消灭资本主义的成分，消灭小生产，只会给国民经济带来破坏性的后果。斯大林体制最终论证了这一点。</p>
-<h2 id="苏联官册制度与干部状况"><a href="#苏联官册制度与干部状况" class="headerlink" title="苏联官册制度与干部状况"></a>苏联官册制度与干部状况</h2><center>（待续）</center>
+<h2 id="苏联官册制度与干部状况"><a href="#苏联官册制度与干部状况" class="headerlink" title="苏联官册制度与干部状况"></a>苏联官册制度与干部状况</h2><p>十月革命之前，依据马克思主义理论思想，列宁提出苏维埃政权应实行直接普选制，并在革命后进行了实践；但选举方法无法适应紧张的战争态势，最终被废除。1919年俄共八大通过的《关于组织工作》指出，“…党工作人员的全部分配工作由党中央委员会掌握，它的决议大家都必须执行”，从而确立了干部任命制的原则，由布尔什维克直接委派领导干部。这一制度迎合了战争需要，但在战后的经济建设时期带来了管理的混乱；为了杜绝一系列机关出现的领导干部选拔和使用的无序状态，等级官员名册制度应运而生。此后，<strong>以任命制为核心、官册为载体的干部制度贯穿了维持了半个多世纪，深刻影响了苏联干部队伍的面貌和行为</strong>。</p>
+<p>所谓等级官员名册，是指由中央组织局建立的1、2、3号名册，他们各自有不同的所属部门，并收录了不同的职位（比如1号官册收录了最重要的职位，须经由党的最高机关批准；2号官册由部门提名，中央登记分配部批准；3号官册则收录了地方和基层官员名册等）。通过官册制度，斯大林和党中央掌握了从中央到地方各个级别、全国各个领域干部的任免调配权力，将干部的任免权力高度集中于中央。</p>
+<p>官册制度带来的影响是全方位的。首先，大量非党员干部被替换，干部中党员比例迅速提高，政治成分逐渐一元化；其次，干部任免成为党争的工具，变相的为斯大林贯彻其政治、经济路线奠定了组织基础；最后，在工农出身的党员大批补充进领导干部队伍的同时，干部群体的文化水平大幅度降低。</p>
+<p>1920年代，苏维埃国家是被资本主义包围的孤岛，对干部队伍政治、社会结构的改造，保证了其无产阶级性，为巩固和发展无产阶级提供了组织保证。但被提拔的干部不懂商品经济、不熟悉经济管理方法，不可避免的背离了在社会主义国家建立市场经济的导向，变相加速了新经济政策的终结。</p>
+<h2 id="1920年代苏联领导干部住房问题"><a href="#1920年代苏联领导干部住房问题" class="headerlink" title="1920年代苏联领导干部住房问题"></a>1920年代苏联领导干部住房问题</h2><center>（待续）</center>
 
 <hr>
 
@@ -814,7 +1090,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">6</span>
+          <span class="site-state-item-count">7</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -825,7 +1101,7 @@
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
