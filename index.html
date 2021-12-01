@@ -172,6 +172,91 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/12/01/Hyperdynamics/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="kklai">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="kklai的小站">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          
+            <a href="/2021/12/01/Hyperdynamics/" class="post-title-link" itemprop="url">Hyperdynamics</a>
+        </h2>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+              
+
+              <time title="创建时间：2021-12-01 10:51:21 / 修改时间：13:39:17" itemprop="dateCreated datePublished" datetime="2021-12-01T10:51:21+08:00">2021-12-01</time>
+            </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/dl-poly/" itemprop="url" rel="index"><span itemprop="name">dl-poly</span></a>
+                </span>
+            </span>
+
+          
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+          <p>在固体动力学（如扩散）过程中，构型可能长时间被困在势能面的一个谷，难以观察到原子跳跃。Hyperdynamics就是用来加速跳跃频率的手段。</p>
+<h1 id="Nudged-Elastic-Band-NEB"><a href="#Nudged-Elastic-Band-NEB" class="headerlink" title="Nudged Elastic Band (NEB)"></a>Nudged Elastic Band (NEB)</h1><div align="center"> 
+<img src="/images/NEB.png" width="756" height="412" alt="NEB" align="center">
+</div>
+
+<p>NEB用来寻找反应路径，在这个过程中产生活化能。具体步骤如下：</p>
+<ol>
+<li>确定位于能量极值点的初末构型A, B</li>
+<li>在AB构型之间线性插值一系列中间构型$R_{i}^{N} (i=0,…,N_{neb})$，每个构型被称为NEB’chain’的一个’bead’，其能量为$V_{c}(R_{i}^{N})$</li>
+<li><p>将任意相邻的两个bead通过弹簧相连，串成一条链，此时谐振势为</p>
+<script type="math/tex; mode=display">V_{s}(R_{N_{neb}}^{N}) = \frac{1}{2} k_{neb} \sum_{i=1}^{N_{neb}} ( R_i^N - R_{i-1}^N )^{2}</script></li>
+<li><p>最小化泛函$E(R_{N_{neb}}^N)$，其中</p>
+<script type="math/tex; mode=display">E(R_{N_{neb}}^N) = V_{s}(R_{N_{neb}}^N) + \sum_{i=1}^{N_{neb}-1} V_{c}(R_{i}^N)</script></li>
+<li><p>在实际中，这个方法还需要进一步修正：要确保弹簧使bead受力与原子间相互作用使bead受力相互正交，也即 沿着链的方向原子作用力为0，垂直链的方向弹簧作用力为0</p>
+</li>
+<li><p>对bead能量插值拟合得到活化能</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+      <footer class="post-footer">
+        <div class="post-eof"></div>
+      </footer>
+  </article>
+  
+  
+  
+
+      
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
     <link itemprop="mainEntityOfPage" href="https://example.com/2021/11/27/dl-poly-init/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -195,10 +280,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-11-27 17:16:03 / 修改时间：17:28:34" itemprop="dateCreated datePublished" datetime="2021-11-27T17:16:03+08:00">2021-11-27</time>
+              <time title="创建时间：2021-11-27 17:16:03" itemprop="dateCreated datePublished" datetime="2021-11-27T17:16:03+08:00">2021-11-27</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-01 10:10:06" itemprop="dateModified" datetime="2021-12-01T10:10:06+08:00">2021-12-01</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -401,13 +492,12 @@
     &#123;rank=same; father, mother&#125;
     &#123;rank=same; brother, sister, 我&#125;
 &#125;
-</code></pre>
-<ul>
-<li><input disabled="" type="checkbox"> 对“我”这个变量，没有定义也可以直接使用</li>
-<li><input disabled="" type="checkbox"> node定义节点的默认属性，edge定义边的默认属性，作用域从本次定义到下一次定义为止</li>
+</code></pre><ul>
+<li>[ ] 对“我”这个变量，没有定义也可以直接使用</li>
+<li>[ ] node定义节点的默认属性，edge定义边的默认属性，作用域从本次定义到下一次定义为止</li>
 </ul>
-<div  align="center"> 
-<img src="/images/viz-exp1.png" width = "410" height = "235" alt="example-01" align=center />
+<div align="center"> 
+<img src="/images/viz-exp1.png" width="410" height="235" alt="example-01" align="center">
 </div>
 
 <h2 id="example-02：子图"><a href="#example-02：子图" class="headerlink" title="example-02：子图"></a>example-02：子图</h2><p>一个图可以包含多个子图，子图也可以镶嵌子图；子图名字必须为cluster*，否则直接当作节点渲染了。</p>
@@ -426,9 +516,8 @@
     &quot;我&quot; -&gt; &quot;老婆&quot;[label=&quot;夫妻&quot;, dir=&quot;both&quot;]
     &#123;rank=same; &quot;我&quot;, &quot;老婆&quot;&#125;
 &#125;
-</code></pre>
-<div  align="center"> 
-<img src="/images/viz-exp2.png" width = "456" height = "177" alt="example-02" align=center />
+</code></pre><div align="center"> 
+<img src="/images/viz-exp2.png" width="456" height="177" alt="example-02" align="center">
 </div>
 
 <h2 id="example-03：二叉树"><a href="#example-03：二叉树" class="headerlink" title="example-03：二叉树"></a>example-03：二叉树</h2><p>shape=”record”，用“|”隔开绘制出来的节点会在中间展示为一个分隔符，用&lt;&gt;括起来的称为锚点。</p>
@@ -441,13 +530,12 @@
     node0:f0 -&gt; node1:f1
     node0:f2 -&gt; node2:f1
 &#125;
-</code></pre>
-<div  align="center"> 
-<img src="/images/viz-exp3.png" width = "219" height = "123" alt="example-03" align=center />
+</code></pre><div align="center"> 
+<img src="/images/viz-exp3.png" width="219" height="123" alt="example-03" align="center">
 </div>
 
 <ul>
-<li><input disabled="" type="checkbox"> “|”默认纵向分开，用{}包围则可以横向分开。</li>
+<li>[ ] “|”默认纵向分开，用{}包围则可以横向分开。</li>
 </ul>
 <h2 id="example-04：复杂的例子"><a href="#example-04：复杂的例子" class="headerlink" title="example-04：复杂的例子"></a>example-04：复杂的例子</h2><pre><code>digraph G &#123;
 # 定义全局属性
@@ -509,7 +597,7 @@ LetterCharCounter[label = &quot;&#123;LetterCharCounter | - chinesePattern : Pat
     &#123;rank = same; childInterface; LineCounter; CharCounter; PredicateCharacter; PredicateString&#125;
     &#123;rank = same; abstractClass; AbstractLineCounter; AbstractCharCounter;&#125;
     &#123;rank = same; specificClass; LineNumberCounter; BlankCharCounter; ChineseCharCounter; LetterCharCounter; NumberCharCounter; ReportableLineProcessor&#125;
-    
+
 # 箭头为空心，接口之间的继承
 LineCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
 CharCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
@@ -529,9 +617,8 @@ LineNumberCounter -&gt; AbstractLineCounter[arrowhead=&quot;empty&quot;, style=&
 ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
 
 &#125;
-</code></pre>
-<div  align="center"> 
-<img src="/images/viz-exp4.png" width = "1025" height = "243" alt="example-04" align=center />
+</code></pre><div align="center"> 
+<img src="/images/viz-exp4.png" width="1025" height="243" alt="example-04" align="center">
 </div>
 
 <h2 id="example-05：更复杂的例子"><a href="#example-05：更复杂的例子" class="headerlink" title="example-05：更复杂的例子"></a>example-05：更复杂的例子</h2><pre><code>digraph otherOp&#123;
@@ -542,7 +629,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
     edge[
         arrowhead = &quot;empty&quot;
     ]
-    
+
     // 子图，必须以cluster开头
     subgraph cluster0&#123;
         // 子图用浅灰色填充
@@ -561,7 +648,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
         client_socket : s5 -&gt; worker_thread : w0
             client_socket : s4 -&gt; worker_thread : w1 [ label = &quot;consume socket&quot;]
             client_socket : s3 -&gt; worker_thread : w2
-    
+
         producer[ label = &quot;producer&quot; style = filled fillcolor = &quot;green&quot;]
         consumer[ label = &quot;comsumer&quot; style = filled fillcolor = &quot;green&quot;]
         Queue[ label = &quot;Queue&quot; style = filled fillcolor = &quot;green&quot;]
@@ -582,11 +669,10 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
     &#123;rank = same; Browser; request1; request2; request3&#125;
 
 &#125;
-</code></pre>
-<p>注意这种格式：client_socket : s5 -&gt; worker_thread : w0</p>
+</code></pre><p>注意这种格式：client_socket : s5 -&gt; worker_thread : w0</p>
 <p>此外疑惑的是箭头为何会拐弯？</p>
-<div  align="center"> 
-<img src="/images/viz-exp5.png" width = "385" height = "327" alt="example-05" align=center />
+<div align="center"> 
+<img src="/images/viz-exp5.png" width="385" height="327" alt="example-05" align="center">
 </div>
       
     </div>
@@ -735,8 +821,8 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
           <h1 id="序"><a href="#序" class="headerlink" title="序"></a>序</h1><p>《世说新语》是本“笔记小说”，编撰者是刘宋宗室刘义庆，主要记载了东汉末到东晋时期上层社会名士的言行。全书分三十六类，每类若干则故事，长短不一，故事也未必都是史实。</p>
 <p>选择这本书原因很朴素：<strong>我想了解更多魏晋的故事，而它足够轻松舒适。</strong></p>
 <p>之前也尝试过读史，但这一时期太凌乱，你方唱罢我登场，过目即忘；也去过博物馆，但可惜乱世破坏太严重，魏晋时期的文物几乎都是墓葬中的浮雕和地砖、墓志铭etc，工艺品和文书鲜有留存。小说就不一样了，史书中冷冰冰的人物仿佛变得有血有肉，如此我们更容易对那个时代产生共情吧。那是一个怎样荒谬与激情的时代啊？</p>
-<div  align="center"> 
-<img src="/images/weijin.jpg" width = "300" height = "130" alt="魏晋名士" align=center />
+<div align="center"> 
+<img src="/images/weijin.jpg" width="300" height="130" alt="魏晋名士" align="center">
 </div>
 
 <h1 id="皇权与士权"><a href="#皇权与士权" class="headerlink" title="皇权与士权"></a>皇权与士权</h1><blockquote>
@@ -898,19 +984,19 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
 <p>不为苏联解体感到惋惜的人没有良心，想回到苏联时代的人没有脑子</p>
 </blockquote>
 <p>从落后的农业国，靠着一个个五年计划迅速实现工业化，用20年时间成为欧洲第一大工业国，摧垮法西斯的锋芒，将赤旗插上柏林帝国大厦，第一个载人火箭、第一颗人造卫星、第一个月球探测器，数以万计的坦克核弹，席卷全球的国际共运，苏联是个神话。</p>
-<div  align="center"> 
-<img src="/images/gagarin.jpg" width = "200" height = "260" alt="尤里·加加林" align=center />
+<div align="center"> 
+<img src="/images/gagarin.jpg" width="200" height="260" alt="尤里·加加林" align="center">
 </div>
 
 <p>与此同时，乌克兰饥荒、卡廷森林、古拉格群岛，苏联的黑料又不胜枚举。高度集权的政治体制，僵化死板的思想理论，严重失衡的经济结构…德国人没做到的事情，苏联人自己做到了——红色巨人在一夜间轰然倒塌。</p>
-<div  align="center"> 
-<img src="/images/break.png" width = "300" height = "180" alt="苏联解体" align=center />
+<div align="center"> 
+<img src="/images/break.png" width="300" height="180" alt="苏联解体" align="center">
 </div>
 
 <p>解体后，俄罗斯经济常年增长缓慢，俄共不断分裂内讧，目前来看，俄国与社会主义渐行渐远。作为第一个社会主义国家、人类史上最伟大的社会形态实验，它惨烈的失败究竟教会了我们什么？</p>
 <p>前事不忘，后事之师。年关将近，圣诞是毛熊30周年忌日，他不该被遗忘在角落里。对先行者的尊重，即是对我们自身道路的尊重。所以标题起名叫作“为了忘却的纪念”，<strong>纪念是为了永不忘却</strong>。</p>
-<div  align="center"> 
-<img src="/images/anniversary.jpg" width = "300" height = "220" alt="二十周年祭" align=center />
+<div align="center"> 
+<img src="/images/anniversary.jpg" width="300" height="220" alt="二十周年祭" align="center">
 </div>
 
 <h1 id="纪史：往事知多少？"><a href="#纪史：往事知多少？" class="headerlink" title="纪史：往事知多少？"></a>纪史：往事知多少？</h1><blockquote>
@@ -1305,7 +1391,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -1316,7 +1402,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -1430,6 +1516,61 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
 
 
   
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
 
   
 

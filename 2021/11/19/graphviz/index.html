@@ -262,13 +262,12 @@
     &#123;rank=same; father, mother&#125;
     &#123;rank=same; brother, sister, 我&#125;
 &#125;
-</code></pre>
-<ul>
-<li><input disabled="" type="checkbox"> 对“我”这个变量，没有定义也可以直接使用</li>
-<li><input disabled="" type="checkbox"> node定义节点的默认属性，edge定义边的默认属性，作用域从本次定义到下一次定义为止</li>
+</code></pre><ul>
+<li>[ ] 对“我”这个变量，没有定义也可以直接使用</li>
+<li>[ ] node定义节点的默认属性，edge定义边的默认属性，作用域从本次定义到下一次定义为止</li>
 </ul>
-<div  align="center"> 
-<img src="/images/viz-exp1.png" width = "410" height = "235" alt="example-01" align=center />
+<div align="center"> 
+<img src="/images/viz-exp1.png" width="410" height="235" alt="example-01" align="center">
 </div>
 
 <h2 id="example-02：子图"><a href="#example-02：子图" class="headerlink" title="example-02：子图"></a>example-02：子图</h2><p>一个图可以包含多个子图，子图也可以镶嵌子图；子图名字必须为cluster*，否则直接当作节点渲染了。</p>
@@ -287,9 +286,8 @@
     &quot;我&quot; -&gt; &quot;老婆&quot;[label=&quot;夫妻&quot;, dir=&quot;both&quot;]
     &#123;rank=same; &quot;我&quot;, &quot;老婆&quot;&#125;
 &#125;
-</code></pre>
-<div  align="center"> 
-<img src="/images/viz-exp2.png" width = "456" height = "177" alt="example-02" align=center />
+</code></pre><div align="center"> 
+<img src="/images/viz-exp2.png" width="456" height="177" alt="example-02" align="center">
 </div>
 
 <h2 id="example-03：二叉树"><a href="#example-03：二叉树" class="headerlink" title="example-03：二叉树"></a>example-03：二叉树</h2><p>shape=”record”，用“|”隔开绘制出来的节点会在中间展示为一个分隔符，用&lt;&gt;括起来的称为锚点。</p>
@@ -302,13 +300,12 @@
     node0:f0 -&gt; node1:f1
     node0:f2 -&gt; node2:f1
 &#125;
-</code></pre>
-<div  align="center"> 
-<img src="/images/viz-exp3.png" width = "219" height = "123" alt="example-03" align=center />
+</code></pre><div align="center"> 
+<img src="/images/viz-exp3.png" width="219" height="123" alt="example-03" align="center">
 </div>
 
 <ul>
-<li><input disabled="" type="checkbox"> “|”默认纵向分开，用{}包围则可以横向分开。</li>
+<li>[ ] “|”默认纵向分开，用{}包围则可以横向分开。</li>
 </ul>
 <h2 id="example-04：复杂的例子"><a href="#example-04：复杂的例子" class="headerlink" title="example-04：复杂的例子"></a>example-04：复杂的例子</h2><pre><code>digraph G &#123;
 # 定义全局属性
@@ -370,7 +367,7 @@ LetterCharCounter[label = &quot;&#123;LetterCharCounter | - chinesePattern : Pat
     &#123;rank = same; childInterface; LineCounter; CharCounter; PredicateCharacter; PredicateString&#125;
     &#123;rank = same; abstractClass; AbstractLineCounter; AbstractCharCounter;&#125;
     &#123;rank = same; specificClass; LineNumberCounter; BlankCharCounter; ChineseCharCounter; LetterCharCounter; NumberCharCounter; ReportableLineProcessor&#125;
-    
+
 # 箭头为空心，接口之间的继承
 LineCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
 CharCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
@@ -390,9 +387,8 @@ LineNumberCounter -&gt; AbstractLineCounter[arrowhead=&quot;empty&quot;, style=&
 ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
 
 &#125;
-</code></pre>
-<div  align="center"> 
-<img src="/images/viz-exp4.png" width = "1025" height = "243" alt="example-04" align=center />
+</code></pre><div align="center"> 
+<img src="/images/viz-exp4.png" width="1025" height="243" alt="example-04" align="center">
 </div>
 
 <h2 id="example-05：更复杂的例子"><a href="#example-05：更复杂的例子" class="headerlink" title="example-05：更复杂的例子"></a>example-05：更复杂的例子</h2><pre><code>digraph otherOp&#123;
@@ -403,7 +399,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
     edge[
         arrowhead = &quot;empty&quot;
     ]
-    
+
     // 子图，必须以cluster开头
     subgraph cluster0&#123;
         // 子图用浅灰色填充
@@ -422,7 +418,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
         client_socket : s5 -&gt; worker_thread : w0
             client_socket : s4 -&gt; worker_thread : w1 [ label = &quot;consume socket&quot;]
             client_socket : s3 -&gt; worker_thread : w2
-    
+
         producer[ label = &quot;producer&quot; style = filled fillcolor = &quot;green&quot;]
         consumer[ label = &quot;comsumer&quot; style = filled fillcolor = &quot;green&quot;]
         Queue[ label = &quot;Queue&quot; style = filled fillcolor = &quot;green&quot;]
@@ -443,11 +439,10 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
     &#123;rank = same; Browser; request1; request2; request3&#125;
 
 &#125;
-</code></pre>
-<p>注意这种格式：client_socket : s5 -&gt; worker_thread : w0</p>
+</code></pre><p>注意这种格式：client_socket : s5 -&gt; worker_thread : w0</p>
 <p>此外疑惑的是箭头为何会拐弯？</p>
-<div  align="center"> 
-<img src="/images/viz-exp5.png" width = "385" height = "327" alt="example-05" align=center />
+<div align="center"> 
+<img src="/images/viz-exp5.png" width="385" height="327" alt="example-05" align="center">
 </div>
     </div>
 
@@ -547,7 +542,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-count">10</span>
           <span class="site-state-item-name">日志</span>
         </a>
       </div>
@@ -558,7 +553,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
       </div>
       <div class="site-state-item site-state-tags">
             <a href="/tags/">
-        <span class="site-state-item-count">9</span>
+        <span class="site-state-item-count">10</span>
         <span class="site-state-item-name">标签</span></a>
       </div>
   </nav>
@@ -670,6 +665,8 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
 
 
 
+
+  
 
   
 
