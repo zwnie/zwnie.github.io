@@ -31,7 +31,7 @@
 <meta property="og:image" content="https://example.com/images/BPD-0.png">
 <meta property="og:image" content="https://example.com/images/BPD-2.png">
 <meta property="article:published_time" content="2021-12-01T02:51:21.000Z">
-<meta property="article:modified_time" content="2021-12-02T02:53:36.545Z">
+<meta property="article:modified_time" content="2021-12-02T05:16:26.901Z">
 <meta property="article:author" content="kklai">
 <meta property="article:tag" content="dl-poly">
 <meta property="article:tag" content="MD">
@@ -211,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-02 10:53:36" itemprop="dateModified" datetime="2021-12-02T10:53:36+08:00">2021-12-02</time>
+                <time title="修改时间：2021-12-02 13:16:26" itemprop="dateModified" datetime="2021-12-02T13:16:26+08:00">2021-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -274,7 +274,16 @@
 
 <p>在程序中，直接设定这两个值是有困难的（因为我们对势能面一无所知），为简化用户输入，它提供了另外两个输入$T_{bias}$, $T_{min}$：</p>
 <script type="math/tex; mode=display">E_{bias}-V_{0} = \frac{3}{2}Nk_{b}T_{bias}</script><script type="math/tex; mode=display">V_{min}-V_{0} = \frac{3}{2}Nk_{b}T_{min}</script><p>由此决定了$\alpha$：</p>
-<script type="math/tex; mode=display">\alpha = \frac{3Nk_{B}T_{bias}(T_{bias}-T_{min})}{2T_{min}}</script><p>在算法实现中，程序会先跑一段时间的MD，找到局部极小$V_{0}$，然后根据$T_{bias}$, $T_{min}$填充势阱，再进行MD。在不同能谷中，要重新寻找$V_{0}$，$E_{bias}$和$\alpha$都要重新构建，自始至终只有$T_{bias}$和$T_{min}$（填充相对高度）保持不变。</p>
+<script type="math/tex; mode=display">\alpha = \frac{3Nk_{B}T_{bias}(T_{bias}-T_{min})}{2T_{min}}</script><p>在算法实现中，程序会先跑一段时间的MD，找到局部极小$V_{0}$，然后根据$T_{bias}$, $T_{min}$填充势阱，再进行MD。BPD有两种常见的应用：Full Path Kinetics与Configuration Sampling</p>
+<h2 id="Full-Path-Kinetics"><a href="#Full-Path-Kinetics" class="headerlink" title="Full Path Kinetics"></a>Full Path Kinetics</h2><p>Full Path Kinetics通过加速的手段寻找其它构型，计算相变的活化能和相变时间，随后用以确定系统的完整动力学。算法如下：</p>
+<ol>
+<li>寻找一个局部极小构型A，能量$V_{0}$，随后加一个偏置势进行模拟，收集过程中的boost factor $e^{\beta W_{bias} (R^{N})}$</li>
+<li>经历一段时间间隔（’BPD block’），优化此时的结构，得结构B，B与A相比，如果有原子的位移超过了用户预设的distance（’catch radius’），则认为相变发生。如果相变发生，可选择性的执行NEB，计算反应的活化能。</li>
+<li>一旦相变发生，对时间区间内的所有结构进行优化，寻找最初发生相变的时间，从而反推实际相变时间。</li>
+<li>B作为初始构型，重新标定$V_{0}$，进行模拟（<strong>参考状态跟随扩散路径</strong>）</li>
+<li>遍历所有状态，最终得出A的扩散路径</li>
+</ol>
+<h2 id="Configuration-Sampling"><a href="#Configuration-Sampling" class="headerlink" title="Configuration Sampling"></a>Configuration Sampling</h2><p>优势在于能更快的遍历全空间。在构型A的基础上，加一个偏置势，$V_{0}$不会再改变，进行一段时间的模拟，最后利用boost factor计算力学量的期望值。</p>
 
     </div>
 
@@ -356,7 +365,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nudged-Elastic-Band-NEB"><span class="nav-number">1.</span> <span class="nav-text">Nudged Elastic Band (NEB)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bias-Potential-Dynamics"><span class="nav-number">2.</span> <span class="nav-text">Bias Potential Dynamics</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nudged-Elastic-Band-NEB"><span class="nav-number">1.</span> <span class="nav-text">Nudged Elastic Band (NEB)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bias-Potential-Dynamics"><span class="nav-number">2.</span> <span class="nav-text">Bias Potential Dynamics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Full-Path-Kinetics"><span class="nav-number">2.1.</span> <span class="nav-text">Full Path Kinetics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration-Sampling"><span class="nav-number">2.2.</span> <span class="nav-text">Configuration Sampling</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
