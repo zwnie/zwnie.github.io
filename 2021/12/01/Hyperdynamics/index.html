@@ -30,8 +30,9 @@
 <meta property="og:image" content="https://example.com/images/NEB.png">
 <meta property="og:image" content="https://example.com/images/BPD-0.png">
 <meta property="og:image" content="https://example.com/images/BPD-2.png">
+<meta property="og:image" content="https://example.com/images/TAD.png">
 <meta property="article:published_time" content="2021-12-01T02:51:21.000Z">
-<meta property="article:modified_time" content="2021-12-02T05:16:26.901Z">
+<meta property="article:modified_time" content="2021-12-02T13:57:36.824Z">
 <meta property="article:author" content="kklai">
 <meta property="article:tag" content="dl-poly">
 <meta property="article:tag" content="MD">
@@ -211,7 +212,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-02 13:16:26" itemprop="dateModified" datetime="2021-12-02T13:16:26+08:00">2021-12-02</time>
+                <time title="修改时间：2021-12-02 21:57:36" itemprop="dateModified" datetime="2021-12-02T21:57:36+08:00">2021-12-02</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -283,7 +284,33 @@
 <li>B作为初始构型，重新标定$V_{0}$，进行模拟（<strong>参考状态跟随扩散路径</strong>）</li>
 <li>遍历所有状态，最终得出A的扩散路径</li>
 </ol>
-<h2 id="Configuration-Sampling"><a href="#Configuration-Sampling" class="headerlink" title="Configuration Sampling"></a>Configuration Sampling</h2><p>优势在于能更快的遍历全空间。在构型A的基础上，加一个偏置势，$V_{0}$不会再改变，进行一段时间的模拟，最后利用boost factor计算力学量的期望值。</p>
+<h2 id="Configuration-Sampling"><a href="#Configuration-Sampling" class="headerlink" title="Configuration Sampling"></a>Configuration Sampling</h2><p>优势在于能更快的遍历全空间。在构型A的基础上，加一个偏置势，<strong>$V_{0}$不会再改变</strong>，进行一段时间的模拟，最后利用boost factor计算力学量的期望值。</p>
+<h1 id="Temperature-Accelerated-Dynamics"><a href="#Temperature-Accelerated-Dynamics" class="headerlink" title="Temperature Accelerated Dynamics"></a>Temperature Accelerated Dynamics</h1><p><a target="_blank" rel="noopener" href="https://aip.scitation.org/doi/abs/10.1063/1.481576">https://aip.scitation.org/doi/abs/10.1063/1.481576</a></p>
+<p>设想势阱中有一个粒子，跳跃出去的概率为k，t时刻仍处在势阱中的概率密度为P，则</p>
+<script type="math/tex; mode=display">P(t+dt) = P(t) - P(t) \cdot k \cdot dt</script><p>也即</p>
+<script type="math/tex; mode=display">\frac{dP}{dt} = -k \cdot P</script><script type="math/tex; mode=display">P = e^{-kt}</script><p>那么，t时刻逃逸的概率密度为</p>
+<script type="math/tex; mode=display">\left| \frac{dP}{dt} \right| = ke^{-kt}</script><p>k被称作反应速率常数，根据过渡态理论，反应速率常数存在温度依赖性（Arrhenius law）：</p>
+<script type="math/tex; mode=display">k = v e^{-\beta E^{*}}</script><p>此状态下的寿命为</p>
+<script type="math/tex; mode=display">\tau = 1/k</script><p>可以看到，Arrhenius law给出了高温和低温下化学反应速率常数的关系，进而给出了状态寿命的关系。由此可以考虑，对低温下难以发生的化学反应$A \rightarrow B$，可以在高温下较快发生，然后通过$\tau_{High}$反推$\tau_{Low}$，这就是TAD的基本思想。</p>
+<ol>
+<li>优化结构得到状态A</li>
+<li>高温下进行模拟，判断是否发生相变。如果是，NEB计算活化能</li>
+<li>对相变前的所有结构，优化后判断相变发生时间$\tau_{High}$</li>
+<li>利用下式反推$\tau_{Low}$<script type="math/tex; mode=display">log\left\{ \frac{\tau_{Low}}{\tau_{High}} \right\} = -\frac{E^{*}}{k_{B}} \left\{ \frac{1}{T_{High}} - \frac{1}{T_{Low}} \right\}</script></li>
+<li>重新将体系拨回A态、重置速度，寻找其它态B, C, D…</li>
+<li>在高温下需要一个截止时间$t_{stop}$，认为在$t_{stop}$内已经找到了低温下的最快反应路径</li>
+<li>从A在低温下的最快反应路径B出发，重复上述流程，寻找B的最快反应路径，从而建立体系反应路径$A \rightarrow B \rightarrow C \rightarrow …$</li>
+</ol>
+<p>如图，$t_{stop}$的选取有讲究：</p>
+<div align="center"> 
+<img src="/images/TAD.png" width="685" height="590" alt="TAD" align="center">
+</div>
+
+<p>我们假定高温下跑了足够长时间，体系不会进入新的相了，于是</p>
+<script type="math/tex; mode=display">\delta = \int_{t_{stop}}^{\infty} k exp(-kt) dt</script><p>认为k是高温下对应“低温最速反应路径”的反应速率常数，有</p>
+<script type="math/tex; mode=display">k = v_{min} e^{-\frac{E^{*}}{k_{B}T_{High}}}</script><p>代入，经过一系列变换，得</p>
+<script type="math/tex; mode=display">T_{High} log \left( \frac{log(1/\delta)}{t_{stop}v_{min}} \right) = -\frac{E_{min}^{*}}{k_{B}} \\ =-log\left\{ \frac{\tau_{Low}}{\tau_{High}} \right\}/\left\{ \frac{1}{T_{High}} - \frac{1}{T_{Low}} \right\}</script><p>高温下，利用$t_{stop}$替代$\tau_{High}$；低温下，利用$\tau_{min}$（已知最快反应寿命）替代$\tau_{Low}$，最终得到$t_{stop}$的表达式：</p>
+<script type="math/tex; mode=display">t_{stop} = \left( \frac{log(1/\delta)}{v_{min}} \right) \left( \frac{\tau_{min}v_{min}}{log(1/\delta)} \right)^{T_{low}/T_{High}}</script><p>里面有两个位置数$v_{min}$和$\delta$，按照经验，通常$\delta=0.001$，$v_{min}$取振动频率，通常在$10^{12}-10^{13} s^{-1}$</p>
 
     </div>
 
@@ -365,7 +392,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nudged-Elastic-Band-NEB"><span class="nav-number">1.</span> <span class="nav-text">Nudged Elastic Band (NEB)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bias-Potential-Dynamics"><span class="nav-number">2.</span> <span class="nav-text">Bias Potential Dynamics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Full-Path-Kinetics"><span class="nav-number">2.1.</span> <span class="nav-text">Full Path Kinetics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration-Sampling"><span class="nav-number">2.2.</span> <span class="nav-text">Configuration Sampling</span></a></li></ol></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nudged-Elastic-Band-NEB"><span class="nav-number">1.</span> <span class="nav-text">Nudged Elastic Band (NEB)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bias-Potential-Dynamics"><span class="nav-number">2.</span> <span class="nav-text">Bias Potential Dynamics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Full-Path-Kinetics"><span class="nav-number">2.1.</span> <span class="nav-text">Full Path Kinetics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration-Sampling"><span class="nav-number">2.2.</span> <span class="nav-text">Configuration Sampling</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Temperature-Accelerated-Dynamics"><span class="nav-number">3.</span> <span class="nav-text">Temperature Accelerated Dynamics</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
