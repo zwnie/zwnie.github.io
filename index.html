@@ -195,10 +195,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-01 10:51:21 / 修改时间：13:39:17" itemprop="dateCreated datePublished" datetime="2021-12-01T10:51:21+08:00">2021-12-01</time>
+              <time title="创建时间：2021-12-01 10:51:21" itemprop="dateCreated datePublished" datetime="2021-12-01T10:51:21+08:00">2021-12-01</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-02 10:53:36" itemprop="dateModified" datetime="2021-12-02T10:53:36+08:00">2021-12-02</time>
+              </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
                 <i class="far fa-folder"></i>
@@ -238,6 +244,22 @@
 <li><p>对bead能量插值拟合得到活化能</p>
 </li>
 </ol>
+<h1 id="Bias-Potential-Dynamics"><a href="#Bias-Potential-Dynamics" class="headerlink" title="Bias Potential Dynamics"></a>Bias Potential Dynamics</h1><p><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/15268227/">https://pubmed.ncbi.nlm.nih.gov/15268227/</a></p>
+<p>BPS是Hyperdynamics的一种手段，如下图所示，其基本思想是外加一个偏置势函数，对E以上的势能面不做修正，E以下的势能面部分填充，从而提高势阱的逃逸率，模拟高能势垒的转变。</p>
+<div align="center"> 
+<img src="/images/BPD-0.png" width="634" height="512" alt="BPD-0" align="center">
+</div>
+
+<p>偏置势具体表达式如下，其中H是阶跃函数（Heaviside function）：</p>
+<script type="math/tex; mode=display">V_{bias}(R^{N}) = V(R^{N}) + W_{bias}(R^{N})</script><script type="math/tex; mode=display">W_{bias}(R^{N}) = H(E_{bias}-V(R^{N})) \frac{\left[ E_{bias} - V(R^{N}) \right]^2}{\left[ \alpha + E_{bias} - V(R^{N}) \right]}</script><p>经数学证明，这一偏置势带来两个结果，跃迁速率的增大与相对跃迁速率保持不变：</p>
+<script type="math/tex; mode=display">k_{bias}^{TST} = \left< e^{\beta W_{bias}(R^{N})} \right>_{bias} k^{TST}</script><script type="math/tex; mode=display">\frac{k_{A_{b} \rightarrow B}^{TST}}{k_{A_{b} \rightarrow C}^{TST}} = \frac{k_{A \rightarrow B}^{TST}}{k_{A \rightarrow C}^{TST}}</script><p>我们注意到，偏置势有两个待定参数$E_{bias}$和$\alpha$，前者对应势能修正的界限，后者则与势能面抬升的高度有关，如下图所示：</p>
+<div align="center"> 
+<img src="/images/BPD-2.png" width="829" height="442" alt="BPD-2" align="center">
+</div>
+
+<p>在程序中，直接设定这两个值是有困难的（因为我们对势能面一无所知），为简化用户输入，它提供了另外两个输入$T_{bias}$, $T_{min}$：</p>
+<script type="math/tex; mode=display">E_{bias}-V_{0} = \frac{3}{2}Nk_{b}T_{bias}</script><script type="math/tex; mode=display">V_{min}-V_{0} = \frac{3}{2}Nk_{b}T_{min}</script><p>由此决定了$\alpha$：</p>
+<script type="math/tex; mode=display">\alpha = \frac{3Nk_{B}T_{bias}(T_{bias}-T_{min})}{2T_{min}}</script><p>在算法实现中，程序会先跑一段时间的MD，找到局部极小$V_{0}$，然后根据$T_{bias}$, $T_{min}$填充势阱，再进行MD。在不同能谷中，要重新寻找$V_{0}$，$E_{bias}$和$\alpha$都要重新构建，自始至终只有$T_{bias}$和$T_{min}$（填充相对高度）保持不变。</p>
 
       
     </div>
