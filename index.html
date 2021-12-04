@@ -203,7 +203,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-02 22:00:48" itemprop="dateModified" datetime="2021-12-02T22:00:48+08:00">2021-12-02</time>
+                <time title="修改时间：2021-12-04 10:46:47" itemprop="dateModified" datetime="2021-12-04T10:46:47+08:00">2021-12-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -227,75 +227,14 @@
 
       
           <p>在固体动力学（如扩散）过程中，构型可能长时间被困在势能面的一个谷，难以观察到原子跳跃。Hyperdynamics就是用来加速跳跃频率的手段。</p>
-<h1 id="Nudged-Elastic-Band-NEB"><a href="#Nudged-Elastic-Band-NEB" class="headerlink" title="Nudged Elastic Band (NEB)"></a>Nudged Elastic Band (NEB)</h1><div align="center"> 
-<img src="/images/NEB.png" width="756" height="412" alt="NEB" align="center">
-</div>
-
-<p>NEB用来寻找反应路径，在这个过程中产生活化能。具体步骤如下：</p>
-<ol>
-<li>确定位于能量极值点的初末构型A, B</li>
-<li>在AB构型之间线性插值一系列中间构型$R_{i}^{N} (i=0,…,N_{neb})$，每个构型被称为NEB’chain’的一个’bead’，其能量为$V_{c}(R_{i}^{N})$</li>
-<li><p>将任意相邻的两个bead通过弹簧相连，串成一条链，此时谐振势为</p>
-<script type="math/tex; mode=display">V_{s}(R_{N_{neb}}^{N}) = \frac{1}{2} k_{neb} \sum_{i=1}^{N_{neb}} ( R_i^N - R_{i-1}^N )^{2}</script></li>
-<li><p>最小化泛函$E(R_{N_{neb}}^N)$，其中</p>
-<script type="math/tex; mode=display">E(R_{N_{neb}}^N) = V_{s}(R_{N_{neb}}^N) + \sum_{i=1}^{N_{neb}-1} V_{c}(R_{i}^N)</script></li>
-<li><p>在实际中，这个方法还需要进一步修正：要确保弹簧使bead受力与原子间相互作用使bead受力相互正交，也即 沿着链的方向原子作用力为0，垂直链的方向弹簧作用力为0</p>
-</li>
-<li><p>对bead能量插值拟合得到活化能</p>
-</li>
-</ol>
-<h1 id="Bias-Potential-Dynamics"><a href="#Bias-Potential-Dynamics" class="headerlink" title="Bias Potential Dynamics"></a>Bias Potential Dynamics</h1><p><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/15268227/">https://pubmed.ncbi.nlm.nih.gov/15268227/</a></p>
-<p>BPS是Hyperdynamics的一种手段，如下图所示，其基本思想是外加一个偏置势函数，对E以上的势能面不做修正，E以下的势能面部分填充，从而提高势阱的逃逸率，模拟高能势垒的转变。</p>
-<div align="center"> 
-<img src="/images/BPD-0.png" width="634" height="512" alt="BPD-0" align="center">
-</div>
-
-<p>偏置势具体表达式如下，其中H是阶跃函数（Heaviside function）：</p>
-<script type="math/tex; mode=display">V_{bias}(R^{N}) = V(R^{N}) + W_{bias}(R^{N})</script><script type="math/tex; mode=display">W_{bias}(R^{N}) = H(E_{bias}-V(R^{N})) \frac{\left[ E_{bias} - V(R^{N}) \right]^2}{\left[ \alpha + E_{bias} - V(R^{N}) \right]}</script><p>经数学证明，这一偏置势带来两个结果，跃迁速率的增大与相对跃迁速率保持不变：</p>
-<script type="math/tex; mode=display">k_{bias}^{TST} = \left< e^{\beta W_{bias}(R^{N})} \right>_{bias} k^{TST}</script><script type="math/tex; mode=display">\frac{k_{A_{b} \rightarrow B}^{TST}}{k_{A_{b} \rightarrow C}^{TST}} = \frac{k_{A \rightarrow B}^{TST}}{k_{A \rightarrow C}^{TST}}</script><p>我们注意到，偏置势有两个待定参数$E_{bias}$和$\alpha$，前者对应势能修正的界限，后者则与势能面抬升的高度有关，如下图所示：</p>
-<div align="center"> 
-<img src="/images/BPD-2.png" width="829" height="442" alt="BPD-2" align="center">
-</div>
-
-<p>在程序中，直接设定这两个值是有困难的（因为我们对势能面一无所知），为简化用户输入，它提供了另外两个输入$T_{bias}$, $T_{min}$：</p>
-<script type="math/tex; mode=display">E_{bias}-V_{0} = \frac{3}{2}Nk_{b}T_{bias}</script><script type="math/tex; mode=display">V_{min}-V_{0} = \frac{3}{2}Nk_{b}T_{min}</script><p>由此决定了$\alpha$：</p>
-<script type="math/tex; mode=display">\alpha = \frac{3Nk_{B}T_{bias}(T_{bias}-T_{min})}{2T_{min}}</script><p>在算法实现中，程序会先跑一段时间的MD，找到局部极小$V_{0}$，然后根据$T_{bias}$, $T_{min}$填充势阱，再进行MD。BPD有两种常见的应用：Full Path Kinetics与Configuration Sampling</p>
-<h2 id="Full-Path-Kinetics"><a href="#Full-Path-Kinetics" class="headerlink" title="Full Path Kinetics"></a>Full Path Kinetics</h2><p>Full Path Kinetics通过加速的手段寻找其它构型，计算相变的活化能和相变时间，随后用以确定系统的完整动力学。算法如下：</p>
-<ol>
-<li>寻找一个局部极小构型A，能量$V_{0}$，随后加一个偏置势进行模拟，收集过程中的boost factor $e^{\beta W_{bias} (R^{N})}$</li>
-<li>经历一段时间间隔（’BPD block’），优化此时的结构，得结构B，B与A相比，如果有原子的位移超过了用户预设的distance（’catch radius’），则认为相变发生。如果相变发生，可选择性的执行NEB，计算反应的活化能。</li>
-<li>一旦相变发生，对时间区间内的所有结构进行优化，寻找最初发生相变的时间，从而反推实际相变时间。</li>
-<li>B作为初始构型，重新标定$V_{0}$，进行模拟（<strong>参考状态跟随扩散路径</strong>）</li>
-<li>遍历所有状态，最终得出A的扩散路径</li>
-</ol>
-<h2 id="Configuration-Sampling"><a href="#Configuration-Sampling" class="headerlink" title="Configuration Sampling"></a>Configuration Sampling</h2><p>优势在于能更快的遍历全空间。在构型A的基础上，加一个偏置势，<strong>$V_{0}$不会再改变</strong>，进行一段时间的模拟，最后利用boost factor计算力学量的期望值。</p>
-<h1 id="Temperature-Accelerated-Dynamics"><a href="#Temperature-Accelerated-Dynamics" class="headerlink" title="Temperature Accelerated Dynamics"></a>Temperature Accelerated Dynamics</h1><p><a target="_blank" rel="noopener" href="https://aip.scitation.org/doi/abs/10.1063/1.481576">https://aip.scitation.org/doi/abs/10.1063/1.481576</a></p>
-<p>设想势阱中有一个粒子，跳跃出去的概率为k，t时刻仍处在势阱中的概率密度为P，则</p>
-<script type="math/tex; mode=display">P(t+dt) = P(t) - P(t) \cdot k \cdot dt</script><p>也即</p>
-<script type="math/tex; mode=display">\frac{dP}{dt} = -k \cdot P</script><script type="math/tex; mode=display">P = e^{-kt}</script><p>那么，t时刻逃逸的概率密度为</p>
-<script type="math/tex; mode=display">\left| \frac{dP}{dt} \right| = ke^{-kt}</script><p>k被称作反应速率常数，根据过渡态理论，反应速率常数存在温度依赖性（Arrhenius law）：</p>
-<script type="math/tex; mode=display">k = v e^{-\beta E^{*}}</script><p>此状态下的寿命为</p>
-<script type="math/tex; mode=display">\tau = 1/k</script><p>可以看到，Arrhenius law给出了高温和低温下化学反应速率常数的关系，进而给出了状态寿命的关系。由此可以考虑，对低温下难以发生的化学反应$A \rightarrow B$，可以在高温下较快发生，然后通过$\tau_{High}$反推$\tau_{Low}$，这就是TAD的基本思想。</p>
-<ol>
-<li>优化结构得到状态A</li>
-<li>高温下进行模拟，判断是否发生相变。如果是，NEB计算活化能</li>
-<li>对相变前的所有结构，优化后判断相变发生时间$\tau_{High}$</li>
-<li>利用下式反推$\tau_{Low}$<script type="math/tex; mode=display">log\left\{ \frac{\tau_{Low}}{\tau_{High}} \right\} = -\frac{E^{*}}{k_{B}} \left\{ \frac{1}{T_{High}} - \frac{1}{T_{Low}} \right\}</script></li>
-<li>重新将体系拨回A态、重置速度，寻找其它态B, C, D…</li>
-<li>在高温下需要一个截止时间$t_{stop}$，认为在$t_{stop}$内已经找到了低温下的最快反应路径</li>
-<li>从A在低温下的最快反应路径B出发，重复上述流程，寻找B的最快反应路径，从而建立体系反应路径$A \rightarrow B \rightarrow C \rightarrow …$</li>
-</ol>
-<p>如图，$t_{stop}$的选取有讲究：</p>
-<div align="center"> 
-<img src="/images/TAD.png" width="685" height="590" alt="TAD" align="center">
-</div>
-
-<p>我们假定高温下跑了足够长时间，体系不会进入新的相了，于是</p>
-<script type="math/tex; mode=display">\delta = \int_{t_{stop}}^{\infty} k exp(-kt) dt \rightarrow 0</script><p>认为k是高温下对应“低温最速反应路径”的反应速率常数，有</p>
-<script type="math/tex; mode=display">k = v_{min} e^{-\frac{E^{*}}{k_{B}T_{High}}}</script><p>代入，经过一系列变换，得</p>
-<script type="math/tex; mode=display">T_{High} log \left( \frac{log(1/\delta)}{t_{stop}v_{min}} \right) = -\frac{E_{min}^{*}}{k_{B}} \\ =-log\left\{ \frac{\tau_{Low}}{\tau_{High}} \right\}/\left\{ \frac{1}{T_{High}} - \frac{1}{T_{Low}} \right\}</script><p>高温下，利用$t_{stop}$替代$\tau_{High}$；低温下，利用$t_{min}$（已知最快反应寿命）替代$\tau_{Low}$，最终得到$t_{stop}$的表达式：</p>
-<script type="math/tex; mode=display">t_{stop} = \left( \frac{log(1/\delta)}{v_{min}} \right) \left( \frac{t_{min}v_{min}}{log(1/\delta)} \right)^{T_{low}/T_{High}}</script><p>里面有两个位置数$v_{min}$和$\delta$，按照经验，通常$\delta=0.001$，$v_{min}$取振动频率，通常在$10^{12}-10^{13} s^{-1}$</p>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/12/01/Hyperdynamics/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -345,7 +284,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-01 10:10:06" itemprop="dateModified" datetime="2021-12-01T10:10:06+08:00">2021-12-01</time>
+                <time title="修改时间：2021-12-04 10:21:46" itemprop="dateModified" datetime="2021-12-04T10:21:46+08:00">2021-12-04</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -507,7 +446,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-25 22:10:40" itemprop="dateModified" datetime="2021-11-25T22:10:40+08:00">2021-11-25</time>
+                <time title="修改时间：2021-12-04 10:47:02" itemprop="dateModified" datetime="2021-12-04T10:47:02+08:00">2021-12-04</time>
               </span>
 
           
@@ -523,214 +462,14 @@
       
           <h1 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h1><p>graphviz应用dot语法生成流程图，对dot语法，<a target="_blank" rel="noopener" href="https://itopic.org/graphviz.html">这里</a>可以找到中文手册。</p>
 <p>dot使用图（digraph/graph/subgraph）、节点（node）和边（edge）来描述流程图，每个组分的特征都可以通过参数进行设置。</p>
-<h1 id="样例"><a href="#样例" class="headerlink" title="样例"></a>样例</h1><h2 id="example-01：基本语法"><a href="#example-01：基本语法" class="headerlink" title="example-01：基本语法"></a>example-01：基本语法</h2><pre><code>digraph flow0 &#123;
-    label=&quot;example&quot;
-    bgcolor=&quot;beige&quot;
-
-    node[color=&quot;grey&quot;]
-
-    father[label=&quot;爸爸&quot;, shape=&quot;box&quot;]
-    mother[label=&quot;妈妈&quot;, shape=&quot;box&quot;]
-    brother[label=&quot;哥哥&quot;, shape=&quot;circle&quot;]
-    sister[label=&quot;姐姐&quot;, shape=&quot;circle&quot;]
-
-    node[color=&quot;#FF6347&quot;]
-
-    strangers[label=&quot;路人&quot;]
-
-    edge[color=&quot;#FF6347&quot;]
-
-    father-&gt;mother[label=&quot;夫妻&quot;, dir=&quot;both&quot;]
-    father-&gt;brother[label=&quot;父子&quot;]
-    father-&gt;sister[label=&quot;父子&quot;]
-    father-&gt;我[label=&quot;父子&quot;]
-    mother-&gt;&#123;brother,sister,我&#125;[label=&quot;母子&quot;]
-
-    &#123;rank=same; father, mother&#125;
-    &#123;rank=same; brother, sister, 我&#125;
-&#125;
-</code></pre><ul>
-<li>[ ] 对“我”这个变量，没有定义也可以直接使用</li>
-<li>[ ] node定义节点的默认属性，edge定义边的默认属性，作用域从本次定义到下一次定义为止</li>
-</ul>
-<div align="center"> 
-<img src="/images/viz-exp1.png" width="410" height="235" alt="example-01" align="center">
-</div>
-
-<h2 id="example-02：子图"><a href="#example-02：子图" class="headerlink" title="example-02：子图"></a>example-02：子图</h2><p>一个图可以包含多个子图，子图也可以镶嵌子图；子图名字必须为cluster*，否则直接当作节点渲染了。</p>
-<pre><code>digraph example &#123;
-    bgcolor=&quot;beige&quot;
-
-    subgraph cluster_husband &#123;
-        node[color=&quot;grey&quot;]
-        &#123;&quot;爸爸&quot;, &quot;妈妈&quot;&#125; -&gt; &quot;我&quot;
-    &#125;
-
-    subgraph cluster_wife &#123;
-        &#123;&quot;岳父&quot;, &quot;岳母&quot;&#125; -&gt; &quot;老婆&quot;
-    &#125;
-
-    &quot;我&quot; -&gt; &quot;老婆&quot;[label=&quot;夫妻&quot;, dir=&quot;both&quot;]
-    &#123;rank=same; &quot;我&quot;, &quot;老婆&quot;&#125;
-&#125;
-</code></pre><div align="center"> 
-<img src="/images/viz-exp2.png" width="456" height="177" alt="example-02" align="center">
-</div>
-
-<h2 id="example-03：二叉树"><a href="#example-03：二叉树" class="headerlink" title="example-03：二叉树"></a>example-03：二叉树</h2><p>shape=”record”，用“|”隔开绘制出来的节点会在中间展示为一个分隔符，用&lt;&gt;括起来的称为锚点。</p>
-<pre><code>digraph demo &#123;
-    bgcolor=&quot;beige&quot;
-    node [shape=&quot;record&quot;, height=.1]
-    node0[label=&quot;&lt;f0&gt; | &lt;f1&gt; G | &lt;f2&gt;&quot;]
-    node1[label=&quot;&lt;f0&gt; | &lt;f1&gt; E | &lt;f2&gt;&quot;]
-    node2[label=&quot;&lt;f0&gt; | &lt;f1&gt; B | &lt;f2&gt;&quot;]
-    node0:f0 -&gt; node1:f1
-    node0:f2 -&gt; node2:f1
-&#125;
-</code></pre><div align="center"> 
-<img src="/images/viz-exp3.png" width="219" height="123" alt="example-03" align="center">
-</div>
-
-<ul>
-<li>[ ] “|”默认纵向分开，用{}包围则可以横向分开。</li>
-</ul>
-<h2 id="example-04：复杂的例子"><a href="#example-04：复杂的例子" class="headerlink" title="example-04：复杂的例子"></a>example-04：复杂的例子</h2><pre><code>digraph G &#123;
-# 定义全局属性
-    fontname = &quot;Courier New&quot;
-    fontsize = 8
-    # 从下往上
-    rankdir = BT
-# 定义节点属性
-    node [
-            shape = &quot;record&quot; # 矩形，默认是椭圆
-            color = &quot;blue&quot; # 边框蓝色
-    ]
-
-# 定义边的属性
-    edge [
-            fontsize = 9
-    ]
-# 换行符是\l，而要新建一个新的单元格，则需要是用|。&#123;&#125;里面的是内容
-    Reportable [
-        label = &quot;&#123;Reportable | + getSummary() : Map\&lt;String, Integer\&gt; | + getDetail() : Map\&lt;String, Integer\&gt; | + isDetailVisible() : boolean&#125;&quot;
-    ]
-# 特殊字符要转义
-    LineCounter [
-        label = &quot;&#123;LineCounter | + count(String line) : boolean | + getType() : String&#125;&quot;
-    ]
-
-    CharCounter [
-        label = &quot;&#123;CharCounter | + count(Character c) : boolean | + getType() : String&#125;&quot;
-    ]
-
-AbstractCharCounter [
-        label = &quot;&#123;AbstractCharCounter | characterMap : Map\&lt;Character, Integer\&gt; | + count(Character c) : boolean | + getSummary() : Map\&lt;String, Integer\&gt; | +getDetail() : Map\&lt;String, Integer\&gt; &#125;&quot;
-    ]
-
-AbstractLineCounter [
-        label = &quot;&#123;AbstractLineCounter |  + count(String line) : boolean | + getSummary() : Map\&lt;String, Integer\&gt; | +getDetail() : Map\&lt;String, Integer\&gt; &#125;&quot;
-    ]
-
-PredicateCharacter[label = &quot;&#123;Predicate\&lt;Character\&gt; | + apply(Character c) : boolean&#125;&quot;]
-PredicateString[label = &quot;&#123;Predicate\&lt;String\&gt; | + apply(String line) : boolean&#125;&quot;]
-
-BlankCharCounter[label = &quot;&#123;BlankCharCounter | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
-ChineseCharCounter[label = &quot;&#123;ChineseCharCounter | - chinesePattern : Pattern | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
-LetterCharCounter[label = &quot;&#123;LetterCharCounter | - chinesePattern : Pattern | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
-    NumberCharCounter[label = &quot;&#123;NumberCharCounter | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
-    LineNumberCounter[label = &quot;&#123;LineNumberCounter | + apply(Character c) : boolean | + getType() : String | + isDetailVisible() : boolean &#125;&quot;]
-
-
-    parentInterface [label = &quot;parent interface&quot; color = &quot;green&quot; style=filled]
-    childInterface [label = &quot;child interface&quot; color = &quot;green&quot; style=filled]
-    abstractClass [ label = &quot;abstract class : implement some methods using the abstract methods&quot; color = &quot;green&quot; style=filled]
-    specificClass [ label = &quot;specific class : implement all unimplemented methods&quot; color = &quot;green&quot; style=filled]
-
-    LineProcessor [label = &quot;&#123;LineProcessor\&lt;List\&lt;Reportable\&gt;\&gt;&#125;&quot; ]
-    ReportableLineProcessor [ label = &quot;&#123;ReportableLineProcessor | + ReportableLineProcessor() | + processsLine(String line) : boolean | + getResult() : List\&lt;Reportable\&gt;&#125;&quot;]
-
-    # 定义在同一层
-    &#123;rank = same; parentInterface; Reportable; LineProcessor&#125;
-    &#123;rank = same; childInterface; LineCounter; CharCounter; PredicateCharacter; PredicateString&#125;
-    &#123;rank = same; abstractClass; AbstractLineCounter; AbstractCharCounter;&#125;
-    &#123;rank = same; specificClass; LineNumberCounter; BlankCharCounter; ChineseCharCounter; LetterCharCounter; NumberCharCounter; ReportableLineProcessor&#125;
-
-# 箭头为空心，接口之间的继承
-LineCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
-CharCounter -&gt; Reportable[arrowhead=&quot;empty&quot;]
-AbstractCharCounter -&gt; CharCounter[arrowhead=&quot;empty&quot;]
-AbstractLineCounter -&gt; LineCounter[arrowhead=&quot;empty&quot;]
-
-AbstractCharCounter -&gt; PredicateCharacter[arrowhead=&quot;empty&quot;]
-AbstractLineCounter -&gt; PredicateString[arrowhead=&quot;empty&quot;]
-
-# 实现类的UML
-BlankCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
-ChineseCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
-LetterCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
-NumberCharCounter -&gt; AbstractCharCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
-LineNumberCounter -&gt; AbstractLineCounter[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
-
-ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&quot;dashed&quot;]
-
-&#125;
-</code></pre><div align="center"> 
-<img src="/images/viz-exp4.png" width="1025" height="243" alt="example-04" align="center">
-</div>
-
-<h2 id="example-05：更复杂的例子"><a href="#example-05：更复杂的例子" class="headerlink" title="example-05：更复杂的例子"></a>example-05：更复杂的例子</h2><pre><code>digraph otherOp&#123;
-        node [
-            shape = &quot;record&quot;
-            color = &quot;blue&quot;
-        ]
-    edge[
-        arrowhead = &quot;empty&quot;
-    ]
-
-    // 子图，必须以cluster开头
-    subgraph cluster0&#123;
-        // 子图用浅灰色填充
-        style = filled
-        color = lightgray
-        // 子图名字
-        label = &quot;web server&quot;
-        // 制定整个client_socket填充，且填充的颜色为red，这时边缘是蓝色。不指定颜色，则会用上面的边缘颜色blue填充，导致无法看到边缘。
-            // 这里使用s0,s1...占位符号
-        client_socket [label = &quot;&#123;&lt;s0&gt;|&lt;s1&gt;head|&lt;s2&gt;|&lt;s3&gt;...|&lt;s4&gt;|&lt;s5&gt;tail|&lt;s6&gt;&#125;&quot; style = &quot;filled&quot; fillcolor = &quot;red&quot;]
-
-            // 指定边上的文字
-        master_thread -&gt; client_socket : s1[label = &quot;produce socket&quot;]
-
-        worker_thread [label = &quot;&#123;&lt;w0&gt; worker_thread 1| &lt;w1&gt; worker_thread 2 | &lt;w2&gt;worker_thread 3&#125;&quot;]
-        client_socket : s5 -&gt; worker_thread : w0
-            client_socket : s4 -&gt; worker_thread : w1 [ label = &quot;consume socket&quot;]
-            client_socket : s3 -&gt; worker_thread : w2
-
-        producer[ label = &quot;producer&quot; style = filled fillcolor = &quot;green&quot;]
-        consumer[ label = &quot;comsumer&quot; style = filled fillcolor = &quot;green&quot;]
-        Queue[ label = &quot;Queue&quot; style = filled fillcolor = &quot;green&quot;]
-        &#123;rank = same; producer; master_thread&#125;
-        &#123;rank = same; consumer; worker_thread&#125;
-        &#123;rank = same; Queue; client_socket&#125;
-    &#125;
-
-    request1 -&gt; master_thread[color = &quot;red&quot;]
-    request2 -&gt; master_thread[color = &quot;red&quot;]
-    request3 -&gt; master_thread[color = &quot;red&quot;]
-    // 边是虚线，且是橙色
-    request1 -&gt; worker_thread : w0 [ style = &quot;dashed&quot; color = &quot;orange&quot;, label = &quot;process request&quot;]
-    request2 -&gt; worker_thread : w1 [ style = &quot;dashed&quot; color = &quot;orange&quot; label = &quot;process request&quot;]
-    request3 -&gt; worker_thread : w2 [ style = &quot;dashed&quot; color = &quot;orange&quot; label = &quot;process request&quot;]
-
-        Browser[ label = &quot;Browser&quot; style = filled fillcolor = &quot;green&quot;]
-    &#123;rank = same; Browser; request1; request2; request3&#125;
-
-&#125;
-</code></pre><p>注意这种格式：client_socket : s5 -&gt; worker_thread : w0</p>
-<p>此外疑惑的是箭头为何会拐弯？</p>
-<div align="center"> 
-<img src="/images/viz-exp5.png" width="385" height="327" alt="example-05" align="center">
-</div>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/19/graphviz/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -780,7 +519,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-25 22:11:00" itemprop="dateModified" datetime="2021-11-25T22:11:00+08:00">2021-11-25</time>
+                <time title="修改时间：2021-12-03 22:56:02" itemprop="dateModified" datetime="2021-12-03T22:56:02+08:00">2021-12-03</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -861,7 +600,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-20 11:14:03" itemprop="dateModified" datetime="2021-11-20T11:14:03+08:00">2021-11-20</time>
+                <time title="修改时间：2021-12-04 10:48:51" itemprop="dateModified" datetime="2021-12-04T10:48:51+08:00">2021-12-04</time>
               </span>
 
           
@@ -877,102 +616,14 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
       
           <h1 id="序"><a href="#序" class="headerlink" title="序"></a>序</h1><p>《世说新语》是本“笔记小说”，编撰者是刘宋宗室刘义庆，主要记载了东汉末到东晋时期上层社会名士的言行。全书分三十六类，每类若干则故事，长短不一，故事也未必都是史实。</p>
 <p>选择这本书原因很朴素：<strong>我想了解更多魏晋的故事，而它足够轻松舒适。</strong></p>
-<p>之前也尝试过读史，但这一时期太凌乱，你方唱罢我登场，过目即忘；也去过博物馆，但可惜乱世破坏太严重，魏晋时期的文物几乎都是墓葬中的浮雕和地砖、墓志铭etc，工艺品和文书鲜有留存。小说就不一样了，史书中冷冰冰的人物仿佛变得有血有肉，如此我们更容易对那个时代产生共情吧。那是一个怎样荒谬与激情的时代啊？</p>
-<div align="center"> 
-<img src="/images/weijin.jpg" width="300" height="130" alt="魏晋名士" align="center">
-</div>
-
-<h1 id="皇权与士权"><a href="#皇权与士权" class="headerlink" title="皇权与士权"></a>皇权与士权</h1><blockquote>
-<p>“李元礼风格秀整，高自标持，欲以天下名教是非为己任。后进之士有升其堂者，皆以为登龙门。” 《德行》4</p>
-</blockquote>
-<p>大背景是东汉末年的“党锢之祸”，外戚、宦官、士大夫互相争斗，最终宦官以“党人”罪名禁锢士人终身而结束。矛盾的激化为东汉灭亡埋下了伏笔。</p>
-<p>李膺（字元礼）是士人之首，出身官宦世家，以敢于对抗骄横的宦官势力而著名，曾经从中常侍张让的府邸中搜捕出他的弟弟张朔并迅速处死，令众宦官惊恐不敢出皇宫，尤其受到喜欢议论朝政的太学生的拥戴，桓帝、灵帝朝两度被捕，最终自杀于狱中。</p>
-<p>在党争的过程中，士大夫逐渐觉醒了“群体意识”，有了自己所必须坚持的政治理想和政治利益，他们不再是皇权的附庸，并与皇权产生了某种程度上的离异倾向。<strong>他们认为自己才是能够维护合理的社会秩序与文化价值的人</strong>。李膺“高自标持，欲以天下名教是非为己任”，正是以士族价值观替代社会价值观的一种体现。</p>
-<p>开宗明义，他突出了全书的重心所在：<strong>通过表彰汉末志士来激励士人奋发有为，强调士大夫阶层在政治生活中强有力的主动姿态。</strong></p>
-<h1 id="英雄与名士"><a href="#英雄与名士" class="headerlink" title="英雄与名士"></a>英雄与名士</h1><p>刘邵《英雄篇》云：“夫草之精秀者为英，兽之特群者为雄。故人之文武茂异，取名于此。是故聪明秀出谓之英，胆力过人谓之雄。”</p>
-<p>说起英雄，我想起李连杰拍过的那部电影，侠士刺秦王而不杀，心怀万民，可称英雄乎？</p>
-<p>否也。儒家自古以来有一套圣贤体系，圣贤们通常有超凡的智慧，但更珍贵的是高尚的德行。英雄则与圣贤相对，简单来讲，兵强马壮者可为之。所以电影中的侠士有圣贤心，却无英雄气。</p>
-<p>对英雄这个名词，更多人想到的可能是曹操“乱世之英雄，治世之奸贼”，但这里我不想提他，想说相对名气更小一些的王敦。</p>
-<blockquote>
-<p>“王大将军年少时，旧有田舍名，语音亦楚。武帝唤时贤共言伎艺事，人人皆多有所知，唯王都无所关，意色殊恶，自言知打鼓吹，帝即令取鼓与之。于坐振袖而起，扬槌奋击，音节谐捷，神气豪上，傍若无人，举坐叹其雄爽” 《豪爽》1</p>
-</blockquote>
-<p>大将军年少时，是指王敦刚到洛阳不久的事情。在冠盖如云的京城，来自外郡的年轻贵族不能得到上流社会的器重，被指为“乡巴佬”，讲话也带有楚地口音。在武帝的宴会上，众人谈论琴棋书画，王敦插不上嘴，面有不快，于是自告奋勇说会击鼓，当场作了表演。鼓是热烈的乐器，当王敦在皇帝的宴会上神色飞扬、旁若无人的敲起奔放的鼓乐时，传达的是压倒一切的豪气，使在座所有人都受到了震撼。</p>
-<p>英雄具有强大的生命活力，敢于打破世俗规矩，不甘寂寂，从而激发一股不羁奔放的气概，最终在世间演绎了极为快意的人生，这终究是令人感动的。</p>
-<p>所谓“名士”，字面意义而言，就是拥有美名嘉誉的士人。但由于汉末是一个社会深刻变化、价值标准极为不稳定的时期，“名士”又包含了有位势、美姿容、举止狂放等内涵。后世冠以“唯大英雄能本色，是真名士自风流”皆源于此，它体现了士族阶层的人生态度、生活趣味、人格理想。</p>
-<blockquote>
-<p>“阮公邻家妇有美色，当垆沽酒。阮与王安丰尝从妇饮酒，阮醉，便眠其妇侧。夫始殊疑之，伺察，终无他意。”  《任诞》8</p>
-</blockquote>
-<p>“阮公”即阮籍，因沽酒妇貌美而屡屡登门买醉，难逃好色之心；醉卧其侧，则是越礼之举；然“终无他意”，却又表现出了对“欲”的超越。谨守礼法不越分寸是君子之行，见色忘义惹是生非是俗人之举，在二者之上的任性放达，乃是名士风流。</p>
-<h1 id="名教与自然"><a href="#名教与自然" class="headerlink" title="名教与自然"></a>名教与自然</h1><p>名教并非像佛教道教那样是一个确切的宗教，而是一种泛化的概念。</p>
-<p>名实对立是古中国哲学体系中一个重要的辩题，《道德经》有云：“道可道，非常道；名可名，非常名。无名万物之母，有名万物之始。”——话语可以表述真理，却不可能到达真理，而“名”虽然可以指称事物，“名”与“实”却永远不可能结合为一体；虽然命名的行为给出了事物的秩序，但无名才是万物的本真状态。</p>
-<p>道理讲起来晦涩，具体到实际而言就是，<strong>古人用概念设定了世界的秩序，而这种秩序并不是绝对完备的</strong>。《论语·颜渊》篇载：齐景公问政于孔子，孔子对曰：“君君，臣臣，父父，子子。”君王有君王的操守，臣子有臣子的品行，如此便通过一系列名词界定了各自的关系和义务，从而维护了社会的有序运转。但用概念支撑的世界是可疑的，它终究不是生命真正的皈依，当它面临冲击难以自洽的时候，必然走向虚无。</p>
-<p>魏晋就是这样一个时代。司马懿指洛水为誓，砸开了君权神授天命之说的第一个缺口，而后八王之乱、永嘉丧乱、五胡乱华，更是将两汉以儒家经学建立的名教体系彻底摧垮，旧有的价值体系被否认后，士大夫阶层普遍对自身产生了怀疑，于是魏晋之际出现了一系列行为放诞、蔑视礼教的行为。</p>
-<p>吞服五石散的何晏、当街裸奔的刘伶…价值体系崩溃带来的结果是灾难性的，虚无主义、纵欲主义在以道德自我标榜的华夏文明史上主导了一个时代。</p>
-<blockquote>
-<p>“诸阮皆能饮酒，仲容至宗人间共集，不复用常杯斟酌，以大瓮盛酒围坐，相向大酌。时有群猪来饮，直接去上，便共饮之。” 《任诞》12</p>
-</blockquote>
-<p>一群贵族子弟围着大瓮跟猪一起饮酒，那场面真是刺激；抛弃恭谨的礼仪，人与禽兽一般，既是解放，也是堕落。在虚无中体会到自由，但这种自由却不是人有力量承担的东西，虚无的自由意味着价值和意义的取消。彷徨于渺无边际的“无何有之乡”而无所附着的生命是荒凉的，因而步入虚无的狂欢最终转为悲凉。</p>
-<h1 id="逍遥的困境"><a href="#逍遥的困境" class="headerlink" title="逍遥的困境"></a>逍遥的困境</h1><p>“逍遥”被《逍遥游》一文赋予灵魂：“鹏之背，不知其几千里也；怒而飞，其翼若垂天之云…”。上升至九万里的高空，乘着六月的飙风，背负青天，下视苍茫，莫之夭阏，这就是“逍遥”的象征化境界。</p>
-<p>庄子是罕有的天才，提出了一个无比壮丽的“逍遥乎天地间”的境界，代表着超越一切束缚的完美的自由，是生命的梦想；达到“逍遥”境界的前提，就是对庸俗知识与卑微精神的克服。大鹏洋溢着壮丽的诗情，小雀散发着卑琐的气息，试问谁甘心作小雀呢？</p>
-<p>但任何生活实践中的自由都是有限度的，“逍遥”大多只能停留在精神领域，在实际环境中，人们只能以逃避或委顺的方式来应对。庄子留给后人的，是诱惑、悲伤和吊诡。</p>
-<blockquote>
-<p>嵇中散既被诛，向子期举郡计入洛，文王引进，问曰：“闻君有箕山之志，何以在此？”对曰：“巢、许狷介之士，不足多谋。”王大咨嗟。 《言语》18</p>
-</blockquote>
-<p>这里引用了“箕山之志”的典故。传说隐于箕山的许由对尧相让天下的打算不屑一顾，这在庄子的《逍遥游》中高度赞扬。向秀是嵇康的好友，也是庄子的粉丝。嵇康因为不肯与司马氏合作而被诛杀，现在出仕的机会落在了向秀身上。面对司马昭以“箕山之志”尖酸刻薄的审问，向秀却给出了“不足多谋”的重新评价。</p>
-<p>假如回到那个现场，我们仿佛可以看到满座人嬉笑的脸，和主人司马昭意味深长的叹息——真是富于戏剧气氛。“逍遥乎天地间”固然很美，但天地之间是任人逍遥的吗？</p>
-<p>在向秀出仕后，他的人生取向显然发生了变化：</p>
-<blockquote>
-<p>向子期、郭子玄《逍遥义》曰：“夫大鹏之上九万，尺鷃之起榆枋，小大虽差，各任其性。苟当其分，逍遥一也。然物之芸芸，同资有待，得其所待，然后逍遥尔。” 《文学》32</p>
-</blockquote>
-<p>向秀看来，大鹏、小雀不再有任何本质上的区别，他从老庄的观点出发，将“逍遥”理解为自然天性的满足。由此说来，大鹏直上云霄、高飞万里固然出于天性，小雀嬉戏于柴藩、以咫尺之地为满足，不也是出于天性？只要循着自己的天性去生活，就算是达到了完美的生命境界。</p>
-<p>庄子式的逍遥，在文学意境上美丽无比，但对现存的政治结构中生存的人来说，想象这种“逍遥”也是非常尴尬的。向秀反其道而行之，将“适性”作为一种人生方向来标举，既是在局促的政治压力下心灵的无奈，同时仍然企图保留几分对自由的渴望，想象再小的生存空间也有可能构成独得的玄境。</p>
-<h1 id="情"><a href="#情" class="headerlink" title="情"></a>情</h1><p>魏晋时期一个关于“圣人观”的问题是圣人有情与否。汉魏之际天道观盛行，依《老子》所言：“天地无情，以万物为刍狗；圣人无情，以百姓为刍狗。”圣人无情是多数人的共识。但“圣人”是假设的人伦典范，圣人“有情”还是“无情”并非一个单纯形而上的问题，而更多关联到对个人生命的感受和对生命价值的认知。</p>
-<p>人生百年，站在压抑感性的立场上，采用群体利益至上的价值观，可以加给它各种各样的假说；人为了在群体中生存，也必须时常注意克制内心的冲动，作出恰当的姿态。但归根究底，生命的根本真实不在于那些外加的假说，不在于那些矫情的姿态，唯有在每一个具体的人生遭遇及生活场景下自然涌发的“喜怒哀惧爱恶欲”，那些流动与变幻的情感，才是生命的根本真实。</p>
-<blockquote>
-<p>王戎丧儿万子，山简往省之，王悲不自胜。简曰：“孩抱中物，何至于此？”王曰：“圣人忘情，最下不及情。情之所钟，正在我辈。”简服其言，更为之恸。 《伤逝》4</p>
-</blockquote>
-<p>王戎与山简的对话，是历史上有名的故事。作为人伦典范的圣人超脱于情，没有能力达到“人之为人”的“最下者”顾不上有情，情有所钟才是我辈普通人的生活方式，这不是理所应当的吗？而人生百年，日子短少，逝者如大江，不觉悲从中来。</p>
-<blockquote>
-<p>王濬冲为尚书令，著公服，乘轺车，经黄公酒垆下过。顾谓后车客：“吾昔与嵇叔夜、阮嗣宗公酣饮于此垆。竹林之游，亦预其末。自嵇生夭、阮公亡以来，便为时所羁绁。今日视此虽近，邈若山河。” 《伤逝》2</p>
-</blockquote>
-<p>这仍然是王戎的故事。在“黄公酒垆”这一故事化的场景里，当王戎重游故地的时候，不免想起与嵇叔夜、阮嗣宗共同酣饮的流年往事，而今“嵇生夭、阮公亡”。夭者因何而夭、亡者因何而亡自不必言，就是王戎本人，“著公服、乘轺车”，也非旧时模样。人生会发生多少变化，是人们原来所不能知道的；被卷入险恶的政治风波，则生死存亡、荣辱穷通，更常出于意外。所以“视此虽近，邈若山河”，这种物是人非的感慨，不只是因为时间改变一切，更因为导致改变的力量无从把握。昨日之我何以若彼，今日之我何以如此？历史中永远有这样的伤感。</p>
-<blockquote>
-<p>恒公北征，经金城，见前为琅琊时种柳，皆已十圈。慨然曰：“木犹如此，人何以堪！”攀枝执条，泫然流泪。 《言语》55</p>
-</blockquote>
-<p>恒温是东晋中叶一位曹操式的枭雄，若非年命不永，本该造就一个新朝代。但就是这样一个雄豪无所畏惧的人物，也会手执柳条而下泪，似乎很不相称，其实不足为怪。生命是有限的，时间无声无息的促成一切也摧毁一切，任何宏大的谋略与坚强的意志都有可能因时间的不允许而化为烟尘。恒温最终没有能够完成他所认定的英雄事业，这想必在他生前就是内心的隐忧，所以会有“木犹如此，人何以堪”的慨然之词。</p>
-<p>以上，我们可以看到在那个及其动荡的年代，危险和渴望都处于极其紧张的状态，敏感的人心感受到更多的震撼。它的“情”牵连着重大的历史事件，或者宏大的时空意识，因而显得格外强烈。任情任性，某种程度上这也是魏晋的风流所在吧。</p>
-<h1 id="药与酒"><a href="#药与酒" class="headerlink" title="药与酒"></a>药与酒</h1><p>中医自古就有以石入药的传统，人们认为通过吞服可以获得石所具有的坚固长存的特性。而石药中有一类名为“寒食散”，它本是张仲景在《伤寒杂病论》中所拟用以治病救人的，到魏晋时期却改进成为了“五石更生散”，被何晏发扬光大。</p>
-<p>五石散有种种奇效，其弊病也着实惊人，因服食而致疯癫者、瘫痪者、死亡者，屡见不鲜。所以，如何“科学”的服食就成了一门学问，《寒食散论》讲究“冷水洗手足，寒衣、寒食、寒饮、寒卧；常饮酒；还须劳烦，如行走、跳踊等”，于是这一时期涌现出了种种狂诞放浪的行为：</p>
-<blockquote>
-<p>刘伶恒纵酒放达，或脱衣裸形在屋中。人见讥之，伶曰：“我以天地为栋宇，屋室为裈衣，诸君何为入我裈中？” 《任诞》6</p>
-</blockquote>
-<p>“我以天地为房屋，房屋为衣裤，诸君钻到我裤裆里来做什么？”只要我不觉得尴尬，尴尬的就是别人。</p>
-<p>五石散吃起来麻烦，还伤身体易社死，为何服石竟成一时之风尚呢？大概自东汉末以来，由于主导意识形态的崩坏，由于人口大量的丧亡，由于个体意识的觉醒，在士人内心中形成自爱与颓废相混融的精神状态。生命的意义是难以确认的，而死亡却随时可能到来，人们恐慌的试图抓住什么东西，五石散，这一能保证长寿和性的快乐的药物，就为之提供了必要的刺激。</p>
-<blockquote>
-<p>王孝伯在京，行散至其弟王睹户前，问：“古诗中何句为最？”睹思未答。孝伯咏“‘所遇无故物，焉得不速老？’此句为佳。” 《文学》101</p>
-</blockquote>
-<p>一切都在变化中消逝，生命终将走向尽头，在行散时，似乎对此理解的更为深刻了。</p>
-<p>酒也有相同的意味，一方面，古人认为人的精神是残缺的，而醉酒则帮助恢复精神的健全性，醉酒的人是更真实的人：</p>
-<blockquote>
-<p>王佛大叹言：“三日不饮酒，觉形神不复相亲。” 《任诞》52</p>
-</blockquote>
-<p>另一方面，饮酒消弭了内心欲求与俗世规则之间的冲突，在沉醉的世界里，人可以求得物我两冥的自然境界。</p>
-<blockquote>
-<p>（伶）肆意放荡，以宇宙为狭。常乘鹿车，携一壶酒，使人荷锸随之，云：“死便掘地以埋。”土木形骸，遨游一世。</p>
-</blockquote>
-<p>整个魏晋时代，借酒放肆的倾泻内心的悲欢，是过去从未有过的。酒把人的欲望与情感从理性的拘禁和社会规制的束缚中解放出来，生命的状态于是变得活跃而热烈；与此同时，酒也使人更敏锐地感受到人生的无奈，唤起对自身命运和社会现状的忧思与慨叹。</p>
-<h1 id="自然的发现"><a href="#自然的发现" class="headerlink" title="自然的发现"></a>自然的发现</h1><p>宗白华先生在《论世说新语和晋人的美》中说过一句很动人的话：“晋人向外发现了自然，向内发现了自己的深情。”古人对山水的审美意识萌发于建安时代，最终在晋宋之际田园山水诗正式成立，客观上讲是因为衣冠南渡的中原士大夫被江南秀丽的风光所吸引，主观上讲则是因为情感被投射到了外界，“与物徘徊”，才使自然风物精神化，从而充溢了美的情趣。</p>
-<blockquote>
-<p>郭景纯诗云：“林无静树，川无停留。”阮浮云：“泓峥萧瑟，实不可言。每读此文，辄觉神超形越。” 《文学》76</p>
-</blockquote>
-<p>对两句简单的诗，阮浮作了异常强烈的赞美：它的意境深广清幽，难以言说。单就诗本身而言，“林无静树，川无停留”算不上多么高妙，但它有典故在其中，就平添了哲理性的内涵。所谓“树欲静而风不止”“逝者如斯夫，不舍昼夜”，万事万物都处于无穷的变迁之中，那人为之痴迷、追逐的世俗荣耀，又有什么意义呢？阮浮大概沿着这种哲理来思考，才会觉得格外深邃动人吧。</p>
-<p>在晋人的理解中，自然被拟人化，它不仅赋予了人超越世俗的品格，也培养了优美高雅的情趣，具备德性与美感的双重价值。晋人喜好以自然风物为喻体来赞美人物，原因正在于此。</p>
-<blockquote>
-<p>嵇康身长七尺八寸，风姿特秀。见者叹曰：“萧萧肃肃，爽朗清举。”或云：“肃肃如松下风，高而徐引。”山公曰：“嵇叔夜之为人也，岩岩如孤松之独立；其醉也，傀俄若玉山之将崩。” 《容止》5</p>
-</blockquote>
-<p>“松”通常是正直和严峻的象征，但“肃肃如松下风，高而徐引”则又在正直和严峻之中，融入一种萧散、洒脱的神韵。虽然不曾具体描摹嵇康的模样，但他的精神气质，却栩栩如生。</p>
-<p>晋人美的理想，是很值得注意的，是显著的追慕着光明鲜洁、晶莹发亮的意向。他们赞美人格美的词象：濯濯如春月柳，轩轩如朝霞举，清风朗月，爽朗清举…都是一片光亮意向。庄子的理想人格“藐姑射仙人，绰约若处子，肌肤若冰雪”，大概正是晋人追求美的意境的源泉。恒温谓谢尚：“企脚北窗下，弹琵琶，故自有天际真人想”。天际真人是晋人理想的人格，也是理想的美。</p>
-<h1 id="清谈风习"><a href="#清谈风习" class="headerlink" title="清谈风习"></a>清谈风习</h1>
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/11/shi-shuo/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
@@ -1022,7 +673,7 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-11-29 16:03:15" itemprop="dateModified" datetime="2021-11-29T16:03:15+08:00">2021-11-29</time>
+                <time title="修改时间：2021-12-04 10:46:01" itemprop="dateModified" datetime="2021-12-04T10:46:01+08:00">2021-12-04</time>
               </span>
 
           
@@ -1041,98 +692,14 @@ ReportableLineProcessor -&gt; LineProcessor[arrowhead=&quot;empty&quot;, style=&
 <p>不为苏联解体感到惋惜的人没有良心，想回到苏联时代的人没有脑子</p>
 </blockquote>
 <p>从落后的农业国，靠着一个个五年计划迅速实现工业化，用20年时间成为欧洲第一大工业国，摧垮法西斯的锋芒，将赤旗插上柏林帝国大厦，第一个载人火箭、第一颗人造卫星、第一个月球探测器，数以万计的坦克核弹，席卷全球的国际共运，苏联是个神话。</p>
-<div align="center"> 
-<img src="/images/gagarin.jpg" width="200" height="260" alt="尤里·加加林" align="center">
-</div>
-
-<p>与此同时，乌克兰饥荒、卡廷森林、古拉格群岛，苏联的黑料又不胜枚举。高度集权的政治体制，僵化死板的思想理论，严重失衡的经济结构…德国人没做到的事情，苏联人自己做到了——红色巨人在一夜间轰然倒塌。</p>
-<div align="center"> 
-<img src="/images/break.png" width="300" height="180" alt="苏联解体" align="center">
-</div>
-
-<p>解体后，俄罗斯经济常年增长缓慢，俄共不断分裂内讧，目前来看，俄国与社会主义渐行渐远。作为第一个社会主义国家、人类史上最伟大的社会形态实验，它惨烈的失败究竟教会了我们什么？</p>
-<p>前事不忘，后事之师。年关将近，圣诞是毛熊30周年忌日，他不该被遗忘在角落里。对先行者的尊重，即是对我们自身道路的尊重。所以标题起名叫作“为了忘却的纪念”，<strong>纪念是为了永不忘却</strong>。</p>
-<div align="center"> 
-<img src="/images/anniversary.jpg" width="300" height="220" alt="二十周年祭" align="center">
-</div>
-
-<h1 id="纪史：往事知多少？"><a href="#纪史：往事知多少？" class="headerlink" title="纪史：往事知多少？"></a>纪史：往事知多少？</h1><blockquote>
-<p>一个畸形的工人国家　　—— 托洛茨基</p>
-</blockquote>
-<h2 id="历史的转折：1917俄国革命"><a href="#历史的转折：1917俄国革命" class="headerlink" title="历史的转折：1917俄国革命"></a>历史的转折：1917俄国革命</h2><p>长期来看，俄国革命的爆发是矛盾积累的必然结果。（俄）近代以来失衡的社会结构、斯托雷平体制失败后形成的局势、一战影响下矛盾的激化，革命成了无可避免的选择。迅速发展的资本主义文化与封建宗法制文化剧烈冲突，酝酿出了自发的二月革命。</p>
-<p>彼得格勒的工人罢工是这场革命的开端。因粮食供应不足，工人走上涅瓦大街游行，并得到了士兵的响应，事态迅速失控，最终沙皇尼古拉二世被迫退位，专制政权在短短8天内土崩瓦解。</p>
-<p>崩溃后的国家权力移交到了全俄苏维埃与杜马临时委员会两个政治中心，为自由主义政党与社会主义政党组建联合政府创造了可能性，在此期间，布尔什维克实力较弱，尽管积极参与社会运动，但并未对局势产生明显影响，其革命理论依然停留在建党初期的“资产阶级民主共和国框架内的合法反对派”，一切都在向着较为和平的道路推进。</p>
-<p>4月，列宁闻讯从瑞士回国，并作了以《四月提纲》闻名的报告，他指出要实现革命转变、建立无产阶级专政，从根本上改变了布尔什维克的革命理论。他认为，“世界历史发展的一般规律…丝毫不排斥特殊性”，一战创造了改变历史顺序的机会，无产阶级可以先夺取政权，然后解决发展问题。于是布尔什维克的目标从民主革命转变成了社会主义革命。</p>
-<p>“全部政权归苏维埃”，随后的七月事件是布尔什维克尝试武装夺权的一次失败尝试，但也仅是夺权过程中的一个曲折。事件过后，国内政局迅速左倾化，最终走向武装夺权的十月。事实上，在革命之前临时政府的威信已然扫荡殆尽，所以，十月革命与其说是苏维埃取代临时政府的无产阶级革命，到不如说是布尔什维克驱逐孟什维克的党间夺权。</p>
-<p>夺权后，布尔什维克承诺将在十一月召开立宪会议，但在意识到选举产生的结果不能保证无产阶级专政这个目标的时候，党间爆发了尖锐的政治斗争，最终布尔什维克以强硬手段解散了立宪会议。立宪会议最终未能在俄国政治生活中发挥作用，是俄国现代化进程曲折性的又一例证。<strong>布尔什维克实践了无产阶级专政高于民主共和的思想，同时也否定了俄国社会民主工党建党时就已确定并在党的名称中得到体现的基本理念，以及据此制定的党在长期革命斗争中主张和坚持的社会政治目标</strong>。</p>
-<h2 id="政治危机中苏俄国家功能的转化"><a href="#政治危机中苏俄国家功能的转化" class="headerlink" title="政治危机中苏俄国家功能的转化"></a>政治危机中苏俄国家功能的转化</h2><p>1921年春，俄国波罗的海舰队的主要军事基地——喀琅施塔得发生反政府兵变，旋即被苏俄镇压。事后，政府宣称该事件是“<strong>受国外势力支持的白卫军分子、社会革命党人和无政府主义者发动的反革命叛乱</strong>”，并严密封锁了绝大多数档案。然而故事的真相直到苏联解体后才被缓缓揭开…</p>
-<p>1917年十月革命后不久，布尔什维克党领导的苏维埃政权即面临协约国集团的武装干涉和国内白卫军的武装叛乱。在严峻的形势下，为集中有限的人力、物力，新生的苏维埃宣布执行“战时共产主义”政策，“一切为了前线，一切为了胜利”。“战时共产主义”大致分两个阶段：1918.夏-1920.春为第一阶段，这一阶段表现为迫于形势而作出的应急性措施，虽然明显违背经济规律，但仍具备政治上的合理性；1920.春-1921.春为第二阶段，这一阶段表现为布尔什维克试图将战时体制延伸为向社会主义直接过渡的主观愿望。</p>
-<p>事实上到1920年3月，因战争造成的非常形式已经结束，但随即召开的俄共九大却将“战时共产主义”作为一种理想的经济政策大加推广，除此之外，苏俄政府在工业国有化、经济关系实物化等方面，也把“战时共产主义”政策发展到了一个新高度。这一做法为苏维埃政权带来了事与愿违的严重后果。农业大幅减产、生活质量迅速下滑、农民暴动、企业倒闭、工人失业，直接影响到了苏俄政权的统治基础。</p>
-<p>喀琅施塔得事件的发生与当时的经济状况息息相关。1921年2月，彼得格勒爆发严重的工人罢工，情绪随即波及到了喀琅施塔得的水兵，在物资日益短缺的情况下，不安的情绪弥漫在舰队中。在派出代表团查明工人罢工的真相后，水兵们通过了13点决议，包括但不限于改组苏维埃、出版言论自由以及给予农民土地等。<strong>这项决议的实质是取消“战时共产主义”政策的强烈愿望</strong>。随后水兵们成立临时革命委员会，迅速夺取当地政权，瓦解驱逐共产党人，进入战时状态。</p>
-<p>苏俄政府对骚动迅速做出了反应并采取了严厉措施。3曰2日，列宁、托洛茨基签署的政府公告将喀琅施塔得事件定性为“新白卫军的叛乱”，并立即采取了武装镇压。18日，政府军攻陷要塞，约8000名喀琅施塔得人逃亡芬兰，基地陷落。</p>
-<p>同一时间，俄共十大召开，会议通过了《关于以实物税取代余粮征集制》的决议，宣布了经济领域的重大变革，标志着“战时共产主义”向新经济政策转变的开始。经济上的退让和政治上的进攻在同一时刻作为政府的决策出台，并非偶然的巧合，而是苏俄政府深思熟虑后的重大步骤。事实上，苏俄在两个月前就已经开始酝酿经济的变革了，而这也正是喀琅施塔得起事者最根本的要求，某种程度上，两者可以找到一个妥协的基础。但政府并未进行妥协性的谈判，而是态度坚决的进攻，在政治上进行严厉的镇压。这一切都基于同一个目的——巩固布尔什维克政权。</p>
-<p>喀琅施塔得事件是苏维埃政权从理想型的无产阶级专政向现实的政治国家转变的一个标志性事件，它对苏联历史产生了深远影响。<strong>出于巩固政权需要的镇压一旦背离了社会公众的选择取向，就会发生不以人们意志为转移的国家权力机制的蜕变，在没有建立起相应的制衡机制的情况下，这种蜕变就为斯大林日后的个人专制埋下了伏笔</strong>。</p>
-<p>（细思恐极 Σ( ° △ °|||)︴</p>
-<h2 id="在市场经济和计划经济的十字路口"><a href="#在市场经济和计划经济的十字路口" class="headerlink" title="在市场经济和计划经济的十字路口"></a>在市场经济和计划经济的十字路口</h2><p>十月革命后不久，布尔什维克实行粮食垄断、粮食征收制，实行军事共产主义，这加剧了农民的负担，引发了一系列农民起义和工人罢工，动摇了苏维埃的统治基础。为从根本上解决问题，“军事共产主义”的更替势在必行。在1921年的俄共十大上，列宁在报告中指出“…解决的办法就是以实物税取代粮食征收制，给予农民一定的流转自由，允许在地方经济流转范围内实行交换”，最终会议通过了实物税的相关决议，以及在工业领域的某些方向。至此新经济政策诞生。</p>
-<p>新经济政策并不是一开始就是完善的政策体系，而是通过不断的摸索、实践逐步完善起来的。其中最重要的是对市场机制的认识。传统观点认为，社会主义应当消灭商品货币和市场关系，而<strong>布尔什维克在经济建设中引进了商品、货币、市场、价值的机制，实现了社会主义政治经济学上的重大突破</strong>。通过市场实现资源的合理配置，新经济政策促进了农业和工商业的发展，但党的领导层以及普通党政干部中却普遍对“国家资本主义”的尝试存在疑虑，最终在实际运作过程中国家控制与市场机制发生了难以解决的矛盾。</p>
-<p>在新经济政策完善的过程中，如何看待私商、“富农”、私人贸易，如何看待市场关系，已经成为必须面对的问题。部分党员认为新经济政策将加剧贫富分化、导致资本主义在俄国复辟。以季诺维也夫和斯大林为代表的一派对新经济政策总体上持否定的态度，念念不忘限制甚至取消这一政策，他们将新经济政策看作是一种暂时的退却——同农民妥协以拯救苏维埃，退却必然伴随着进攻，那便是同资本主义相斗争。</p>
-<p>“左”的思潮决定了新经济政策的最终命运。1929年斯大林在马克思主义者土地问题专家代表会议上宣称：“我们所以采取新经济政策，就是因为它为社会主义事业服务。当它不再为社会主义事业服务的时候，我们就让它见鬼去。”贯穿20年代的新经济政策在与军事共产主义的斗争中终于见鬼去了。</p>
-<p>事实上，采取新经济政策的深层次原因，正是俄国落后，不具备立即实行社会主义的物质条件，需要通过市场来改变资源配置的方法，促进生产的发展，为社会主义准备条件。而害怕资本主义，害怕在发展生产力的同时“资本主义”的增长，想借助于阶级斗争的方法，靠专政的力量来消灭资本主义的成分，消灭小生产，只会给国民经济带来破坏性的后果。斯大林体制最终论证了这一点。</p>
-<h2 id="苏联官册制度与干部状况"><a href="#苏联官册制度与干部状况" class="headerlink" title="苏联官册制度与干部状况"></a>苏联官册制度与干部状况</h2><p>十月革命之前，依据马克思主义理论思想，列宁提出苏维埃政权应实行直接普选制，并在革命后进行了实践；但选举方法无法适应紧张的战争态势，最终被废除。1919年俄共八大通过的《关于组织工作》指出，“…党工作人员的全部分配工作由党中央委员会掌握，它的决议大家都必须执行”，从而确立了干部任命制的原则，由布尔什维克直接委派领导干部。这一制度迎合了战争需要，但在战后的经济建设时期带来了管理的混乱；为了杜绝一系列机关出现的领导干部选拔和使用的无序状态，等级官员名册制度应运而生。此后，<strong>以任命制为核心、官册为载体的干部制度贯穿了维持了半个多世纪，深刻影响了苏联干部队伍的面貌和行为</strong>。</p>
-<p>所谓等级官员名册，是指由中央组织局建立的1、2、3号名册，他们各自有不同的所属部门，并收录了不同的职位（比如1号官册收录了最重要的职位，须经由党的最高机关批准；2号官册由部门提名，中央登记分配部批准；3号官册则收录了地方和基层官员名册等）。通过官册制度，斯大林和党中央掌握了从中央到地方各个级别、全国各个领域干部的任免调配权力，将干部的任免权力高度集中于中央。</p>
-<p>官册制度带来的影响是全方位的。首先，大量非党员干部被替换，干部中党员比例迅速提高，政治成分逐渐一元化；其次，干部任免成为党争的工具，变相的为斯大林贯彻其政治、经济路线奠定了组织基础；最后，在工农出身的党员大批补充进领导干部队伍的同时，干部群体的文化水平大幅度降低。</p>
-<p>1920年代，苏维埃国家是被资本主义包围的孤岛，对干部队伍政治、社会结构的改造，保证了其无产阶级性，为巩固和发展无产阶级提供了组织保证。但被提拔的干部不懂商品经济、不熟悉经济管理方法，不可避免的背离了在社会主义国家建立市场经济的导向，变相加速了新经济政策的终结。</p>
-<h2 id="1920年代苏联领导干部住房问题"><a href="#1920年代苏联领导干部住房问题" class="headerlink" title="1920年代苏联领导干部住房问题"></a>1920年代苏联领导干部住房问题</h2><p>十月革命前的俄国，由于土地私有制和资本主义的生产方式，工人的住房条件十分恶劣，普通群众与资产阶级、高级官吏等阶层住房存在巨大差别。十月革命后，布尔什维克继承了本已十分尖锐的住房问题遗产，形势相当严峻。为解决住房危机，布尔什维克大力提倡<strong>住房公社</strong>这一居住形式，其内容包括公共的厨房、食堂、幼儿园、洗衣房、浴室等，除去睡觉这种个人行为需要在单间里完成外，其余都要在公共场所完成，在最大限度上实现了日常生活的社会化。</p>
-<p>这一阶段，事实上已经出现了领导干部与普通群众的分化。彼得格勒领导干部集中居住在三种住房公社里：斯莫尔尼贵族女子中学、苏维埃楼、彼得格勒苏维埃旅馆，其共同点是面积大、设施完善、有专门的维护团队。相较而言，工人住房公社条件简陋、家具简单，甚至没有集中供暖和公共浴室，过着“绝对禁欲主义”的生活。</p>
-<p>在国内经济危机和政治动荡彻底消除、苏维埃俄国的经济开始复苏的时候，领导干部立即抛弃集体主义和平均主义的生活方式，搬出“集体宿舍”，按照官位等级享受独户住宅，与普通群众的居住条件迅速拉开了质的差距。领导干部的独户住宅宽敞舒适，基础设施齐备，1928年为最高层领导干部建设的住宅楼被认为是“当时欧洲最大的住宅楼之一”，由此可见一斑；而当时的莫斯科人均居住面积仅有5.2平米，部分工人甚至不得不栖身在工厂的临时宿舍和走廊甚至别人住宅的角落里，居住条件十分恶劣。</p>
-<p>以上，在苏维埃政权建立之初就出现了住房特殊化，并与普通群众住房的差距迅速拉大；与此同时，干部与普通工人的工资差距极小。由此可以认为，苏联领导干部的特权是从住房方面开始的，这也许对苏共特权阶层的产生乃至消亡产生了相当的影响。</p>
-<h2 id="1917-1933俄美关系"><a href="#1917-1933俄美关系" class="headerlink" title="1917-1933俄美关系"></a>1917-1933俄美关系</h2><blockquote>
-<p>布尔什维克的侵略主要是思想上的侵略，你不能依靠军队击败思想。在我看来试图用作战部队来阻止一场革命运动，就像用一把扫帚阻挡大潮一样。　　—— 伍德罗·威尔逊</p>
-</blockquote>
-<p>1917年，俄国爆发了十月社会主义革命，对于十月革命及新生的苏维埃政权，美国一开始就采取了否认和敌视的态度，其原因在于两国间社会制度以及价值观念存在本质的区别。</p>
-<p>首先，苏俄主张的公有制在美国就不能得到认可：苏俄政府颁布了大量针对银行、铁路、矿山的国有化法令，被美国人视作对资本主义私有制这一神圣原则的侵犯；其次，两国的政治制度是根本对立的：美国实行的是资产阶级民主制度，其支柱是三权分立的制衡制度、选举制度和两党制度，而苏俄则实行一党执政、立法和行政合一的无产阶级专政；再次，布尔什维克的世界革命思想使美国政府感到恐惧：基于列宁武力输出革命的思想，共产国际被认为是布尔什维克试图推行世界革命的工具；最后，布尔什维克的宗教观也与美国主流社会的宗教信仰存在根本冲突：马克思主义是彻底的无神论者，宣扬宗教是鸦片，必然招致基督教信徒的不满和排斥。</p>
-<p>基于意识形态的对立，美国向内渲染“红色恐怖”，镇压共产主义和工人运动；向外资助俄境内反对派，企图颠覆红色政权。在各种武装干涉失败后，美国政府意识到布尔什维克政权稳固程度超过想象，难以用武力战胜。之后整个20年代，苏俄与美国处于和平共处时期，美国未曾放弃对抗苏维埃政权的努力，苏维埃政权也对美国政府保持高度警惕。</p>
-<p>1929-1933年，资本主义世界爆发了一场空前的经济危机，美国迫切希望寻求和扩大商品销售市场；与此同时，苏联经济建设取得重大成就，对西方国家的先进技术和设备需求强劲。由此，美国工商界和政界人士逐渐意识到，必须尽快同苏联建立外交关系。更为迫切的是，日本在中国和远东的扩张同时触动了美国和苏联的利益，而德国法西斯在欧洲建立霸权更加剧了紧迫感，苏美建交被提上了日程。</p>
-<p>罗斯福上台后，主动打开了同苏联建交的大门。1933年，苏联人民外交委员抵达华盛顿，就建交问题展开谈判。在围绕宣传、宗教和债务问题进行了10天艰苦卓绝的谈判后，11月16日，李维诺夫和罗斯福交换了建立外交关系和互换大使的文件，至此，美苏两国结束了长达16年无外交关系的历史。</p>
-<p>事实上，由于意识形态的严重分歧，以及国内孤立主义等因素的影响，建交之后的美国一直对苏联采取半心半意的合作态度，只是在德日法西斯势力的侵略已经直接威胁到美国自身安全的时候，美国才从国家根本利益出发真正开始了与苏联的反法西斯合作。当第二次世界大战接近尾声，德日法西斯失败已成定局，苏美潜在的意识形态领域的分歧重新浮出水面，加之国家利益矛盾等因素，最终导致了冷战格局的出现。</p>
-<h2 id="苏联30年代大清洗"><a href="#苏联30年代大清洗" class="headerlink" title="苏联30年代大清洗"></a>苏联30年代大清洗</h2><blockquote>
-<p>我们的进展愈大、胜利愈多，被击溃了的剥削阶级残余也会愈加凶恶，他们愈要采用更尖锐的斗争形式，他们愈要危害苏维埃国家，他们愈要抓住最绝望的斗争手段来作最后的挣扎。　　—— 斯大林</p>
-</blockquote>
-<p>苏联在1930年代开展了一场针对隐藏在内部的“人民的敌人”的大清洗，西方多称之为“大恐怖”，其波及范围之广、斗争之酷烈，可谓前所未有，对随后二战的战场形势以及斯大林模式的形成产生了深刻的影响。</p>
-<p>1927年，斯大林战胜最大的对手，把托洛茨基一派开除出党，接着又将布哈林等人排斥出领导岗位，确立了自己的领导地位。掌权后，斯大林采用暴力行政的手段全力推进农业集体化和工业化运动，取得了耀眼的成果，但也产生了诸多严重问题。为应对群众和社会中日益滋长的不满情绪，斯大林不断加强专政手段，首先对党外人士进行了严酷的镇压。</p>
-<p>1928-1934年间，在行为上，以“拯救乌克兰联盟”、“劳动农民党”、“工业党”等冤假错案为名，当局镇压清洗了包括农民、工程技术人员、知识分子、异党派人士在内的大批持有异见者，并将近20%的党员革除出党；思想上，<strong>斯大林大力宣扬党内外冲突激化的必然性和采取严厉镇压政策的正确性，把暴力理论系统化，提出了社会主义社会阶级斗争尖锐化理论，把日益尖锐的斗争归结为资本主义国家在苏联进行间谍恐怖活动的加强，把清洗镇压对象定性为帝国主义代理人、间谍特务</strong>；法律上，成立内务人民委员部，扩大执法权，把严刑逼供合法化。</p>
-<p>这一阶段，尽管对党外人士镇压的声势浩大，但始终没有波及到领导层，直到基洛夫遇刺事件发生。基洛夫，1904年入党，俄共高层领导之一，受斯大林猜忌。1934年，基洛夫在众目睽睽下被枪杀于自己的办公室，事后，斯大林没有任何证据的就将刺杀归罪到季诺维也夫和加米涅夫身上，将二人革除出党。季诺维也夫和加米涅夫都是1901年入党的老党员，地位举足轻重，斯大林对二人动手彻底引爆了大清洗的开端。随后，骇人听闻的“叛国案”被一个接一个的捏造出来，通过审判和片面宣传，在全苏掀起一浪高过一浪的镇压浪潮。</p>
-<p>随后的五年时间内，通过包括“托洛茨基-季诺维也夫反苏联合总部”、“托洛茨基反苏平行总部”、“托洛茨基反苏军事组织”等冤案在内，斯大林大肆打压异己，铲除了包括布哈林、李可夫、图哈切夫斯基等一票老牌政治家，极大的提升了党内影响力，加强了个人集权，更加坚实了自己在苏联至高无上的领袖地位。</p>
-<p>除此之外，斯大林当局还扩大打击面，将矛头对准了党政军干部。据统计，139名中央委员中的98人、5名元帅中的3人、16名集团军（副）司令中的15人、8万名军官中的3.5万人、多数自治共和国中超过2/3的党政领导人均遭到判刑、处死，最终实际遭镇压者有300-800万人，遭迫害者多达数千万，损失难以估量。</p>
-<p>30年代大清洗是一场罕见的大浩劫，极大的败坏了苏联和社会主义的声誉。大清洗使上千万的干部和群众蒙受不白之冤，严重影响了国民经济发展和科学文化事业；大清洗破坏了民主与法制，使苏联社会主义建设模式日益僵化、失去了自我改进的动力；大清洗还败坏了社会风气，人民不敢坚持正义、唯上是听，个人崇拜横行，降低了国民素质。表面上大清洗加强了团结一致，实则加深了社会矛盾，埋下了苏联解体、苏共丧权的祸根。</p>
-<h2 id="古拉格：苏联强制劳动经济体系的形成"><a href="#古拉格：苏联强制劳动经济体系的形成" class="headerlink" title="古拉格：苏联强制劳动经济体系的形成"></a>古拉格：苏联强制劳动经济体系的形成</h2><p>古拉格，一个关押了成百上千万政治犯和刑事犯的集中营，因其强制劳动，至今仍为西方白左所诟病；但同时，古拉格对社会主义工业化建设乃至卫国战争都作出了不可磨灭的贡献，是苏联“无限动员能力”的代表。这一畸形产物的诞生是深刻的政治经济因素相互作用的结果。</p>
-<p>古拉格的强制劳动诞生于苏维埃的理论：“无产阶级各种形式的强制，从枪毙到劳动义务，无论听起来多么离奇，但却是把资本主义时代的人培养成共产主义人类的方法。（布哈林）” 这一思想在1918年苏维埃颁布的《劳动法典》得到体现：对16-50岁有劳动能力者实行劳动义务制，地方政权机关有权对他们实行强制。同年，逮捕了大群孟什维克、社会革命党、资产阶级代表人物以及反革命军官，建立了劳动改造营系统，强迫寄生分子进行劳动。</p>
-<p>在集中营内，囚徒们建立了制靴厂、洗衣店、手工工场、印刷厂、机械工厂…为期十个月强制劳动的尝试卓有成效，并创造了相当的效益，于是苏联开始全面推进建立自给自足的劳改营经济，<strong>强制劳动机构的职能从以教育为主向以经济为主转变</strong>。</p>
-<p>伴随着同时期的社会主义建设方针，为集中有限的劳动力实现工业化目标，囚犯劳动力资源被用来建设大型工业和交通设施，各种劳动机构和劳动资源动员分配制度开始确立，直到贝利亚时期，强制劳动机构作为苏维埃国家经济组织被加以使用，逐渐成为苏维埃最大、具有无限动员能力的经济机构。</p>
-<p><del>古拉格便是其中代表者。古拉格在斯大林加速实现工业化的过程中发挥了巨大作用，并承担了包括“白海-波罗的海运河工程”、“远东贝加尔-阿穆尔铁路工程”、“共青团城建造船厂工程”在内的一系列生产建设任务。</del></p>
-<p><em>注：</em></p>
-<p><em>这一节到这里我已经写不下去了，我不是一个专业的历史工作者，网络上的信息又莫衷一是，让我很难得到客观的数据和中正的评价，只能以个人角度谈一下对古拉格的看法。如果你Google一下古拉格，会得到很多渲染红色恐怖的内容，图片尺度大到让你吃不下饭，但这其中又有几分真实呢？</em></p>
-<p><em>不可否认，古拉格有很多反人道的举措，也带来了恐怖的后果，我个人倾向最终死亡人数可达数十上百万。但另一方面，我们应该看到，在古拉格支配恐惧的30年代，也才告别沙俄不到20年，步入社会主义仅十余年。旧时代的农奴会比新时代的囚徒生活更好吗？苏维埃是一次伟大的尝试，从最落后的沙俄过渡到先进的苏俄，在没有完善理论的指导下不可避免的会出现矫枉过正，但我们不应该因为局部的肮脏龌龊就想当然的就进行全盘的否定。</em></p>
-<p><em>白左在作完海盗后，披上一层绅士的皮，跟你大谈特谈人道主义，宣扬他们的价值观，因为他们是利益既得者，但我们该对自己有个清醒的认知。距离能不被饿死才过去不到百年，人类哪有生而就有的权力？自始至终都是一群人剥削另一群人罢了。古拉格是不幸的，它正处在了社会主义进行探索的关口，正处在了天灾人祸民生多艰的年代，于是成了国家的血包。但纵观历史来看，所有都是历史的尘埃，如果仅仅一个古拉格就彻底苏黑，那吸了300年农奴血的罗曼诺夫王朝算什么？吸了400年黑奴血的美帝算什么？</em></p>
-<p><em>强制劳动短时间内成就了社会主义，但也成了苏维埃抹不去的黑点。所谓评价，正如孔子所说，“知我罪我，其惟春秋”吧。</em></p>
-<h2 id="勃列日涅夫主义与苏联侵捷"><a href="#勃列日涅夫主义与苏联侵捷" class="headerlink" title="勃列日涅夫主义与苏联侵捷"></a>勃列日涅夫主义与苏联侵捷</h2><blockquote>
-<p>“…我们是国际主义者，我们不能，也永远不会对其它国家社会主义建设的命运，对世界上整个社会主义和共产主义事业抱漠不关心的态度。”　　—— 勃列日涅夫</p>
-</blockquote>
-<p>60年代，第三次工业革命迅猛展开，经济全球化逐渐明朗，但苏联一贯坚持“两个平行市场”的论断，从理论到实践，越来越难以立足。勃列日涅夫没能从客观现实出发，反而提出他的“社会主义大家庭”理论，作为苏联在新形势下推行霸权主义的理论依据。</p>
-<p>“社会主义大家庭”理论是在华约基础上的理论升华，它构建了一个以苏联为核心的跨国界紧密型综合体，要求各国共产党团结在苏共周围，在生产上建立明确的分工协作体系，进一步强化苏联的核心领导地位。</p>
-<p>而捷克斯洛伐克在60年代初就已经开始酝酿经济体制改革，在1968年通过了《捷克斯洛伐克通向社会主义道路》的改革政纲，其中包括政治经济体制改革等内容。这严重触怒了苏联当局，被认为是“脱离社会主义阵营、复辟资本主义的纲领”，引发了苏联高层的忧虑意识。</p>
-<p>在多次会晤后，捷共和苏共未达成一致意见，8曰20日，苏联采取武装行动，将军队开进了捷克斯洛伐克首都——布拉格。苏军控制了以杜布切克为核心的捷共高层，妄图通过扶持英德拉等亲苏分子组建新的革命政府，重建捷克斯洛伐克的社会主义事业。这一行为招致了布拉格市民的剧烈抵触，人民开始罢工游行抗议苏联的霸权主义，最终苏联不得不与捷共妥协，以双方各退一步告终。</p>
-<p>如同压迫其他民族，其自身也没有自由一样，镇压别国改革的社会主义国家，其自身也必然在改革前止步。苏联在镇压“布拉格之春”的同时，窒息了柯西金的新经济体制改革。勃列日涅夫主义和武装入侵捷克斯洛伐克事件为苏联东欧体系的总崩溃埋下了又一颗新的种子。</p>
-<h2 id="分离还是对峙：东正教会与苏维埃政权"><a href="#分离还是对峙：东正教会与苏维埃政权" class="headerlink" title="分离还是对峙：东正教会与苏维埃政权"></a>分离还是对峙：东正教会与苏维埃政权</h2><p>在旧俄时代，东正教会与国家政权间根本利益一致，双方相互维护、紧密交织，到帝俄末期，俄国东正教官方教会已成为一个庞大的社会机构，拥有占国土面积0.8%的土地和占全国人口69.9%的信徒。</p>
-<p>在十月革命后，苏维埃相继颁布土地法令与宗教法令，大大削弱了教会的经济政治权力，引发了教会的不满。于是在1918-1921的国内战争期间，教会作为苏维埃政权的对立面存在，参加资助了包括高尔查克在内的白卫军分子，最终大批神职人员被镇压，教会蒙受巨大损失。之后在苏联实行社会主义工业化与农业集体化的过程中，教会上层的不积极态度使苏维埃政权把他们当作“阶级敌人”来处理，宗教事业陷入低谷。</p>
-<p>随着苏维埃政权的巩固，东正教会开始调整立场。卫国战争期间，东正教会始终站在反法西斯的立场上，积极参与战争并提供战场资助，这大大改善了苏维埃政府的感官，两者关系趋于缓和。在战后以及冷战时期，东正教会开始复兴，开始寻求加深在世界范围内宗教的影响力，发展达到小高峰。</p>
-<p>之后的赫鲁晓夫和勃列日涅夫时期，苏联大力加强无神论宣传，提出将神甫“共产主义化”，消除宗教在人民中的影响，提倡马克思主义教育从娃娃抓起，被当今俄罗斯学者和教会人士认为是东正教会受排挤和迫害的黑暗年代。</p>
-<p>1985年戈尔巴乔夫上台后，社会进入全面改革时期，意识形态进入宽松时期，政府首次承认东正教会在苏联曾遭受排挤和其它不公正待遇，取消了对宗教团体的各种限制，并赋予了教会法人地位以及相应权利，宗教事业真正复兴。</p>
-<p>政教关系是近代俄国值得研究的重要问题。封建时代的神权与王权相互依存，而一旦国家政权被推翻，教会也难逃厄运。十月革命使沙皇专制制度走向其对立面——无产阶级专政，因其浓郁的政治色彩，新生苏维埃的政教分离政策不可避免的把矛头指向东正教会。教会在适应苏维埃政权的过程中，不断调整自己，时常陷入进退维谷的境地，社会道德功能几乎丧失殆尽，终于在民间威望不断下降，这即是衰落之源。</p>
-<h2 id="苏联文化政策：从列宁到戈尔巴乔夫"><a href="#苏联文化政策：从列宁到戈尔巴乔夫" class="headerlink" title="苏联文化政策：从列宁到戈尔巴乔夫"></a>苏联文化政策：从列宁到戈尔巴乔夫</h2><center>（待续）</center>
-
-<hr>
-
+          <!--noindex-->
+            <div class="post-button">
+              <a class="btn" href="/2021/11/07/soviet-union/#more" rel="contents">
+                阅读全文 &raquo;
+              </a>
+            </div>
+          <!--/noindex-->
+        
       
     </div>
 
