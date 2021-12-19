@@ -20,21 +20,25 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+  <meta name="description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？ 直接求和方法对于有限体系，直接对库伦能进行求和是准确的： \Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) &#x3D; \frac{1}{4\pi \epsilon_{0}} \sum_{i&#x3D;1}^{N-1} \sum_{j&#x3D;i+1}^{N} \f">
 <meta property="og:type" content="article">
-<meta property="og:title" content="dl-poly初始化">
-<meta property="og:url" content="https://example.com/2021/11/27/dl-poly-init/index.html">
+<meta property="og:title" content="Coulombic Forces">
+<meta property="og:url" content="https://example.com/2021/12/17/Coulombic-Forces/index.html">
 <meta property="og:site_name" content="kklai的小站">
-<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？ 直接求和方法对于有限体系，直接对库伦能进行求和是准确的： \Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) &#x3D; \frac{1}{4\pi \epsilon_{0}} \sum_{i&#x3D;1}^{N-1} \sum_{j&#x3D;i+1}^{N} \f">
 <meta property="og:locale" content="zh_CN">
-<meta property="article:published_time" content="2021-11-27T09:16:03.000Z">
-<meta property="article:modified_time" content="2021-12-05T08:13:40.860Z">
+<meta property="og:image" content="https://example.com/images/Col-For-1.png">
+<meta property="og:image" content="https://example.com/images/Col-For-2.png">
+<meta property="og:image" content="https://example.com/images/Col-For-3.png">
+<meta property="og:image" content="https://example.com/images/Col-For-4.png">
+<meta property="article:published_time" content="2021-12-17T06:50:54.000Z">
+<meta property="article:modified_time" content="2021-12-19T10:22:32.451Z">
 <meta property="article:author" content="kklai">
-<meta property="article:tag" content="dl-poly">
-<meta property="article:tag" content="Fortran">
+<meta property="article:tag" content="MD">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://example.com/images/Col-For-1.png">
 
-<link rel="canonical" href="https://example.com/2021/11/27/dl-poly-init/">
+<link rel="canonical" href="https://example.com/2021/12/17/Coulombic-Forces/">
 
 
 <script id="page-configurations">
@@ -47,7 +51,7 @@
   };
 </script>
 
-  <title>dl-poly初始化 | kklai的小站</title>
+  <title>Coulombic Forces | kklai的小站</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
     <script>
@@ -177,7 +181,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://example.com/2021/11/27/dl-poly-init/">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/12/17/Coulombic-Forces/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/zhouyu-rectangle.png">
@@ -190,7 +194,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          dl-poly初始化
+          Coulombic Forces
         </h1>
 
         <div class="post-meta">
@@ -200,14 +204,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-11-27 17:16:03" itemprop="dateCreated datePublished" datetime="2021-11-27T17:16:03+08:00">2021-11-27</time>
+              <time title="创建时间：2021-12-17 14:50:54" itemprop="dateCreated datePublished" datetime="2021-12-17T14:50:54+08:00">2021-12-17</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-05 16:13:40" itemprop="dateModified" datetime="2021-12-05T16:13:40+08:00">2021-12-05</time>
+                <time title="修改时间：2021-12-19 18:22:32" itemprop="dateModified" datetime="2021-12-19T18:22:32+08:00">2021-12-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -237,18 +241,53 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="98c8ab73bdcee6afb55b65adb18d527e7b31cfadec1269e0c7528536132a492c">d483d2eb94d10f6c03133f362407066ab877bea0a47fd379459df71b68489417e1e58b09ee2e3f9b32c147f89bd626b0052f0a4c5d1be1ee9890589c75ee0f7adb5cfef4f2019e883223babc3e6b7a5b0c93bb256a137e7f884444aa345e68c6b5b2238cfa4da3f22f06aaba26c2d9b7a9bd9c279f9e24406b35f8435e8273b305aff543262db7b671ceb70b8cc54b9fd6a1fee8cd6c7c9b28a67ff0e15b627ffa59aecdc34b8cf7d3a81912463b64412c00ee06dc056b45bcf9077ab48f745398fc3b689b4ef5ba97fed2fa26372e7004cac0d210401205c114d39ece4d455e489f6e55dc79e76bf4e62992588d8275da39631ef9d5837210b97352173ab3e5a7499392503fb10e626525fb4eae836cf541afaae2877d94d15dece470db12bac472cd315331d0dd627d6bda8f4a681c6d076dfdcbbfb61b555a66967ccef21aba6da687536754a95ee66462b8b36db5081a1c3a0a1362ff71e153d28f694bdef9e55b27fa81a9afae976194960dbfd4c111ddf3e37df5b242146ea9b5a1da826996919ea618615cb1159a3fea97d347f0a8cb28448ca21c64115aa7162fcd2842098acdcb240dfb91eb7eb1592b5347e92da891c414bb6243d1b257e1e54a9a3c8719d99d4ba1dcb642970335d649edb699e68d5744a3a16781cd992ddd69499fe62360e3f5b2207cabf74fad0ee7c44e96a8f8d6c08960ce62ef48ff16590634cab10b65ede11095ab9fb6c8f983126d0fe4661bb0592d256008de1234fa31093a2e9097c168d3c4625b80e97622ef5a7b05ecb3b9217c1303b92d9c705f657f6f2c09db2aa24d7e6d32ee9f397922c3a5dbcf547616a68bc83f5066a789aba24edef922074e38ac7b0934f5fbac5bf5c4aeabccbdd4336071a30876f8f95a2eb2f7e8c5fa2ac33e775c67652886ccabf70fb7fc16552e230ba15127093f29eab33549ab1ffce60857105b2766463b159f36a03658c2d14827f4fe3773100d4c5adf65b36dfa3a9b57bf94502aa362fa5bd2d0adcf5ff2445294145fdc551cff837352fa4ec805bf983069e7445afa8c044a4f36d7b3e125eb82707dc11943f125fe9ef27ab74f66fd0cdb46cb93d7eb7eaa18eee63ecbb6fa4ed17d555f6b6042fa63eb5535c0f456e56f623b36bd7cfd31b972921bd6419541da790832ce81aec0c8b706d2cec3ff46f1e1cbf83b94a00dbc7bf1bb297834fe499782a02e446dd81b670c9eb393f3c7cecb9887d95bd60231af8afab7fc4f20f40bee77c68ca67aac176e92ac3af52718109879aa7fbb18fda7f6d3ae40c70fc12b3cf2f51c0a6e34e292b80bad37b3c7c35bfe9f44f974a1d5243b3879cb2f365d86bfc33904125c5655fefa76dfa68cea11d946f63136f744809d062c6b596416647a0b4076d2eb21ab1a89f8575695463932362ca404c58efc1a69910feb1d4b93e6392d05ab9c71ed377fc15f96b01945e69e16dda2209448def856198732dce2a86181dd11179e9c7ebd234f8dc87b3b900484654ea41a31fcaaa7265247c8db242571e76a1ce7a217bccfaf9ea54bc8d04f27525b4628ce3714ff83c2ed7e81abfb506ac45b06c9b0d3653a7147c1ba7b76de03b1248b63ae609fc28b9a10e4b3f9ffc520f77b383f5fadedd6ce02ee50d73c2d6a63a8847120075ad54e531bb8f11d3ebe48c38b5702baca27f18aff5c3cc39552bc67d34f7b8284ad732e1188ed</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
-      </label>
-    </div>
-  </div>
+        <p>库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？</p>
+<h1 id="直接求和方法"><a href="#直接求和方法" class="headerlink" title="直接求和方法"></a>直接求和方法</h1><p>对于有限体系，直接对库伦能进行求和是准确的：</p>
+<script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{r_{ij}}</script><p>事实上，一种常用但不严谨的方法就是施加一个库伦截断，有各种各样的实现方式：</p>
+<script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{r_{ij}} H(r_{cut}-r_{ij})</script><script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} q_i q_j \left( \frac{1}{r_{ij}} - \frac{1}{r_{cut}} \right)</script><script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{\epsilon \left( r_{ij} \right) r_{ij}}</script><p>但它们都存在种种问题，包括物理意义、截断的连续性、人为涨落等，如今不具备应用价值。相对好些的是Fennell and Gezelter提出的方法，在$r_{cut}$足够大的时候提供了准确的描述，它其实与Ewald方法有共通之处。</p>
+<h1 id="反应场方法"><a href="#反应场方法" class="headerlink" title="反应场方法"></a>反应场方法</h1><div align="center"> 
+<img src="/images/Col-For-1.png" width="562" height="560" alt="reaction-field" align="center">
 </div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+
+<p>对一个给定离子$i$以及$r_{cut}$，截断半径定义了球形空腔，空腔外是电介质。腔内的其它离子形成一个电偶极矩$\mu_i$使电介质极化，极化后又反过来形成一个反应场$\vec{E}_i$作用到离子$i$上，被认为是长程修正。</p>
+<script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} q_i q_j \left( \frac{1}{r_{ij}} + \frac{B_0 r_{ij}^{2}}{2r_{cut}^{3}} \right)</script><script type="math/tex; mode=display">B_0 = \frac{2(\epsilon - 1)}{(2\epsilon+1)}</script><p>$B_0$的选取很重要，不过在一些体系中，$\epsilon$很大，$B_0$ = 1</p>
+<p>这个方法仍存在较大缺陷，如果$B_0$不准确的话，体系能量会产生较大涨落、力也不连续，又不得不回归Fennell&amp;Gezelter方法了。</p>
+<h1 id="Ewald方法"><a href="#Ewald方法" class="headerlink" title="Ewald方法"></a>Ewald方法</h1><p>一个实际体系的库伦相互作用能为</p>
+<script type="math/tex; mode=display">\varphi (\vec{r}) = \frac{1}{4\pi \epsilon_{0}} \sum_{\vec{L}=0}^{\vec{\infty}} \sum_{j=1}^{N} \frac{q_j}{\left| \vec{r} - \vec{r}_j + \vec{L} \right|}</script><p>这个函数是无限多项求和，无法直接计算（事实上，它是条件收敛的）。一个规避办法如下图所示：</p>
+<div align="center"> 
+<img src="/images/Col-For-2.png" width="756" height="597" alt="Ewald-1" align="center">
+</div>
+
+<p>设想给每个点电荷周围施加一个gaussian密度分布的反电荷，屏蔽作用使原先的长程作用迅速衰减，令原体系为A，gaussian体系为B，则体系的势能为</p>
+<script type="math/tex; mode=display">\varphi_A (\vec{r}) = \varphi_{A+B} (\vec{r}) - \varphi_B (\vec{r}) - \varphi_{AB} (\vec{r})</script><p>其中gaussian密度分布</p>
+<script type="math/tex; mode=display">\rho_j (\vec{r}-\vec{r}_j) dv = -q_j \left( \frac{\alpha^2}{\pi} \right)^{3/2} \text{exp} \left( -\alpha^2 \left| \vec{r}-\vec{r}_j \right|^2 \right) dv</script><p>通过求解泊松方程，$\varphi_{A+B}$代表实空间求和部分，$erfc$函数使它迅速衰减</p>
+<script type="math/tex; mode=display">\varphi_{A+B} = \frac{1}{2} \frac{1}{4\pi \epsilon_0} \sum_{\vec{L}=\vec{0}}^{\vec{\infty}} \sum_{j=1}^{\infty} \sum_{n=1}^{N} \frac{q_j q_n}{\left| \vec{r}_n-\vec{r}_j  + \vec{L} \right|} erfc(\alpha | \vec{r}_n-\vec{r}_j + \vec{L} |)</script><p>对高斯电荷密度作傅立叶变换，在倒空间求解泊松方程，可得倒空间求和部分$\varphi_B$，$e$指数使它迅速衰减</p>
+<script type="math/tex; mode=display">\varphi_B  = - \frac{1}{2\epsilon_0 V} \sum_{\vec{k} \neq \vec{0}}^{\vec{\infty}} \frac{\text{exp} (-k^2 /4\alpha^2)}{k^2} \left| \sum_{n=1}^{N} q_n \text{exp} (-i \vec{k}\cdot \vec{r}_n) \right|^2</script><p>相互作用项围绕点电荷对gaussian电荷密度作一个积分就好了：</p>
+<script type="math/tex; mode=display">\varphi_{AB} = \frac{\alpha}{4\pi^{3/2} \epsilon_0}\sum_{j=1}^{n}q_{j}^{2}</script><hr>
+<p>实际操作中，需要合理设置$\alpha$，使实空间求和在范德华半径内收敛，相同的$\alpha$拓展到倒空间，寻找一个足够大的、能收敛的截断。具体到程序实现，设想一个$q_{max}$的电荷在$r_{cut}$处引起的能量涨落，设定$\delta$可求得相应的$\alpha$，</p>
+<script type="math/tex; mode=display">\delta_{A+B} = \frac{q_{max}^2}{4\pi \epsilon_0} \frac{erfc(\alpha r_{cut})}{r_{cut}}</script><p>在倒空间，经过一些近似，设定$\delta_B$可以求解截断$k_{max}$；此外$k,-k$点贡献相同，约化掉一半，</p>
+<script type="math/tex; mode=display">\delta_{B} = \frac{S(\vec{k}_{max})}{2\epsilon_0 V} \frac{\text{exp}(-k_{max}^2/4\alpha^2)}{k_{max}^{2}}</script><p>对于体系带电情况，需要设置一个均匀电荷背景，避免能量发散，</p>
+<script type="math/tex; mode=display">\rho^{scr} = -q^{tot}/V</script><p>需要在Ewald Sum中添加几项能量修正：</p>
+<ol>
+<li>屏蔽后的电荷与补偿电荷相互作用项</li>
+<li>gaussian电荷与补偿电荷相互作用项</li>
+<li>电荷自相互作用项</li>
+</ol>
+<p>这三项是怎么来的，尤其是第2项，尚未理解，细究的话要看原始文献。</p>
+<p>偶极修正也是不可忽视的问题：</p>
+<div align="center"> 
+<img src="/images/Col-For-3.png" width="484" height="494" alt="Ewald-3" align="center">
+</div>
+
+<p>如图，类似反应场理论，每个周期内携带的dipole会作用到无限大边界条件外的介质上，被极化后反作用于体系，带来一个能量修正$\Phi^{DP}$，$\Phi^C = \Phi^E + \Phi^{DP}$，但通常不用，因为不知道介质的介电函数。</p>
+<h1 id="SPME"><a href="#SPME" class="headerlink" title="SPME"></a>SPME</h1><p>Smoothed Particle-Mesh Ewald(SPME)用来简化在倒空间的求和，通过数学的手段，将结构因子$\sum_{j=1}^{N} q_j \text{exp}(i\vec{k} \cdot \vec{r}_j)$进行3D离散傅立叶变换，如下图</p>
+<div align="center"> 
+<img src="/images/Col-For-4.png" width="672" height="274.5" alt="Ewald-4" align="center">
+</div>
+
+<p>变换前每个离子的位置并不在FFT格点上，通过一种电荷分配机制，可以将它离散化到周围的格点上，离散化的机制应用了$Cardinal B-Splines, M_n(u)$，展开如下：</p>
+<script type="math/tex; mode=display">\text{exp}(2\pi iu_j k/K) = b(k)\sum_{p=-\infty}^{\infty} M_n(u_j-p)\text{exp}(2\pi ikp/K)</script><p>带回到原式，得到新基组下的求和公式，效率更高。具体数学没看懂，细究时再回来补充。</p>
+
     </div>
 
     
@@ -257,8 +296,7 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/dl-poly/" rel="tag"># dl-poly</a>
-              <a href="/tags/Fortran/" rel="tag"># Fortran</a>
+              <a href="/tags/MD/" rel="tag"># MD</a>
           </div>
 
         
@@ -267,13 +305,10 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/11/25/dl-poly-install/" rel="prev" title="dl-poly安装">
-      <i class="fa fa-chevron-left"></i> dl-poly安装
+    <a href="/2021/12/13/Comintern/" rel="prev" title="精苏日记">
+      <i class="fa fa-chevron-left"></i> 精苏日记
     </a></div>
-      <div class="post-nav-item">
-    <a href="/2021/12/01/Hyperdynamics/" rel="next" title="Hyperdynamics">
-      Hyperdynamics <i class="fa fa-chevron-right"></i>
-    </a></div>
+      <div class="post-nav-item"></div>
     </div>
       </footer>
     
@@ -332,6 +367,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%B1%82%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">直接求和方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%BA%94%E5%9C%BA%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">反应场方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ewald%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Ewald方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPME"><span class="nav-number">4.</span> <span class="nav-text">SPME</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
