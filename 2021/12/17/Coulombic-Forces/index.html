@@ -20,19 +20,19 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？ 直接求和方法对于有限体系，直接对库伦能进行求和是准确的： \Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) &#x3D; \frac{1}{4\pi \epsilon_{0}} \sum_{i&#x3D;1}^{N-1} \sum_{j&#x3D;i+1}^{N} \f">
+  <meta name="description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Coulombic Forces">
 <meta property="og:url" content="https://example.com/2021/12/17/Coulombic-Forces/index.html">
 <meta property="og:site_name" content="kklai的小站">
-<meta property="og:description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？ 直接求和方法对于有限体系，直接对库伦能进行求和是准确的： \Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) &#x3D; \frac{1}{4\pi \epsilon_{0}} \sum_{i&#x3D;1}^{N-1} \sum_{j&#x3D;i+1}^{N} \f">
+<meta property="og:description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://example.com/images/Col-For-1.png">
 <meta property="og:image" content="https://example.com/images/Col-For-2.png">
 <meta property="og:image" content="https://example.com/images/Col-For-3.png">
 <meta property="og:image" content="https://example.com/images/Col-For-4.png">
 <meta property="article:published_time" content="2021-12-17T06:50:54.000Z">
-<meta property="article:modified_time" content="2021-12-19T10:22:32.451Z">
+<meta property="article:modified_time" content="2021-12-20T05:14:40.385Z">
 <meta property="article:author" content="kklai">
 <meta property="article:tag" content="MD">
 <meta name="twitter:card" content="summary">
@@ -211,7 +211,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-19 18:22:32" itemprop="dateModified" datetime="2021-12-19T18:22:32+08:00">2021-12-19</time>
+                <time title="修改时间：2021-12-20 13:14:40" itemprop="dateModified" datetime="2021-12-20T13:14:40+08:00">2021-12-20</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,6 +242,7 @@
 
       
         <p>库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑力呢？</p>
+<span id="more"></span>
 <h1 id="直接求和方法"><a href="#直接求和方法" class="headerlink" title="直接求和方法"></a>直接求和方法</h1><p>对于有限体系，直接对库伦能进行求和是准确的：</p>
 <script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{r_{ij}}</script><p>事实上，一种常用但不严谨的方法就是施加一个库伦截断，有各种各样的实现方式：</p>
 <script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{r_{ij}} H(r_{cut}-r_{ij})</script><script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} q_i q_j \left( \frac{1}{r_{ij}} - \frac{1}{r_{cut}} \right)</script><script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{\epsilon \left( r_{ij} \right) r_{ij}}</script><p>但它们都存在种种问题，包括物理意义、截断的连续性、人为涨落等，如今不具备应用价值。相对好些的是Fennell and Gezelter提出的方法，在$r_{cut}$足够大的时候提供了准确的描述，它其实与Ewald方法有共通之处。</p>
@@ -286,8 +287,15 @@
 </div>
 
 <p>变换前每个离子的位置并不在FFT格点上，通过一种电荷分配机制，可以将它离散化到周围的格点上，离散化的机制应用了$Cardinal B-Splines, M_n(u)$，展开如下：</p>
-<script type="math/tex; mode=display">\text{exp}(2\pi iu_j k/K) = b(k)\sum_{p=-\infty}^{\infty} M_n(u_j-p)\text{exp}(2\pi ikp/K)</script><p>带回到原式，得到新基组下的求和公式，效率更高。具体数学没看懂，细究时再回来补充。</p>
-
+<script type="math/tex; mode=display">\text{exp}(2\pi iu_j k/K) = b(k)\sum_{p=-\infty}^{\infty} M_n(u_j-p)\text{exp}(2\pi ikp/K)</script><p>带回到原式，得到新基组下的求和公式，效率更高。具体数学没看懂，待补充。</p>
+<h1 id="多极矩Ewald-Sum"><a href="#多极矩Ewald-Sum" class="headerlink" title="多极矩Ewald Sum"></a>多极矩Ewald Sum</h1><p>在一些体系中，静电相互作用通过点多极矩而非点电荷描述，一些多极矩的作用依旧是长程的，需要通过Ewald方法来处理。</p>
+<p>设想原点处有一群点电荷，则遥远处$\vec{r}$的电势为</p>
+<script type="math/tex; mode=display">\varphi(\vec{r}) = \frac{1}{4\pi \epsilon_0} \sum_{k=1}^{n_c} \frac{q_k}{\left| \vec{r}-\vec{r}_c \right|}</script><p>泰勒展开后，</p>
+<script type="math/tex; mode=display">\varphi(\vec{r}) = \frac{1}{4\pi \epsilon_0} \left( C_A - \sum_{\alpha} D_{A}^{\alpha} \partial^{\alpha} + \sum_{\alpha} \sum_{\beta} Q_{A}^{\alpha \beta} \partial^{\alpha \beta} \right) \left( \frac{1}{r} \right) = \frac{1}{4\pi \epsilon_0}  \hat{M}_A \left( \frac{1}{r} \right)</script><p>类比原点处是点电荷，则$\hat{M}_A$是多极矩产生的效应算符。假如试探电荷是点多极矩$\hat{M}_B$，经历类似的推导，</p>
+<script type="math/tex; mode=display">\varphi_{AB}(\vec{r}) = \frac{1}{4\pi \epsilon_0}  \hat{M}_B \hat{M}_A \left( \frac{1}{r} \right)</script><p>那么$\hat{M}_B \hat{M}_A$算符就是将晶格与试探电荷都转变为点多极矩的操作。对于点电荷，Ewald求和为</p>
+<script type="math/tex; mode=display">\varphi_0(\vec{r}) = \frac{1}{4\pi \epsilon_0} \sum_{j=1}^{N} B_0(|\vec{r} - \vec{r}_j|) + \frac{1}{V\epsilon_0} \sum_{\vec{k} \neq \vec{0}}^{\vec{\infty}} A(\vec{k}) \sum_{j=1}^{N} \text{exp} (-i\vec{k} \cdot (\vec{r}-\vec{r}_j))</script><p>将试探电荷与晶格电荷都转变为电多极矩，</p>
+<script type="math/tex; mode=display">\varphi_p(\vec{r}) = \frac{1}{4\pi \epsilon_0} \sum_{j=1}^{N} \hat{M}_p \hat{M}_j B_0(|\vec{r} - \vec{r}_j|) + \frac{1}{V\epsilon_0} \sum_{\vec{k} \neq \vec{0}}^{\vec{\infty}} A(\vec{k}) \sum_{j=1}^{N} \hat{M}_p \hat{M}_j \text{exp} (-i\vec{k} \cdot (\vec{r}-\vec{r}_j))</script><p>以上，得到了试探多极矩在晶格多极矩下的势能，但我们需要的是晶格多极矩体系自身的势能，这里又面临一个重叠的问题，重叠时带来能量发散。实空间部分是晶格+补偿电荷带来的势能，通过一些数学的处理，扣掉$u \rightarrow 0$的发散项（认为是重叠能），得到“试探多极矩-gaussian多极矩”的相互作用能，即自相互作用项$\varphi_p^S$，总能量为：</p>
+<script type="math/tex; mode=display">\varphi (\vec{r}_p) = \varphi_p(\vec{r}_p) + \varphi_p^S(\vec{r}_p)</script>
     </div>
 
     
@@ -367,7 +375,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%B1%82%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">直接求和方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%BA%94%E5%9C%BA%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">反应场方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ewald%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Ewald方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPME"><span class="nav-number">4.</span> <span class="nav-text">SPME</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%B1%82%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">直接求和方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%BA%94%E5%9C%BA%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">反应场方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ewald%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Ewald方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPME"><span class="nav-number">4.</span> <span class="nav-text">SPME</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E6%9E%81%E7%9F%A9Ewald-Sum"><span class="nav-number">5.</span> <span class="nav-text">多极矩Ewald Sum</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
