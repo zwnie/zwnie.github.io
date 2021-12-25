@@ -22,14 +22,15 @@
 
   <meta name="description" content="对于无中心反演对称性的体系，K&#x2F;-K应该有相反的角动量，但QE程序输出的通常是$p_x,p_y,…$的投影，轨道角动量的信息被掩盖了。尝试输出：">
 <meta property="og:type" content="article">
-<meta property="og:title" content="orbital momentum">
+<meta property="og:title" content="orbital angular momentum">
 <meta property="og:url" content="https://example.com/2021/12/24/orbital-momentum/index.html">
 <meta property="og:site_name" content="kklai的小站">
 <meta property="og:description" content="对于无中心反演对称性的体系，K&#x2F;-K应该有相反的角动量，但QE程序输出的通常是$p_x,p_y,…$的投影，轨道角动量的信息被掩盖了。尝试输出：">
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://example.com/images/sphereh.png">
+<meta property="og:image" content="https://example.com/images/mz.png">
 <meta property="article:published_time" content="2021-12-24T12:42:07.000Z">
-<meta property="article:modified_time" content="2021-12-24T14:05:34.811Z">
+<meta property="article:modified_time" content="2021-12-25T10:39:32.823Z">
 <meta property="article:author" content="kklai">
 <meta property="article:tag" content="DFT">
 <meta name="twitter:card" content="summary">
@@ -48,7 +49,7 @@
   };
 </script>
 
-  <title>orbital momentum | kklai的小站</title>
+  <title>orbital angular momentum | kklai的小站</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
     <script>
@@ -191,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          orbital momentum
+          orbital angular momentum
         </h1>
 
         <div class="post-meta">
@@ -200,10 +201,16 @@
                 <i class="far fa-calendar"></i>
               </span>
               <span class="post-meta-item-text">发表于</span>
-              
 
-              <time title="创建时间：2021-12-24 20:42:07 / 修改时间：22:05:34" itemprop="dateCreated datePublished" datetime="2021-12-24T20:42:07+08:00">2021-12-24</time>
+              <time title="创建时间：2021-12-24 20:42:07" itemprop="dateCreated datePublished" datetime="2021-12-24T20:42:07+08:00">2021-12-24</time>
             </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2021-12-25 18:39:32" itemprop="dateModified" datetime="2021-12-25T18:39:32+08:00">2021-12-25</time>
+              </span>
 
           
             <span class="post-meta-item" title="阅读次数" id="busuanzi_container_page_pv" style="display: none;">
@@ -246,8 +253,16 @@
 <p>与球谐函数对比，不知道为啥差了1/2倍，先忽略这个问题；如果按照它所给的归一化因子，我们可以写出相应的球谐函数（以$l=1$为例）：</p>
 <script type="math/tex; mode=display">Y_1^1 = -\sqrt{\frac{3}{\pi}}sin\ \theta \frac{e^{i\varphi}}{\sqrt{2}}=\frac{ylm(ig,3)+i\cdot ylm(ig,4)}{\sqrt{2}}</script><script type="math/tex; mode=display">Y_1^{-1} = -\sqrt{\frac{3}{\pi}}sin\ \theta \frac{e^{-i\varphi}}{\sqrt{2}}=\frac{ylm(ig,3)-i\cdot ylm(ig,4)}{\sqrt{2}}</script><p>也即</p>
 <script type="math/tex; mode=display">ylm(ig,3)=(Y_1^{1}+Y_1^{-1})/\sqrt{2}</script><script type="math/tex; mode=display">ylm(ig,4)=(Y_1^{1}-Y_1^{-1})/\sqrt{2}i</script><p>就建立了$p_x,p_y$与各自轨道角动量的联系，对一个本征波函数</p>
-<script type="math/tex; mode=display">|\Psi \rangle = A\ ylm(ig,3) + B\ ylm(ig,4) +... = \frac{A-Bi}{\sqrt{2}}Y_1^1+\frac{A+Bi}{\sqrt{2}}Y_1^{-1}+...</script><script type="math/tex; mode=display">\langle \Psi|L_z|\Psi \rangle = \left| \frac{A-Bi}{\sqrt{2}} \right|^2 - \left| \frac{A+Bi}{\sqrt{2}} \right|^2 + ...</script><p>所以我们只要知道复数$A,B$就能反推$\langle L_z \rangle$。事实上程序输出的是$A^2,B^2$，所以应该在波函数内积的部分做一下处理，提取出$A,B$</p>
-<center>（待续）</center>
+<script type="math/tex; mode=display">|\Psi \rangle = A\ ylm(ig,3) + B\ ylm(ig,4) +... = \frac{A-Bi}{\sqrt{2}}Y_1^1+\frac{A+Bi}{\sqrt{2}}Y_1^{-1}+...</script><script type="math/tex; mode=display">\langle \Psi|L_z|\Psi \rangle = \left| \frac{A-Bi}{\sqrt{2}} \right|^2 - \left| \frac{A+Bi}{\sqrt{2}} \right|^2 + ...</script><p>所以我们只要知道复数$A,B$就能反推$\langle L_z \rangle$。事实上程序输出的是$|A|^2,|B|^2$，不足以反推，所以应该在波函数内积的部分做一下处理，提取出$A,B$</p>
+<p>&nbsp;</p>
+<p>程序的实现在$projwfc.f90$，根据不同赝势/对称性/SOC会进行不同的处理，仅以我的$LDA,colinear$来讲，在671行左右</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proj(nwfc,ibnd,ik)=<span class="built_in">abs</span>(proj0(nwfc,ibnd))**<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>将复数数组$proj0$的模方赋给了$proj$，后者是最终的打印值。事实上，复数$A,B$都被储存在数组$proj_aux(natomwfc, nbnd, nkstot)$，将它输出就可以了：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! zwnie</span></span><br><span class="line"><span class="keyword">INTEGER</span> :: iunproj_aux</span><br><span class="line"><span class="keyword">CHARACTER</span>(len=<span class="number">256</span>) :: filename_aux</span><br><span class="line">...</span><br><span class="line">filename_aux=<span class="built_in">trim</span>(filproj)//<span class="string">&#x27;.projwfc_aux&#x27;</span></span><br><span class="line">...</span><br><span class="line">iunproj_aux=<span class="number">333</span></span><br><span class="line"><span class="keyword">CALL</span> write_io_header(filename_aux, iunproj_aux, title, dfftp%nr1x, dfftp%nr2x, dfftp%nr3x, &amp;</span><br><span class="line">    dfftp%nr1, dfftp%nr2, dfftp%nr3, nat, ntyp, ibrav, celldm, at, gcutm, dual,   &amp;</span><br><span class="line">    ecutwfc, nkstot/nspin, nbnd, natomwfc)</span><br><span class="line"><span class="keyword">DO</span> nwfc = <span class="number">1</span>, natomwfc</span><br><span class="line">    <span class="built_in">WRITE</span>(iunproj_aux,<span class="string">&#x27;(2i5,1x,a4,1x,a2,1x,3i5)&#x27;</span>) &amp;</span><br><span class="line">      nwfc, nlmchi(nwfc)%na, atm(ityp(nlmchi(nwfc)%na)), &amp;</span><br><span class="line">      nlmchi(nwfc)%els, nlmchi(nwfc)%n, nlmchi(nwfc)%l, nlmchi(nwfc)%m</span><br><span class="line">    <span class="keyword">DO</span> ik=nksinit,nkslast</span><br><span class="line">        <span class="keyword">DO</span> ibnd=<span class="number">1</span>,nbnd</span><br><span class="line">        <span class="built_in">WRITE</span>(iunproj_aux,<span class="string">&#x27;(2i8,2f20.10)&#x27;</span>) ik,ibnd, &amp;</span><br><span class="line">                                        proj(nwfc,ibnd,ik)</span><br><span class="line">        <span class="keyword">ENDDO</span></span><br><span class="line">    <span class="keyword">ENDDO</span></span><br><span class="line"><span class="keyword">ENDDO</span></span><br><span class="line">CLOSE(iunproj_aux)</span><br></pre></td></tr></table></figure>
+<p>最终效果如图：</p>
+<div align="center"> 
+<img src="/images/mz.png" width="575" height="500" alt="lz" align="center">
+</div>
 
 <hr>
 
