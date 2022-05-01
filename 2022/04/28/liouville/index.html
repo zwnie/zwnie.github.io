@@ -20,26 +20,23 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="在固体动力学（如扩散）过程中，构型可能长时间被困在势能面的一个谷，难以观察到原子跳跃。Hyperdynamics就是用来加速跳跃频率的手段。">
+  <meta name="description" content="对于积分算法的要点，主要出于以下考虑：  稳定性、精度、速度、内存 时间可逆。将$t$替换成$-t$，轨迹应完全反转 辛。辛算法具有内禀的长期稳定性，源自于刘维尔方程的时间可逆性，保证了玻尔兹曼分布函数的守恒。">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hyperdynamics">
-<meta property="og:url" content="https://example.com/2021/12/01/Hyperdynamics/index.html">
+<meta property="og:title" content="刘维尔与辛">
+<meta property="og:url" content="https://example.com/2022/04/28/liouville/index.html">
 <meta property="og:site_name" content="kklai的小站">
-<meta property="og:description" content="在固体动力学（如扩散）过程中，构型可能长时间被困在势能面的一个谷，难以观察到原子跳跃。Hyperdynamics就是用来加速跳跃频率的手段。">
+<meta property="og:description" content="对于积分算法的要点，主要出于以下考虑：  稳定性、精度、速度、内存 时间可逆。将$t$替换成$-t$，轨迹应完全反转 辛。辛算法具有内禀的长期稳定性，源自于刘维尔方程的时间可逆性，保证了玻尔兹曼分布函数的守恒。">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://example.com/images/NEB.png">
-<meta property="og:image" content="https://example.com/images/BPD-0.png">
-<meta property="og:image" content="https://example.com/images/BPD-2.png">
-<meta property="og:image" content="https://example.com/images/TAD.png">
-<meta property="article:published_time" content="2021-12-01T02:51:21.000Z">
-<meta property="article:modified_time" content="2021-12-04T02:46:47.908Z">
+<meta property="og:image" content="https://example.com/images/liouville.png">
+<meta property="article:published_time" content="2022-04-28T13:38:26.000Z">
+<meta property="article:modified_time" content="2022-04-29T04:16:38.482Z">
 <meta property="article:author" content="kklai">
 <meta property="article:tag" content="MD">
 <meta property="article:tag" content="dl-poly">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://example.com/images/NEB.png">
+<meta name="twitter:image" content="https://example.com/images/liouville.png">
 
-<link rel="canonical" href="https://example.com/2021/12/01/Hyperdynamics/">
+<link rel="canonical" href="https://example.com/2022/04/28/liouville/">
 
 
 <script id="page-configurations">
@@ -52,7 +49,7 @@
   };
 </script>
 
-  <title>Hyperdynamics | kklai的小站</title>
+  <title>刘维尔与辛 | kklai的小站</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
     <script>
@@ -182,7 +179,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://example.com/2021/12/01/Hyperdynamics/">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2022/04/28/liouville/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/zhouyu-rectangle.png">
@@ -195,7 +192,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Hyperdynamics
+          刘维尔与辛
         </h1>
 
         <div class="post-meta">
@@ -205,14 +202,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2021-12-01 10:51:21" itemprop="dateCreated datePublished" datetime="2021-12-01T10:51:21+08:00">2021-12-01</time>
+              <time title="创建时间：2022-04-28 21:38:26" itemprop="dateCreated datePublished" datetime="2022-04-28T21:38:26+08:00">2022-04-28</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2021-12-04 10:46:47" itemprop="dateModified" datetime="2021-12-04T10:46:47+08:00">2021-12-04</time>
+                <time title="修改时间：2022-04-29 12:16:38" itemprop="dateModified" datetime="2022-04-29T12:16:38+08:00">2022-04-29</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -242,76 +239,41 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>在固体动力学（如扩散）过程中，构型可能长时间被困在势能面的一个谷，难以观察到原子跳跃。Hyperdynamics就是用来加速跳跃频率的手段。</p>
+        <p>对于积分算法的要点，主要出于以下考虑：</p>
+<ol>
+<li>稳定性、精度、速度、内存</li>
+<li>时间可逆。将$t$替换成$-t$，轨迹应完全反转</li>
+<li>辛。辛算法具有内禀的长期稳定性，源自于刘维尔方程的时间可逆性，保证了玻尔兹曼分布函数的守恒。</li>
+</ol>
 <span id="more"></span>
-<h1 id="Nudged-Elastic-Band-NEB"><a href="#Nudged-Elastic-Band-NEB" class="headerlink" title="Nudged Elastic Band (NEB)"></a>Nudged Elastic Band (NEB)</h1><div align="center"> 
-<img src="/images/NEB.png" width="756" height="412" alt="NEB" align="center">
-</div>
-
-<p>NEB用来寻找反应路径，在这个过程中产生活化能。具体步骤如下：</p>
-<ol>
-<li>确定位于能量极值点的初末构型A, B</li>
-<li>在AB构型之间线性插值一系列中间构型$R_{i}^{N} (i=0,…,N_{neb})$，每个构型被称为NEB’chain’的一个’bead’，其能量为$V_{c}(R_{i}^{N})$</li>
-<li><p>将任意相邻的两个bead通过弹簧相连，串成一条链，此时谐振势为</p>
-<script type="math/tex; mode=display">V_{s}(R_{N_{neb}}^{N}) = \frac{1}{2} k_{neb} \sum_{i=1}^{N_{neb}} ( R_i^N - R_{i-1}^N )^{2}</script></li>
-<li><p>最小化泛函$E(R_{N_{neb}}^N)$，其中</p>
-<script type="math/tex; mode=display">E(R_{N_{neb}}^N) = V_{s}(R_{N_{neb}}^N) + \sum_{i=1}^{N_{neb}-1} V_{c}(R_{i}^N)</script></li>
-<li><p>在实际中，这个方法还需要进一步修正：要确保弹簧使bead受力与原子间相互作用使bead受力相互正交，也即 沿着链的方向原子作用力为0，垂直链的方向弹簧作用力为0</p>
-</li>
-<li><p>对bead能量插值拟合得到活化能</p>
-</li>
-</ol>
-<h1 id="Bias-Potential-Dynamics"><a href="#Bias-Potential-Dynamics" class="headerlink" title="Bias Potential Dynamics"></a>Bias Potential Dynamics</h1><p><a target="_blank" rel="noopener" href="https://pubmed.ncbi.nlm.nih.gov/15268227/">https://pubmed.ncbi.nlm.nih.gov/15268227/</a></p>
-<p>BPS是Hyperdynamics的一种手段，如下图所示，其基本思想是外加一个偏置势函数，对E以上的势能面不做修正，E以下的势能面部分填充，从而提高势阱的逃逸率，模拟高能势垒的转变。</p>
+<h1 id="Liouville-equation"><a href="#Liouville-equation" class="headerlink" title="Liouville equation"></a>Liouville equation</h1><p>定义相空间分布函数$f(x,t)$，描述$t$时刻系综元素在相空间的概率密度，$\int dx f(x,t)=1$</p>
+<p>此时有两个视角：一是站在固定位置$x$上，观察概率密度随时间变化，表征系综状态；二是系综元素根据哈密顿运动方程随时间演化，所以，可以追踪元素的轨迹描述系综状态。</p>
+<p>从前一个视角来看，体积元$\Omega$中元素数量的变化源自概率密度的变化，</p>
+<script type="math/tex; mode=display">-\frac{d}{dt} \int_{\Omega} dx_t f(x_t,t) = -\int_{\Omega} dx_t \frac{\partial}{\partial t} f(x_t,t)</script><p>从后一个视角来看，如下图所示，元素变化的速率可以通过通量计算，为$\dot{x_t} \cdot \hat{n} f(x_t,t)$</p>
 <div align="center"> 
-<img src="/images/BPD-0.png" width="634" height="512" alt="BPD-0" align="center">
+<img src="/images/liouville.png" width="326" height="528" alt="liouville" align="center">
 </div>
 
-<p>偏置势具体表达式如下，其中H是阶跃函数（Heaviside function）：</p>
-<script type="math/tex; mode=display">V_{bias}(R^{N}) = V(R^{N}) + W_{bias}(R^{N})</script><script type="math/tex; mode=display">W_{bias}(R^{N}) = H(E_{bias}-V(R^{N})) \frac{\left[ E_{bias} - V(R^{N}) \right]^2}{\left[ \alpha + E_{bias} - V(R^{N}) \right]}</script><p>经数学证明，这一偏置势带来两个结果，跃迁速率的增大与相对跃迁速率保持不变：</p>
-<script type="math/tex; mode=display">k_{bias}^{TST} = \left< e^{\beta W_{bias}(R^{N})} \right>_{bias} k^{TST}</script><script type="math/tex; mode=display">\frac{k_{A_{b} \rightarrow B}^{TST}}{k_{A_{b} \rightarrow C}^{TST}} = \frac{k_{A \rightarrow B}^{TST}}{k_{A \rightarrow C}^{TST}}</script><p>我们注意到，偏置势有两个待定参数$E_{bias}$和$\alpha$，前者对应势能修正的界限，后者则与势能面抬升的高度有关，如下图所示：</p>
-<div align="center"> 
-<img src="/images/BPD-2.png" width="829" height="442" alt="BPD-2" align="center">
-</div>
-
-<p>在程序中，直接设定这两个值是有困难的（因为我们对势能面一无所知），为简化用户输入，它提供了另外两个输入$T_{bias}$, $T_{min}$：</p>
-<script type="math/tex; mode=display">E_{bias}-V_{0} = \frac{3}{2}Nk_{b}T_{bias}</script><script type="math/tex; mode=display">V_{min}-V_{0} = \frac{3}{2}Nk_{b}T_{min}</script><p>由此决定了$\alpha$：</p>
-<script type="math/tex; mode=display">\alpha = \frac{3Nk_{B}T_{bias}(T_{bias}-T_{min})}{2T_{min}}</script><p>在算法实现中，程序会先跑一段时间的MD，找到局部极小$V_{0}$，然后根据$T_{bias}$, $T_{min}$填充势阱，再进行MD。BPD有两种常见的应用：Full Path Kinetics与Configuration Sampling</p>
-<h2 id="Full-Path-Kinetics"><a href="#Full-Path-Kinetics" class="headerlink" title="Full Path Kinetics"></a>Full Path Kinetics</h2><p>Full Path Kinetics通过加速的手段寻找其它构型，计算相变的活化能和相变时间，随后用以确定系统的完整动力学。算法如下：</p>
-<ol>
-<li>寻找一个局部极小构型A，能量$V_{0}$，随后加一个偏置势进行模拟，收集过程中的boost factor $e^{\beta W_{bias} (R^{N})}$</li>
-<li>经历一段时间间隔（’BPD block’），优化此时的结构，得结构B，B与A相比，如果有原子的位移超过了用户预设的distance（’catch radius’），则认为相变发生。如果相变发生，可选择性的执行NEB，计算反应的活化能。</li>
-<li>一旦相变发生，对时间区间内的所有结构进行优化，寻找最初发生相变的时间，从而反推实际相变时间。</li>
-<li>B作为初始构型，重新标定$V_{0}$，进行模拟（<strong>参考状态跟随扩散路径</strong>）</li>
-<li>遍历所有状态，最终得出A的扩散路径</li>
-</ol>
-<h2 id="Configuration-Sampling"><a href="#Configuration-Sampling" class="headerlink" title="Configuration Sampling"></a>Configuration Sampling</h2><p>优势在于能更快的遍历全空间。在构型A的基础上，加一个偏置势，<strong>$V_{0}$不会再改变</strong>，进行一段时间的模拟，最后利用boost factor计算力学量的期望值。</p>
-<h1 id="Temperature-Accelerated-Dynamics"><a href="#Temperature-Accelerated-Dynamics" class="headerlink" title="Temperature Accelerated Dynamics"></a>Temperature Accelerated Dynamics</h1><p><a target="_blank" rel="noopener" href="https://aip.scitation.org/doi/abs/10.1063/1.481576">https://aip.scitation.org/doi/abs/10.1063/1.481576</a></p>
-<p>设想势阱中有一个粒子，跳跃出去的概率为k，t时刻仍处在势阱中的概率密度为P，则</p>
-<script type="math/tex; mode=display">P(t+dt) = P(t) - P(t) \cdot k \cdot dt</script><p>也即</p>
-<script type="math/tex; mode=display">\frac{dP}{dt} = -k \cdot P</script><script type="math/tex; mode=display">P = e^{-kt}</script><p>那么，t时刻逃逸的概率密度为</p>
-<script type="math/tex; mode=display">\left| \frac{dP}{dt} \right| = ke^{-kt}</script><p>k被称作反应速率常数，根据过渡态理论，反应速率常数存在温度依赖性（Arrhenius law）：</p>
-<script type="math/tex; mode=display">k = v e^{-\beta E^{*}}</script><p>此状态下的寿命为</p>
-<script type="math/tex; mode=display">\tau = 1/k</script><p>可以看到，Arrhenius law给出了高温和低温下化学反应速率常数的关系，进而给出了状态寿命的关系。由此可以考虑，对低温下难以发生的化学反应$A \rightarrow B$，可以在高温下较快发生，然后通过$\tau_{High}$反推$\tau_{Low}$，这就是TAD的基本思想。</p>
-<ol>
-<li>优化结构得到状态A</li>
-<li>高温下进行模拟，判断是否发生相变。如果是，NEB计算活化能</li>
-<li>对相变前的所有结构，优化后判断相变发生时间$\tau_{High}$</li>
-<li>利用下式反推$\tau_{Low}$<script type="math/tex; mode=display">log\left\{ \frac{\tau_{Low}}{\tau_{High}} \right\} = -\frac{E^{*}}{k_{B}} \left\{ \frac{1}{T_{High}} - \frac{1}{T_{Low}} \right\}</script></li>
-<li>重新将体系拨回A态、重置速度，寻找其它态B, C, D…</li>
-<li>在高温下需要一个截止时间$t_{stop}$，认为在$t_{stop}$内已经找到了低温下的最快反应路径</li>
-<li>从A在低温下的最快反应路径B出发，重复上述流程，寻找B的最快反应路径，从而建立体系反应路径$A \rightarrow B \rightarrow C \rightarrow …$</li>
-</ol>
-<p>如图，$t_{stop}$的选取有讲究：</p>
-<div align="center"> 
-<img src="/images/TAD.png" width="685" height="590" alt="TAD" align="center">
-</div>
-
-<p>我们假定高温下跑了足够长时间，体系不会进入新的相了，于是</p>
-<script type="math/tex; mode=display">\delta = \int_{t_{stop}}^{\infty} k exp(-kt) dt \rightarrow 0</script><p>认为k是高温下对应“低温最速反应路径”的反应速率常数，有</p>
-<script type="math/tex; mode=display">k = v_{min} e^{-\frac{E^{*}}{k_{B}T_{High}}}</script><p>代入，经过一系列变换，得</p>
-<script type="math/tex; mode=display">T_{High} log \left( \frac{log(1/\delta)}{t_{stop}v_{min}} \right) = -\frac{E_{min}^{*}}{k_{B}} \\ =-log\left\{ \frac{\tau_{Low}}{\tau_{High}} \right\}/\left\{ \frac{1}{T_{High}} - \frac{1}{T_{Low}} \right\}</script><p>高温下，利用$t_{stop}$替代$\tau_{High}$；低温下，利用$t_{min}$（已知最快反应寿命）替代$\tau_{Low}$，最终得到$t_{stop}$的表达式：</p>
-<script type="math/tex; mode=display">t_{stop} = \left( \frac{log(1/\delta)}{v_{min}} \right) \left( \frac{t_{min}v_{min}}{log(1/\delta)} \right)^{T_{low}/T_{High}}</script><p>里面有两个位置数$v_{min}$和$\delta$，按照经验，通常$\delta=0.001$，$v_{min}$取振动频率，通常在$10^{12}-10^{13} s^{-1}$</p>
+<p>于是,</p>
+<script type="math/tex; mode=display">\int_{S} dS \dot{x_t} \cdot \hat{n} f(x_t,t) = \int_{\Omega} \nabla \cdot (\dot{x_t} f(x_t,t))</script><p>连理以上两式，有</p>
+<script type="math/tex; mode=display">\int_{\Omega} dx_t \left[ \frac{\partial}{\partial t} f(x_t,t) + \nabla \cdot (\dot{x_t} f(x_t,t)) \right] = 0</script><script type="math/tex; mode=display">\frac{\partial}{\partial t} f(x_t,t) + \nabla \cdot (\dot{x_t} f(x_t,t)) = 0</script><p>又因为$\nabla \cdot (\dot{x_t} f(x_t,t)) = \dot{x_t} \cdot \nabla f(x_t,t) + f(x_t,t) \nabla \cdot \dot{x_t}$，且$\nabla \cdot \dot{x_t} = 0$（<strong>证</strong>），所以</p>
+<script type="math/tex; mode=display">\frac{df}{dt} = \frac{\partial}{\partial t} f(x_t,t) + \dot{x_t} \cdot \nabla f(x_t,t) = 0</script><script type="math/tex; mode=display">\frac{\partial}{\partial t} f(x_t,t) + \sum_{i=1}^{3N} \left[ \frac{\partial H}{\partial p_i} \frac{\partial f}{\partial q_i} -  \frac{\partial H}{\partial q_i} \frac{\partial f}{\partial p_i}\right] = 0</script><p>后半部分称为泊松括号，</p>
+<script type="math/tex; mode=display">\frac{\partial}{\partial t} f(x_t,t) + \left\{ f(x_t,t),H(x_t,t)\right\} = 0</script><p>称为<strong>刘维尔方程</strong>。</p>
+<p>&nbsp;</p>
+<p><em>证明</em></p>
+<script type="math/tex; mode=display">x = (q_1,q_2,...,q_{3N},p_1,p_2,...,p_{3N})</script><script type="math/tex; mode=display">\dot{x} = \left( \frac{\partial H}{\partial p_1},..., \frac{\partial H}{\partial p_{3N}},-\frac{\partial H}{\partial q_1},...,-\frac{\partial H}{\partial q_{3N}} \right)</script><script type="math/tex; mode=display">\nabla_x \cdot \dot{x} = \sum_{\alpha=1}^{3N} \left[ \frac{\partial \dot{p_{\alpha}}}{\partial p_{\alpha}} +  \frac{\partial \dot{q_{\alpha}}}{\partial q_{\alpha}}\right] = \sum_{\alpha=1}^{3N} \left[ -\frac{\partial }{\partial p_{\alpha}} \frac{\partial H}{\partial q_{\alpha}} + \frac{\partial }{\partial q_{\alpha}} \frac{\partial H}{\partial p_{\alpha}}\right] = 0</script><p><em>证明end</em></p>
+<h1 id="symplecticness"><a href="#symplecticness" class="headerlink" title="symplecticness"></a>symplecticness</h1><p>辛特性与刘维尔方程的time-reversibility有关，并保证了玻尔兹曼分布函数的不变性（不懂）</p>
+<p>定义算符$i\hat{L}$：</p>
+<script type="math/tex; mode=display">i\hat{L} = \sum_{j=1}^{3N} \left( \frac{\partial H^N}{\partial p_j} \frac{\partial}{\partial x_j} - \frac{\partial H^N}{\partial x_j} \frac{\partial}{\partial p_j} \right)</script><p>刘维尔方程可以写成</p>
+<script type="math/tex; mode=display">\frac{\partial f^N}{\partial t} = -i\hat{L} f^N</script><p>其解为</p>
+<script type="math/tex; mode=display">f(x,t) = exp(-it\hat{L})f(x,0)</script><p>$exp(-it\hat{L})$称为传播算符，以上公式是连续的。但当时间离散化时，根据Moivre’s theorem，</p>
+<script type="math/tex; mode=display">exp(-it\hat{L}) = exp(-in\Delta t \hat{L}) = [exp(-i\Delta t \hat{L})]^n</script><p>将广义动量与广义坐标区分开，定义$i\hat{L_1},i\hat{L_2}$，由Trotter’s theorem，</p>
+<script type="math/tex; mode=display">i\hat{L_1} = \sum_{j=1}^{3N} \left( \dot{x}_j \frac{\partial}{\partial x_j} \right)</script><script type="math/tex; mode=display">i\hat{L_1} = \sum_{j=1}^{3N} \left( \dot{p}_j \frac{\partial}{\partial p_j} \right)</script><script type="math/tex; mode=display">\left[ exp(-i\Delta t \{\hat{L_1}+\hat{L_2}\}) \right]^n = \left[ exp(-i\Delta t \hat{L_2}/2) exp(-i\Delta t \hat{L_1}) exp(-i\Delta t \hat{L_2}/2)\right]^n + O(n^2)</script><p>所以</p>
+<script type="math/tex; mode=display">f(x,n\Delta t) = \left[ \sum_{j=1}^{3N} \left\{ 1+\frac{\Delta t}{2} \dot{p}_j \frac{\partial}{\partial p_j} \right\} \cdot \sum_{j=1}^{3N} \left\{ 1+ \Delta t \dot{r}_j \frac{\partial}{\partial r_j} \right\} \cdot \sum_{j=1}^{3N} \left\{ 1+\frac{\Delta t}{2} \dot{p}_j \frac{\partial}{\partial p_j} \right\} \right]^n f(x,0)</script><p>考虑广义坐标的分布函数，前后两时刻</p>
+<script type="math/tex; mode=display">f_x(x;\Delta t) = \left[ \sum_{j=1}^{3N} \left\{ 1+ \Delta t \dot{r}_j \frac{\partial}{\partial r_j} \right\} \right] f_x(x;0)</script><p>$0$时刻前后两位置</p>
+<script type="math/tex; mode=display">f_x(x+\dot{x}\Delta t;0) = \left\{ 1+\dot{x} \Delta t \frac{\partial}{\partial x}\right\} f_x(x;0)</script><p>所以有</p>
+<script type="math/tex; mode=display">f_x(x;\Delta t) = f_x(x+\dot{x}\Delta t;0)</script><p>这意味着概率密度在时间上的传播等效于在相空间的传播（$f_p$类似），永远保持相同的玻尔兹曼分布。</p>
+<h1 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h1><p>如果初始给一个高斯分布，是否永远不会平衡到玻尔兹曼分布呢？</p>
 
     </div>
 
@@ -331,12 +293,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2021/11/27/dl-poly-init/" rel="prev" title="dl-poly初始化">
-      <i class="fa fa-chevron-left"></i> dl-poly初始化
+    <a href="/2022/04/26/Utopia/" rel="prev" title="反乌托邦三部曲·阅读">
+      <i class="fa fa-chevron-left"></i> 反乌托邦三部曲·阅读
     </a></div>
       <div class="post-nav-item">
-    <a href="/2021/12/05/dl-poly-readin/" rel="next" title="dl-poly-文件读入">
-      dl-poly-文件读入 <i class="fa fa-chevron-right"></i>
+    <a href="/2022/05/01/mantis/" rel="next" title="饲养记录">
+      饲养记录 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -396,7 +358,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
-          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Nudged-Elastic-Band-NEB"><span class="nav-number">1.</span> <span class="nav-text">Nudged Elastic Band (NEB)</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Bias-Potential-Dynamics"><span class="nav-number">2.</span> <span class="nav-text">Bias Potential Dynamics</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Full-Path-Kinetics"><span class="nav-number">2.1.</span> <span class="nav-text">Full Path Kinetics</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Configuration-Sampling"><span class="nav-number">2.2.</span> <span class="nav-text">Configuration Sampling</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Temperature-Accelerated-Dynamics"><span class="nav-number">3.</span> <span class="nav-text">Temperature Accelerated Dynamics</span></a></li></ol></div>
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Liouville-equation"><span class="nav-number">1.</span> <span class="nav-text">Liouville equation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#symplecticness"><span class="nav-number">2.</span> <span class="nav-text">symplecticness</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Question"><span class="nav-number">3.</span> <span class="nav-text">Question</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 
