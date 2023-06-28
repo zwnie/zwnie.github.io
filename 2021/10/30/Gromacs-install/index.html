@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="故事从安装开始">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gromacs安装">
+<meta property="og:url" content="https://example.com/2021/10/30/Gromacs-install/index.html">
+<meta property="og:site_name" content="Niccol的小站">
+<meta property="og:description" content="故事从安装开始">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-10-30T09:53:14.000Z">
+<meta property="article:modified_time" content="2023-06-28T11:08:09.000Z">
+<meta property="article:author" content="Niccol">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="Gromacs">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://example.com/2021/10/30/Gromacs-install/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Gromacs安装 | Niccol的小站</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<app_id>');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Niccol的小站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">温故可以知新</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/10/30/Gromacs-install/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="Niccol">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niccol的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gromacs安装
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-10-30 17:53:14" itemprop="dateCreated datePublished" datetime="2021-10-30T17:53:14+08:00">2021-10-30</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-28 19:08:09" itemprop="dateModified" datetime="2023-06-28T19:08:09+08:00">2023-06-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Gromacs/" itemprop="url" rel="index"><span itemprop="name">Gromacs</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>4.9k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>4 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>故事从安装开始<span id="more"></span>。新版本的Gromacs要求GCC版本&gt;=5，cmake版本&gt;=3.17，本文演示了<strong>CentOS-7下纯CPU运算、单精度、跨结点并行的Gromacs-2021版本</strong>的编译流程。</p>
+<pre><code>$ gcc --version
+gcc (GCC) 8.4.0
+Copyright (C) 2018 Free Software Foundation, Inc.
+</code></pre><hr>
+<p>&nbsp;</p>
+<ul>
+<li>[ ] 安装cmake</li>
+<li>[ ] 安装MPI</li>
+<li>[ ] 安装FFTW</li>
+<li>[ ] 安装doc配件</li>
+<li>[ ] 安装Gromacs</li>
+<li>[ ] 测试</li>
+</ul>
+<h1 id="安装cmake"><a href="#安装cmake" class="headerlink" title="安装cmake"></a>安装cmake</h1><p>首先，请自行安装openssl</p>
+<p># <em>补充，在wsl ubuntu下，</em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo zyper intsall libssl-dev</span><br></pre></td></tr></table></figure>
+<p>之后，下载-解包-编译cmake</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://github.com/Kitware/CMake/releases/download/v3.20.6/cmake-3.20.6.tar.gz</span><br><span class="line">$ tar -xzvf cmake-3.20.6.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> cmake-3.20.6/</span><br><span class="line">$ <span class="built_in">mkdir</span> my-install</span><br><span class="line">$ ./bootstrap --prefix=/home/kklai/software/cmake-3.20.6/my-install</span><br><span class="line">$ gmake</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>此时安装完毕，我们可以alias指定cmake的别名：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">alias</span> cmake=/home/kklai/software/cmake-3.20.6/my-install/bin/cmake</span><br></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<h1 id="安装MPI"><a href="#安装MPI" class="headerlink" title="安装MPI"></a>安装MPI</h1><p>跨节点并行需要MPI编译器，这里我们采用openmpi</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://download.open-mpi.org/release/open-mpi/v4.1/openmpi-4.1.1.tar.gz</span><br><span class="line">$ tar -xzvf openmpi-4.1.1.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> openmpi-4.1.1/</span><br><span class="line">$ <span class="built_in">mkdir</span> my-install</span><br><span class="line">$ ./configure --prefix=/home/kklai/compiler/openmpi-4.1.1/my-install CC=gcc CXX=g++ FC=gfortran</span><br><span class="line">$ make -j4</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>安装完成后可以看到bin,lib等目录，添加到环境变量即可，此时可以看到新的MPI编译器</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">export</span> PATH=/home/kklai/compiler/openmpi-4.1.1/my-install/bin:<span class="variable">$&#123;PATH&#125;</span></span><br><span class="line">$ <span class="built_in">export</span> LD_LIBRARY_PATH=/home/kklai/compiler/openmpi-4.1.1/my-install/lib:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span></span><br><span class="line">$ <span class="built_in">which</span> mpicc</span><br><span class="line">~/compiler/openmpi-4.1.1/my-install/bin/mpicc</span><br></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<h1 id="安装FFTW"><a href="#安装FFTW" class="headerlink" title="安装FFTW"></a>安装FFTW</h1><p>FFTW是作傅里叶变化的库，VASP,CP2K等程序都会用到。虽然教程里说没必要，但稳妥起见，我还是选择了MPI编译</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ wget --no-check-certificate https://fftw.org/pub/fftw/fftw-3.3.9.tar.gz</span><br><span class="line">$ tar -xzvf fftw-3.3.9.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> fftw-3.3.9/</span><br><span class="line">$ <span class="built_in">mkdir</span> my-install</span><br><span class="line">$ ./configure --prefix=/home/kklai/lib/fftw-3.3.9/my-install --enable-sse2 --enable-avx --enable-float --enable-shared --enable-mpi</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>编译完成后，查看文件。_mpi后缀的是MPI编译的结果，无后缀的是串行编译的结果。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">bin  include  lib  share</span><br><span class="line">$ <span class="built_in">ls</span> lib</span><br><span class="line">cmake         libfftw3f_mpi.a   libfftw3f_mpi.so.3      libfftw3f.so.3</span><br><span class="line">libfftw3f.a   libfftw3f_mpi.la  libfftw3f_mpi.so.3.6.9  libfftw3f.so.3.6.9</span><br><span class="line">libfftw3f.la  libfftw3f_mpi.so  libfftw3f.so            pkgconfig</span><br></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<h1 id="安装doc配件-可选"><a href="#安装doc配件-可选" class="headerlink" title="安装doc配件(可选)"></a><del>安装doc配件(可选)</del></h1><p>忽略这部分，最终失败了，问题应该出在ImageMagick上，安装后无法使用。猜测是WSL下libpng, libjpeg等图形库的缺失，安装太麻烦了。意外发现<a target="_blank" rel="noopener" href="https://manual.gromacs.org/documentation/2019/doxygen/html-lib/index.xhtml">这里</a>有现成的手册，那我就不去死磕编译了。</p>
+<p>生成doc目录需要许多依赖工具，我们逐个安装。</p>
+<h2 id="Sphinx"><a href="#Sphinx" class="headerlink" title="Sphinx"></a>Sphinx</h2><p>用来构建文档</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ pip install -U sphinx</span><br><span class="line">$ <span class="built_in">export</span> PATH=/home/kklai/.local/bin:<span class="variable">$&#123;PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<h2 id="linkchecker"><a href="#linkchecker" class="headerlink" title="linkchecker"></a>linkchecker</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ pip install linkchecker</span><br></pre></td></tr></table></figure>
+<h2 id="ImageMagick"><a href="#ImageMagick" class="headerlink" title="ImageMagick"></a>ImageMagick</h2><pre><code>在Latex中会被用到
+</code></pre><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install ghostscript</span><br><span class="line">$ wget https://download.imagemagick.org/ImageMagick/download/ImageMagick.tar.gz</span><br><span class="line">$ tar -xzvf ImageMagick.tar.gz</span><br><span class="line">$ <span class="built_in">mkdir</span> my-install</span><br><span class="line">$ ./configure --prefix=/home/kklai/software/ImageMagick-7.1.0-13/my-install</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br><span class="line">$ <span class="built_in">export</span> PATH=/home/kklai/software/ImageMagick-7.1.0-13/my-install/bin:<span class="variable">$&#123;PATH&#125;</span></span><br><span class="line">$ <span class="built_in">export</span> LD_LIBRARY_PATH=/home/kklai/software/ImageMagick-7.1.0-13/my-install/lib:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span></span><br><span class="line"><span class="comment"># 检查是否安装成功</span></span><br><span class="line">$ magick --verion</span><br></pre></td></tr></table></figure>
+<h2 id="Latex"><a href="#Latex" class="headerlink" title="Latex"></a>Latex</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install texlive-latex-base</span><br></pre></td></tr></table></figure>
+<h2 id="graphviz"><a href="#graphviz" class="headerlink" title="graphviz"></a>graphviz</h2><p>doxygen图形可视化工具需要安装graphviz依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install graphviz</span><br></pre></td></tr></table></figure>
+<h2 id="mscgen"><a href="#mscgen" class="headerlink" title="mscgen"></a>mscgen</h2><p>doxygen图形可视化工具需要安装mscgen依赖</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo apt-get install mscgen</span><br></pre></td></tr></table></figure>
+<h2 id="doxygen"><a href="#doxygen" class="headerlink" title="doxygen"></a>doxygen</h2><p>doxygen用来生成依赖图从而可视化文档，Gromacs提供了其接口</p>
+<p>版本问题，在安装doxygen之前需要先安装doxytag</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">mkdir</span> doxytag</span><br><span class="line">$ wget https://github.com/vlfeat/vlfeat/blob/master/docsrc/doxytag.py</span><br><span class="line">$ python2 -m compileall /home/kklai/software/doxytag/doxytag.py</span><br><span class="line">$ <span class="built_in">chmod</span> 744 doxytag.pyc</span><br></pre></td></tr></table></figure>
+<p>生成的pyc文件即是我们需要的可执行文件<br>接下来去下述网站下载1.8.5版本的doxygen</p>
+<p><a target="_blank" rel="noopener" href="https://sourceforge.net/projects/doxygen/files/">https://sourceforge.net/projects/doxygen/files/</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ tar -xzvf doxygen-1.8.5.src.tar.gz</span><br><span class="line">$ tar -xzvf doxygen-1.8.5.linux.bin.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> doxygen-1.8.5</span><br><span class="line">$ <span class="built_in">mkdir</span> my-install</span><br><span class="line"><span class="comment"># 安装依赖包</span></span><br><span class="line">$ sudo apt-get install flex</span><br><span class="line">$ sudo apt-get install bison</span><br><span class="line"><span class="comment"># 将doxytag复制过来</span></span><br><span class="line">$ <span class="built_in">cp</span> ~/software/doxytag/doxytag.pyc ~/software/doxygen-1.8.5/bin/doxytag</span><br><span class="line">$ ./configure --prefix /home/kklai/software/doxygen-1.8.5/my-install</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br><span class="line">$ <span class="built_in">export</span> PATH=/home/kklai/software/doxygen-1.8.5/my-install/bin:<span class="variable">$&#123;PATH&#125;</span></span><br><span class="line"><span class="comment"># 需要这条命令，不然会报错</span></span><br><span class="line">$ <span class="built_in">export</span> LC_ALL=C</span><br></pre></td></tr></table></figure>
+<h1 id="安装Gromacs"><a href="#安装Gromacs" class="headerlink" title="安装Gromacs"></a>安装Gromacs</h1><p>前期准备工作完成后，终于可以开始最后的程序编译了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">$ wget --no-check-certificate https://ftp.gromacs.org/gromacs/gromacs-2021.2.tar.gz</span><br><span class="line">$ tar -xzvf gromacs-2021.2.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> gromacs-2021.2/</span><br><span class="line">$ <span class="built_in">mkdir</span> my-compile my-install</span><br><span class="line">$ <span class="built_in">cd</span> my-compile/</span><br><span class="line">$ cmake .. -DCMAKE_INSTALL_PREFIX=/home/kklai/software/gromacs-2021.2/my-install -DCMAKE_C_COMPILER=mpicc -DCMAKE_CXX_COMPILER=mpicxx -DGMX_MPI=on -DGMX_FFT_LIBRARY=fftw3 -DCMAKE_PREFIX_PATH=/home/kklai/lib/fftw-3.3.9/my-install</span><br><span class="line">$ make</span><br><span class="line">$ make install</span><br></pre></td></tr></table></figure>
+<p>my-compile, my-install 分别储存编译时的临时文件和最终的可执行文件。cmake这一步，-DCMAKE_INSTALL_PREFIX 指定安装路径；-DCMAKE_C_COMPILER, -DCMAKE_CXX_COMPILER 分别指定C, C++ MPI编译器；-DGMX_MPI=on 编译可跨节点并行的版本；-DGMX_FFT_LIBRARY 指定快速傅里叶变换库为FFTW；-DCMAKE_PREFIX_PATH 指定了fftw的安装路径。</p>
+<p>编译完成后，就可以看到可执行文件了，_mpi后缀表明是并行版本。添加环境变量</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">$ <span class="built_in">ls</span></span><br><span class="line">bin  include  lib64  ll  share</span><br><span class="line">$ <span class="built_in">ls</span> bin/</span><br><span class="line">demux.pl             gmx-completion-gmx_mpi.bash  GMXRC       GMXRC.csh  xplor2gmx.pl</span><br><span class="line">gmx-completion.bash  gmx_mpi                      GMXRC.bash  GMXRC.zsh</span><br><span class="line">$ <span class="built_in">export</span> PATH=/home/kklai/software/gromacs-2021.2/my-install/bin:<span class="variable">$&#123;PATH&#125;</span></span><br><span class="line">$ <span class="built_in">export</span> LD_LIBRARY_PATH=/home/kklai/software/gromacs-2021.2/my-install/lib64:<span class="variable">$&#123;LD_LIBRARY_PATH&#125;</span></span><br></pre></td></tr></table></figure>
+<p># <em>补充，在wsl SUSE下</em></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">export</span> OMPI_MCA_btl_vader_single_copy_mechanism=none</span><br></pre></td></tr></table></figure>
+<p>&nbsp;</p>
+<h1 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h1><p>对可执行程序进行测试：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ wget ftp://ftp.gromacs.org/pub/benchmarks/ADH_bench_systems.tar.gz</span><br><span class="line">$ tar -xzvf ADH_bench_systems.tar.gz</span><br><span class="line">$ <span class="built_in">cd</span> ADH/</span><br><span class="line">$ <span class="built_in">cd</span> adh_cubic</span><br><span class="line">$ gmx_mpi grompp -f rf_verlet.mdp</span><br><span class="line">$ mpirun -np 4 gmx_mpi mdrun</span><br></pre></td></tr></table></figure>
+<p>运行成功，大功告成！</p>
+<h1 id="doc文件生成"><a href="#doc文件生成" class="headerlink" title="doc文件生成"></a><del>doc文件生成</del></h1><pre><code>$ make doxygen-all
+</code></pre><p>虽然会有失败报错，但那是在转换生成pdf文件时出问题，可以只看xhtml文件，里面有调用关系图和类以及模块的注释说明</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/Gromacs/" rel="tag"># Gromacs</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/10/30/bfstat/" rel="prev" title="写在前面">
+      <i class="fa fa-chevron-left"></i> 写在前面
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/11/01/cmake%E9%98%85%E8%AF%BB%E8%AE%B0%E5%BD%95/" rel="next" title="cmake阅读记录">
+      cmake阅读记录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85cmake"><span class="nav-number">1.</span> <span class="nav-text">安装cmake</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85MPI"><span class="nav-number">2.</span> <span class="nav-text">安装MPI</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85FFTW"><span class="nav-number">3.</span> <span class="nav-text">安装FFTW</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85doc%E9%85%8D%E4%BB%B6-%E5%8F%AF%E9%80%89"><span class="nav-number">4.</span> <span class="nav-text">安装doc配件(可选)</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Sphinx"><span class="nav-number">4.1.</span> <span class="nav-text">Sphinx</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#linkchecker"><span class="nav-number">4.2.</span> <span class="nav-text">linkchecker</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ImageMagick"><span class="nav-number">4.3.</span> <span class="nav-text">ImageMagick</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Latex"><span class="nav-number">4.4.</span> <span class="nav-text">Latex</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#graphviz"><span class="nav-number">4.5.</span> <span class="nav-text">graphviz</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#mscgen"><span class="nav-number">4.6.</span> <span class="nav-text">mscgen</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#doxygen"><span class="nav-number">4.7.</span> <span class="nav-text">doxygen</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85Gromacs"><span class="nav-number">5.</span> <span class="nav-text">安装Gromacs</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8B%E8%AF%95"><span class="nav-number">6.</span> <span class="nav-text">测试</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#doc%E6%96%87%E4%BB%B6%E7%94%9F%E6%88%90"><span class="nav-number">7.</span> <span class="nav-text">doc文件生成</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Niccol"
+      src="/images/zhouyu-rectangle.png">
+  <p class="site-author-name" itemprop="name">Niccol</p>
+  <div class="site-description" itemprop="description">Go ahead</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zwnie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zwnie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zwnie1008@gmail.com" title="E-Mail → mailto:zwnie1008@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niccol</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">81k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:14</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
