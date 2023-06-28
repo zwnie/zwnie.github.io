@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="对于无中心反演对称性的体系，K&#x2F;-K应该有相反的角动量，但QE程序输出的通常是$p_x,p_y,…$的投影，轨道角动量的信息被掩盖了。尝试输出：">
+<meta property="og:type" content="article">
+<meta property="og:title" content="orbital angular momentum">
+<meta property="og:url" content="https://example.com/2021/12/24/orbital-momentum/index.html">
+<meta property="og:site_name" content="Niccol的小站">
+<meta property="og:description" content="对于无中心反演对称性的体系，K&#x2F;-K应该有相反的角动量，但QE程序输出的通常是$p_x,p_y,…$的投影，轨道角动量的信息被掩盖了。尝试输出：">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://example.com/images/orbital-momentum/sphereh.png">
+<meta property="og:image" content="https://example.com/images/orbital-momentum/mz.png">
+<meta property="article:published_time" content="2021-12-24T12:42:07.000Z">
+<meta property="article:modified_time" content="2023-06-28T09:45:39.686Z">
+<meta property="article:author" content="Niccol">
+<meta property="article:tag" content="DFT">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://example.com/images/orbital-momentum/sphereh.png">
+
+<link rel="canonical" href="https://example.com/2021/12/24/orbital-momentum/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>orbital angular momentum | Niccol的小站</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<app_id>');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Niccol的小站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">温故可以知新</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/12/24/orbital-momentum/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="Niccol">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niccol的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          orbital angular momentum
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-24 20:42:07" itemprop="dateCreated datePublished" datetime="2021-12-24T20:42:07+08:00">2021-12-24</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-28 17:45:39" itemprop="dateModified" datetime="2023-06-28T17:45:39+08:00">2023-06-28</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>2.7k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>2 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对于无中心反演对称性的体系，K/-K应该有相反的角动量，但QE程序输出的通常是$p_x,p_y,…$的投影，轨道角动量的信息被掩盖了。尝试输出：</p>
+<span id="more"></span>
+<p>先看球谐函数的定义：</p>
+<script type="math/tex; mode=display">Y_{l}^{m}(\theta,\varphi) = (-1)^m \sqrt{\frac{2l+1}{4\pi} \frac{(l-|m|)!}{(l+m)!}} P_{l}^{m}(cos \theta) e^{im\varphi}</script><p>$P_l^m$称为伴随勒让德多项式，具有<a target="_blank" rel="noopener" href="https://mathworld.wolfram.com/AssociatedLegendrePolynomial.html">递推关系</a>：</p>
+<script type="math/tex; mode=display">(l-m)P_l^m(x) = x(2l-1)P_{l-1}^m(x)-(l+m-1)P_{l-2}^m(x)</script><script type="math/tex; mode=display">P_l^{-m}(x) = (-1)^m \frac{(l-m)!}{(l+m)!}P_l^m(x)</script><p>所以从数值上讲，只要给出球谐函数(m&gt;0)前几项，就可以用递推关系算出后面所有项。</p>
+<p>&nbsp;</p>
+<p>阅读$Modules/ylmr2.f90$，程序是这样执行的：</p>
+<script type="math/tex; mode=display">Q(:,l,m) = \sqrt{\frac{(l-m)!}{(l+m)!}}P_l^m</script><p>$Q(ig,0,0)=1, Q(ig,1,0)=cos\ \theta, Q(ig,1,1)=-sin\ \theta/\sqrt{2}$，依赖递推关系，后面所有都已知了；</p>
+<p>$ylm(ig,1)=\sqrt{\frac{1}{\pi}}Q(ig,0,0)=\sqrt{\frac{1}{\pi}}$</p>
+<p>$ylm(ig,2)=\sqrt{\frac{3}{\pi}}Q(ig,1,0)=\sqrt{\frac{3}{\pi}}cos\ \theta$</p>
+<p>$ylm(ig,3)=\sqrt{\frac{3}{\pi}}\sqrt{2}Q(ig,1,1)cos\ \varphi=-\sqrt{\frac{3}{\pi}}sin\ \theta cos\ \varphi$</p>
+<p>$ylm(ig,4)=\sqrt{\frac{3}{\pi}}\sqrt{2}Q(ig,1,1)sin\ \varphi=-\sqrt{\frac{3}{\pi}}sin\ \theta sin\ \varphi$</p>
+<p>$ylm(ig,5)=\frac{1}{2}\sqrt{\frac{5}{\pi}}(3cos^2\ \theta -1)$</p>
+<p>$ylm(ig,6)=-\sqrt{\frac{15}{\pi}}sin\ \theta \cos\ \theta cos\ 2\varphi$</p>
+<p>$ylm(ig,7)=-\sqrt{\frac{15}{\pi}}sin\ \theta \cos\ \theta sin\ 2\varphi$</p>
+<p>$…$</p>
+<div  align="center"> 
+<img src="/images/orbital-momentum/sphereh.png" width = "713" height = "289" alt="sph-h" align=center />
+</div>
+
+<p>与球谐函数对比，不知道为啥差了1/2倍，先忽略这个问题；如果按照它所给的归一化因子，我们可以写出相应的球谐函数（以$l=1$为例）：</p>
+<script type="math/tex; mode=display">Y_1^1 = -\sqrt{\frac{3}{\pi}}sin\ \theta \frac{e^{i\varphi}}{\sqrt{2}}=\frac{ylm(ig,3)+i\cdot ylm(ig,4)}{\sqrt{2}}</script><script type="math/tex; mode=display">Y_1^{-1} = -\sqrt{\frac{3}{\pi}}sin\ \theta \frac{e^{-i\varphi}}{\sqrt{2}}=\frac{ylm(ig,3)-i\cdot ylm(ig,4)}{\sqrt{2}}</script><p>也即</p>
+<script type="math/tex; mode=display">ylm(ig,3)=(Y_1^{1}+Y_1^{-1})/\sqrt{2}</script><script type="math/tex; mode=display">ylm(ig,4)=(Y_1^{1}-Y_1^{-1})/\sqrt{2}i</script><p>就建立了$p_x,p_y$与各自轨道角动量的联系，对一个本征波函数</p>
+<script type="math/tex; mode=display">|\Psi \rangle = A\ ylm(ig,3) + B\ ylm(ig,4) +... = \frac{A-Bi}{\sqrt{2}}Y_1^1+\frac{A+Bi}{\sqrt{2}}Y_1^{-1}+...</script><script type="math/tex; mode=display">\langle \Psi|L_z|\Psi \rangle = \left| \frac{A-Bi}{\sqrt{2}} \right|^2 - \left| \frac{A+Bi}{\sqrt{2}} \right|^2 + ...</script><p>所以我们只要知道复数$A,B$就能反推$\langle L_z \rangle$。事实上程序输出的是$|A|^2,|B|^2$，不足以反推，所以应该在波函数内积的部分做一下处理，提取出$A,B$</p>
+<p>&nbsp;</p>
+<p>程序的实现在$projwfc.f90$，根据不同赝势/对称性/SOC会进行不同的处理，仅以我的$LDA,colinear$来讲，在671行左右</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">proj(nwfc,ibnd,ik)=<span class="built_in">abs</span>(proj0(nwfc,ibnd))**<span class="number">2</span></span><br></pre></td></tr></table></figure>
+<p>将复数数组$proj0$的模方赋给了$proj$，后者是最终的打印值。事实上，复数$A,B$都被储存在数组$proj_aux(natomwfc, nbnd, nkstot)$，将它输出就可以了：</p>
+<figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! zwnie</span></span><br><span class="line"><span class="keyword">INTEGER</span> :: iunproj_aux</span><br><span class="line"><span class="keyword">CHARACTER</span>(len=<span class="number">256</span>) :: filename_aux</span><br><span class="line">...</span><br><span class="line">filename_aux=<span class="built_in">trim</span>(filproj)//<span class="string">&#x27;.projwfc_aux&#x27;</span></span><br><span class="line">...</span><br><span class="line">iunproj_aux=<span class="number">333</span></span><br><span class="line"><span class="keyword">CALL</span> write_io_header(filename_aux, iunproj_aux, title, dfftp%nr1x, dfftp%nr2x, dfftp%nr3x, &amp;</span><br><span class="line">    dfftp%nr1, dfftp%nr2, dfftp%nr3, nat, ntyp, ibrav, celldm, at, gcutm, dual,   &amp;</span><br><span class="line">    ecutwfc, nkstot/nspin, nbnd, natomwfc)</span><br><span class="line"><span class="keyword">DO</span> nwfc = <span class="number">1</span>, natomwfc</span><br><span class="line">    <span class="built_in">WRITE</span>(iunproj_aux,<span class="string">&#x27;(2i5,1x,a4,1x,a2,1x,3i5)&#x27;</span>) &amp;</span><br><span class="line">      nwfc, nlmchi(nwfc)%na, atm(ityp(nlmchi(nwfc)%na)), &amp;</span><br><span class="line">      nlmchi(nwfc)%els, nlmchi(nwfc)%n, nlmchi(nwfc)%l, nlmchi(nwfc)%m</span><br><span class="line">    <span class="keyword">DO</span> ik=nksinit,nkslast</span><br><span class="line">        <span class="keyword">DO</span> ibnd=<span class="number">1</span>,nbnd</span><br><span class="line">        <span class="built_in">WRITE</span>(iunproj_aux,<span class="string">&#x27;(2i8,2f20.10)&#x27;</span>) ik,ibnd, &amp;</span><br><span class="line">                                        proj(nwfc,ibnd,ik)</span><br><span class="line">        <span class="keyword">ENDDO</span></span><br><span class="line">    <span class="keyword">ENDDO</span></span><br><span class="line"><span class="keyword">ENDDO</span></span><br><span class="line">CLOSE(iunproj_aux)</span><br></pre></td></tr></table></figure>
+<p>最终效果如图：</p>
+<div  align="center"> 
+<img src="/images/orbital-momentum/mz.png" width = "575" height = "500" alt="lz" align=center />
+</div>
+
+<hr>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/DFT/" rel="tag"># DFT</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/17/Coulombic-Forces/" rel="prev" title="Coulombic Forces">
+      <i class="fa fa-chevron-left"></i> Coulombic Forces
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/01/30/owl/" rel="next" title="owl">
+      owl <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Niccol"
+      src="/images/zhouyu-rectangle.png">
+  <p class="site-author-name" itemprop="name">Niccol</p>
+  <div class="site-description" itemprop="description">Go ahead</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zwnie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zwnie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zwnie1008@gmail.com" title="E-Mail → mailto:zwnie1008@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niccol</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">81k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:14</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

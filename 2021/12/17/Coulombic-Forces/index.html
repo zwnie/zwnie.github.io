@@ -1,0 +1,588 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑势呢？">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Coulombic Forces">
+<meta property="og:url" content="https://example.com/2021/12/17/Coulombic-Forces/index.html">
+<meta property="og:site_name" content="Niccol的小站">
+<meta property="og:description" content="库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑势呢？">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://example.com/images/Coulombic-Forces/Col-For-1.png">
+<meta property="og:image" content="https://example.com/images/Coulombic-Forces/Col-For-2.png">
+<meta property="og:image" content="https://example.com/images/Coulombic-Forces/Col-For-3.png">
+<meta property="og:image" content="https://example.com/images/Coulombic-Forces/Col-For-4.png">
+<meta property="og:image" content="https://example.com/images/Coulombic-Forces/Col-For-5.png">
+<meta property="article:published_time" content="2021-12-17T06:50:54.000Z">
+<meta property="article:modified_time" content="2023-06-28T09:45:39.686Z">
+<meta property="article:author" content="Niccol">
+<meta property="article:tag" content="MD">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://example.com/images/Coulombic-Forces/Col-For-1.png">
+
+<link rel="canonical" href="https://example.com/2021/12/17/Coulombic-Forces/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Coulombic Forces | Niccol的小站</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<app_id>');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Niccol的小站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">温故可以知新</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/12/17/Coulombic-Forces/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="Niccol">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niccol的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Coulombic Forces
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2021-12-17 14:50:54" itemprop="dateCreated datePublished" datetime="2021-12-17T14:50:54+08:00">2021-12-17</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-28 17:45:39" itemprop="dateModified" datetime="2023-06-28T17:45:39+08:00">2023-06-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/dl-poly/" itemprop="url" rel="index"><span itemprop="name">dl-poly</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>5.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>5 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>库伦相互作用是长程相互作用，找不到一个截断半径进行截断，那该如何处理远处的带电粒子对点电荷的库仑势呢？</p>
+<span id="more"></span>
+<h1 id="直接求和方法"><a href="#直接求和方法" class="headerlink" title="直接求和方法"></a>直接求和方法</h1><p>对于有限体系，直接对库伦能进行求和是准确的：</p>
+<script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{r_{ij}}</script><p>事实上，一种常用但不严谨的方法就是施加一个库伦截断，有各种各样的实现方式：</p>
+<script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{r_{ij}} H(r_{cut}-r_{ij})</script><script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} q_i q_j \left( \frac{1}{r_{ij}} - \frac{1}{r_{cut}} \right)</script><script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} \frac{q_i q_j}{\epsilon \left( r_{ij} \right) r_{ij}}</script><p>但它们都存在种种问题，包括物理意义、截断的连续性、人为涨落等，如今不具备应用价值。相对好些的是Fennell and Gezelter提出的方法，在$r_{cut}$足够大的时候提供了准确的描述，它其实与Ewald方法有共通之处。</p>
+<h1 id="反应场方法"><a href="#反应场方法" class="headerlink" title="反应场方法"></a>反应场方法</h1><div  align="center"> 
+<img src="/images/Coulombic-Forces/Col-For-1.png" width = "562" height = "560" alt="reaction-field" align=center />
+</div>
+
+<p>对一个给定离子$i$以及$r_{cut}$，截断半径定义了球形空腔，空腔外是电介质。腔内的其它离子形成一个电偶极矩$\mu_i$使电介质极化，极化后又反过来形成一个反应场$\vec{E}_i$作用到离子$i$上，被认为是长程修正。</p>
+<script type="math/tex; mode=display">\Phi^{c} \left( \left\{ \vec{r}_{i} \right\} \right) = \frac{1}{4\pi \epsilon_{0}} \sum_{i=1}^{N-1} \sum_{j=i+1}^{N} q_i q_j \left( \frac{1}{r_{ij}} + \frac{B_0 r_{ij}^{2}}{2r_{cut}^{3}} \right)</script><script type="math/tex; mode=display">B_0 = \frac{2(\epsilon - 1)}{(2\epsilon+1)}</script><p>$B_0$的选取很重要，不过在一些体系中，$\epsilon$很大，$B_0$ = 1</p>
+<p>这个方法仍存在较大缺陷，如果$B_0$不准确的话，体系能量会产生较大涨落、力也不连续，又不得不回归Fennell&amp;Gezelter方法了。</p>
+<h1 id="Ewald方法"><a href="#Ewald方法" class="headerlink" title="Ewald方法"></a>Ewald方法</h1><p>一个实际体系的库伦相互作用能为</p>
+<script type="math/tex; mode=display">\varphi (\vec{r}) = \frac{1}{4\pi \epsilon_{0}} \sum_{\vec{L}=0}^{\vec{\infty}} \sum_{j=1}^{N} \frac{q_j}{\left| \vec{r} - \vec{r}_j + \vec{L} \right|}</script><p>这个函数是无限多项求和，无法直接计算（事实上，它是条件收敛的）。一个规避办法如下图所示：</p>
+<div  align="center"> 
+<img src="/images/Coulombic-Forces/Col-For-2.png" width = "756" height = "597" alt="Ewald-1" align=center />
+</div>
+
+<p>设想给每个点电荷周围施加一个gaussian密度分布的反电荷，屏蔽作用使原先的长程作用迅速衰减，令原体系为A，gaussian体系为B，则体系的势能为</p>
+<script type="math/tex; mode=display">\varphi_A (\vec{r}) = \varphi_{A+B} (\vec{r}) - \varphi_B (\vec{r}) - \varphi_{AB} (\vec{r})</script><p>其中gaussian密度分布</p>
+<script type="math/tex; mode=display">\rho_j (\vec{r}-\vec{r}_j) dv = -q_j \left( \frac{\alpha^2}{\pi} \right)^{3/2} \text{exp} \left( -\alpha^2 \left| \vec{r}-\vec{r}_j \right|^2 \right) dv</script><p>通过求解泊松方程，$\varphi_{A+B}$代表实空间求和部分，$erfc$函数使它迅速衰减</p>
+<script type="math/tex; mode=display">\varphi_{A+B} = \frac{1}{2} \frac{1}{4\pi \epsilon_0} \sum_{\vec{L}=\vec{0}}^{\vec{\infty}} \sum_{j=1}^{\infty} \sum_{n=1}^{N} \frac{q_j q_n}{\left| \vec{r}_n-\vec{r}_j  + \vec{L} \right|} erfc(\alpha | \vec{r}_n-\vec{r}_j + \vec{L} |)</script><p>对高斯电荷密度作傅立叶变换，在倒空间求解泊松方程，可得倒空间求和部分$\varphi_B$，$e$指数使它迅速衰减</p>
+<script type="math/tex; mode=display">\varphi_B  = - \frac{1}{2\epsilon_0 V} \sum_{\vec{k} \neq \vec{0}}^{\vec{\infty}} \frac{\text{exp} (-k^2 /4\alpha^2)}{k^2} \left| \sum_{n=1}^{N} q_n \text{exp} (-i \vec{k}\cdot \vec{r}_n) \right|^2</script><p>相互作用项围绕点电荷对gaussian电荷密度作一个积分就好了：</p>
+<script type="math/tex; mode=display">\varphi_{AB} = \frac{\alpha}{4\pi^{3/2} \epsilon_0}\sum_{j=1}^{n}q_{j}^{2}</script><hr>
+<p>实际操作中，需要合理设置$\alpha$，使实空间求和在范德华半径内收敛，相同的$\alpha$拓展到倒空间，寻找一个足够大的、能收敛的截断。具体到程序实现，设想一个$q<em>{max}$的电荷在$r</em>{cut}$处引起的能量涨落，设定$\delta$可求得相应的$\alpha$，</p>
+<script type="math/tex; mode=display">\delta_{A+B} = \frac{q_{max}^2}{4\pi \epsilon_0} \frac{erfc(\alpha r_{cut})}{r_{cut}}</script><p>在倒空间，经过一些近似，设定$\delta<em>B$可以求解截断$k</em>{max}$；此外$k,-k$点贡献相同，约化掉一半，</p>
+<script type="math/tex; mode=display">\delta_{B} = \frac{S(\vec{k}_{max})}{2\epsilon_0 V} \frac{\text{exp}(-k_{max}^2/4\alpha^2)}{k_{max}^{2}}</script><p>对于体系带电情况，需要设置一个均匀电荷背景，避免能量发散，</p>
+<script type="math/tex; mode=display">\rho^{scr} = -q^{tot}/V</script><p>需要在Ewald Sum中添加几项能量修正：</p>
+<ol>
+<li>屏蔽后的电荷与补偿电荷相互作用项</li>
+<li>gaussian电荷与补偿电荷相互作用项</li>
+<li>电荷自相互作用项</li>
+</ol>
+<p>这三项是怎么来的，尤其是第2项，尚未理解，细究的话要看原始文献。</p>
+<p>偶极修正也是不可忽视的问题：</p>
+<div  align="center"> 
+<img src="/images/Coulombic-Forces/Col-For-3.png" width = "484" height = "494" alt="Ewald-3" align=center />
+</div>
+
+<p>如图，类似反应场理论，每个周期内携带的dipole会作用到无限大边界条件外的介质上，被极化后反作用于体系，带来一个能量修正$\Phi^{DP}$，$\Phi^C = \Phi^E + \Phi^{DP}$，但通常不用，因为不知道介质的介电函数。</p>
+<h1 id="SPME"><a href="#SPME" class="headerlink" title="SPME"></a>SPME</h1><p>Smoothed Particle-Mesh Ewald(SPME)用来简化在倒空间的求和，通过数学的手段，将结构因子$\sum_{j=1}^{N} q_j \text{exp}(i\vec{k} \cdot \vec{r}_j)$进行3D离散傅立叶变换，如下图</p>
+<div  align="center"> 
+<img src="/images/Coulombic-Forces/Col-For-4.png" width = "672" height = "274.5" alt="Ewald-4" align=center />
+</div>
+
+<p>变换前每个离子的位置并不在FFT格点上，通过一种电荷分配机制，可以将它离散化到周围的格点上，离散化的机制应用了$Cardinal B-Splines, M_n(u)$，展开如下：</p>
+<script type="math/tex; mode=display">\text{exp}(2\pi iu_j k/K) = b(k)\sum_{p=-\infty}^{\infty} M_n(u_j-p)\text{exp}(2\pi ikp/K)</script><p>带回到原式，得到新基组下的求和公式，效率更高。具体数学没看懂，待补充。</p>
+<h1 id="多极矩Ewald-Sum"><a href="#多极矩Ewald-Sum" class="headerlink" title="多极矩Ewald Sum"></a>多极矩Ewald Sum</h1><p>在一些体系中，静电相互作用通过点多极矩而非点电荷描述，一些多极矩的作用依旧是长程的，需要通过Ewald方法来处理。</p>
+<p>设想原点处有一群点电荷，则遥远处$\vec{r}$的电势为</p>
+<script type="math/tex; mode=display">\varphi(\vec{r}) = \frac{1}{4\pi \epsilon_0} \sum_{k=1}^{n_c} \frac{q_k}{\left| \vec{r}-\vec{r}_c \right|}</script><p>泰勒展开后，</p>
+<script type="math/tex; mode=display">\varphi(\vec{r}) = \frac{1}{4\pi \epsilon_0} \left( C_A - \sum_{\alpha} D_{A}^{\alpha} \partial^{\alpha} + \sum_{\alpha} \sum_{\beta} Q_{A}^{\alpha \beta} \partial^{\alpha \beta} \right) \left( \frac{1}{r} \right) = \frac{1}{4\pi \epsilon_0}  \hat{M}_A \left( \frac{1}{r} \right)</script><p>类比原点处是点电荷，则$\hat{M}_A$是多极矩产生的效应算符。假如试探电荷是点多极矩$\hat{M}_B$，经历类似的推导，</p>
+<script type="math/tex; mode=display">\varphi_{AB}(\vec{r}) = \frac{1}{4\pi \epsilon_0}  \hat{M}_B \hat{M}_A \left( \frac{1}{r} \right)</script><p>那么$\hat{M}_B \hat{M}_A$算符就是将晶格与试探电荷都转变为点多极矩的操作。对于点电荷，Ewald求和为</p>
+<script type="math/tex; mode=display">\varphi_0(\vec{r}) = \frac{1}{4\pi \epsilon_0} \sum_{j=1}^{N} B_0(|\vec{r} - \vec{r}_j|) + \frac{1}{V\epsilon_0} \sum_{\vec{k} \neq \vec{0}}^{\vec{\infty}} A(\vec{k}) \sum_{j=1}^{N} \text{exp} (-i\vec{k} \cdot (\vec{r}-\vec{r}_j))</script><p>将试探电荷与晶格电荷都转变为电多极矩，</p>
+<script type="math/tex; mode=display">\varphi_p(\vec{r}) = \frac{1}{4\pi \epsilon_0} \sum_{j=1}^{N} \hat{M}_p \hat{M}_j B_0(|\vec{r} - \vec{r}_j|) + \frac{1}{V\epsilon_0} \sum_{\vec{k} \neq \vec{0}}^{\vec{\infty}} A(\vec{k}) \sum_{j=1}^{N} \hat{M}_p \hat{M}_j \text{exp} (-i\vec{k} \cdot (\vec{r}-\vec{r}_j))</script><p>以上，得到了试探多极矩在晶格多极矩下的势能，但我们需要的是晶格多极矩体系自身的势能，这里又面临一个重叠的问题，重叠时带来能量发散。实空间部分是晶格+补偿电荷带来的势能，通过一些数学的处理，扣掉$u \rightarrow 0$的发散项（认为是重叠能），得到“试探多极矩-gaussian多极矩”的相互作用能，即自相互作用项$\varphi_p^S$，总能量为：</p>
+<script type="math/tex; mode=display">\varphi (\vec{r}_p) = \varphi_p(\vec{r}_p) + \varphi_p^S(\vec{r}_p)</script><h1 id="极化效应"><a href="#极化效应" class="headerlink" title="极化效应"></a>极化效应</h1><p>以上考虑了点电荷与点多极矩的长程相互作用，但忽略了极化效应，这在离子材料中尤为重要。极化效应最常见的模型被称为“shell model”，如下图，由1个带电的核和相反电荷的无质量壳层组成，二者通过弹簧连接，核与壳层无静电相互作用，但存在外场时，它们会做出不同的响应，弹簧的势能即极化的能量，参数通过拟合获得。</p>
+<div  align="center"> 
+<img src="/images/Coulombic-Forces/Col-For-5.png" width = "402" height = "373" alt="Ewald-5" align=center />
+</div>
+
+<p>模型存在一个问题：壳层的零质量，这难以在动力学中应用，于是提出了Adiabatic Shell Model and Relaxed Shell Model.</p>
+<p>Adiabatic Shell Model给壳层分配一个质量，这类似一个赝双原子体系，带来振动、旋转自由度，因此要小心确保不同自由度之间不交换能量，拉伸弹簧是能量的全部；缺点时间步长小</p>
+<p>Relaxed Shell Model仍然是零质量，正常计算核与壳层的受力，但积分算法只演化核，壳层的位置通过优化算法如Conjugate Gradients更新；缺点计算量大</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MD/" rel="tag"># MD</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2021/12/13/Comintern/" rel="prev" title="精苏日记">
+      <i class="fa fa-chevron-left"></i> 精苏日记
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2021/12/24/orbital-momentum/" rel="next" title="orbital angular momentum">
+      orbital angular momentum <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%9B%B4%E6%8E%A5%E6%B1%82%E5%92%8C%E6%96%B9%E6%B3%95"><span class="nav-number">1.</span> <span class="nav-text">直接求和方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%8F%8D%E5%BA%94%E5%9C%BA%E6%96%B9%E6%B3%95"><span class="nav-number">2.</span> <span class="nav-text">反应场方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Ewald%E6%96%B9%E6%B3%95"><span class="nav-number">3.</span> <span class="nav-text">Ewald方法</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#SPME"><span class="nav-number">4.</span> <span class="nav-text">SPME</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%A4%9A%E6%9E%81%E7%9F%A9Ewald-Sum"><span class="nav-number">5.</span> <span class="nav-text">多极矩Ewald Sum</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9E%81%E5%8C%96%E6%95%88%E5%BA%94"><span class="nav-number">6.</span> <span class="nav-text">极化效应</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Niccol"
+      src="/images/zhouyu-rectangle.png">
+  <p class="site-author-name" itemprop="name">Niccol</p>
+  <div class="site-description" itemprop="description">Go ahead</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zwnie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zwnie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zwnie1008@gmail.com" title="E-Mail → mailto:zwnie1008@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niccol</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">81k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:14</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>

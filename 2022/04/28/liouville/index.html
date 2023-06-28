@@ -1,0 +1,559 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="对于积分算法的要点，主要出于以下考虑：  稳定性、精度、速度、内存 时间可逆。将$t$替换成$-t$，轨迹应完全反转 辛。辛算法具有内禀的长期稳定性，源自于刘维尔方程的时间可逆性，保证了玻尔兹曼分布函数的守恒。">
+<meta property="og:type" content="article">
+<meta property="og:title" content="刘维尔与辛">
+<meta property="og:url" content="https://example.com/2022/04/28/liouville/index.html">
+<meta property="og:site_name" content="Niccol的小站">
+<meta property="og:description" content="对于积分算法的要点，主要出于以下考虑：  稳定性、精度、速度、内存 时间可逆。将$t$替换成$-t$，轨迹应完全反转 辛。辛算法具有内禀的长期稳定性，源自于刘维尔方程的时间可逆性，保证了玻尔兹曼分布函数的守恒。">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://example.com/images/liouville/liouville.png">
+<meta property="article:published_time" content="2022-04-28T13:38:26.000Z">
+<meta property="article:modified_time" content="2023-06-28T09:45:39.686Z">
+<meta property="article:author" content="Niccol">
+<meta property="article:tag" content="MD">
+<meta property="article:tag" content="dl-poly">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://example.com/images/liouville/liouville.png">
+
+<link rel="canonical" href="https://example.com/2022/04/28/liouville/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>刘维尔与辛 | Niccol的小站</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<app_id>');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Niccol的小站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">温故可以知新</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2022/04/28/liouville/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="Niccol">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niccol的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          刘维尔与辛
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-04-28 21:38:26" itemprop="dateCreated datePublished" datetime="2022-04-28T21:38:26+08:00">2022-04-28</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-28 17:45:39" itemprop="dateModified" datetime="2023-06-28T17:45:39+08:00">2023-06-28</time>
+              </span>
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-folder"></i>
+              </span>
+              <span class="post-meta-item-text">分类于</span>
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/dl-poly/" itemprop="url" rel="index"><span itemprop="name">dl-poly</span></a>
+                </span>
+            </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.2k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>对于积分算法的要点，主要出于以下考虑：</p>
+<ol>
+<li>稳定性、精度、速度、内存</li>
+<li>时间可逆。将$t$替换成$-t$，轨迹应完全反转</li>
+<li>辛。辛算法具有内禀的长期稳定性，源自于刘维尔方程的时间可逆性，保证了玻尔兹曼分布函数的守恒。</li>
+</ol>
+<span id="more"></span>
+<h1 id="Liouville-equation"><a href="#Liouville-equation" class="headerlink" title="Liouville equation"></a>Liouville equation</h1><p>定义相空间分布函数$f(x,t)$，描述$t$时刻系综元素在相空间的概率密度，$\int dx f(x,t)=1$</p>
+<p>此时有两个视角：一是站在固定位置$x$上，观察概率密度随时间变化，表征系综状态；二是系综元素根据哈密顿运动方程随时间演化，所以，可以追踪元素的轨迹描述系综状态。</p>
+<p>从前一个视角来看，体积元$\Omega$中元素数量的变化源自概率密度的变化，</p>
+<script type="math/tex; mode=display">-\frac{d}{dt} \int_{\Omega} dx_t f(x_t,t) = -\int_{\Omega} dx_t \frac{\partial}{\partial t} f(x_t,t)</script><p>从后一个视角来看，如下图所示，元素变化的速率可以通过通量计算，为$\dot{x_t} \cdot \hat{n} f(x_t,t)$</p>
+<div  align="center"> 
+<img src="/images/liouville/liouville.png" width = "326" height = "528" alt="liouville" align=center />
+</div>
+
+<p>于是,</p>
+<script type="math/tex; mode=display">\int_{S} dS \dot{x_t} \cdot \hat{n} f(x_t,t) = \int_{\Omega} \nabla \cdot (\dot{x_t} f(x_t,t))</script><p>连理以上两式，有</p>
+<script type="math/tex; mode=display">\int_{\Omega} dx_t \left[ \frac{\partial}{\partial t} f(x_t,t) + \nabla \cdot (\dot{x_t} f(x_t,t)) \right] = 0</script><script type="math/tex; mode=display">\frac{\partial}{\partial t} f(x_t,t) + \nabla \cdot (\dot{x_t} f(x_t,t)) = 0</script><p>又因为$\nabla \cdot (\dot{x_t} f(x_t,t)) = \dot{x_t} \cdot \nabla f(x_t,t) + f(x_t,t) \nabla \cdot \dot{x_t}$，且$\nabla \cdot \dot{x_t} = 0$（<strong>证</strong>），所以</p>
+<script type="math/tex; mode=display">\frac{df}{dt} = \frac{\partial}{\partial t} f(x_t,t) + \dot{x_t} \cdot \nabla f(x_t,t) = 0</script><script type="math/tex; mode=display">\frac{\partial}{\partial t} f(x_t,t) + \sum_{i=1}^{3N} \left[ \frac{\partial H}{\partial p_i} \frac{\partial f}{\partial q_i} -  \frac{\partial H}{\partial q_i} \frac{\partial f}{\partial p_i}\right] = 0</script><p>后半部分称为泊松括号，</p>
+<script type="math/tex; mode=display">\frac{\partial}{\partial t} f(x_t,t) + \left\{ f(x_t,t),H(x_t,t)\right\} = 0</script><p>称为<strong>刘维尔方程</strong>。</p>
+<p>&nbsp;</p>
+<p><em>证明</em></p>
+<script type="math/tex; mode=display">x = (q_1,q_2,...,q_{3N},p_1,p_2,...,p_{3N})</script><script type="math/tex; mode=display">\dot{x} = \left( \frac{\partial H}{\partial p_1},..., \frac{\partial H}{\partial p_{3N}},-\frac{\partial H}{\partial q_1},...,-\frac{\partial H}{\partial q_{3N}} \right)</script><script type="math/tex; mode=display">\nabla_x \cdot \dot{x} = \sum_{\alpha=1}^{3N} \left[ \frac{\partial \dot{p_{\alpha}}}{\partial p_{\alpha}} +  \frac{\partial \dot{q_{\alpha}}}{\partial q_{\alpha}}\right] = \sum_{\alpha=1}^{3N} \left[ -\frac{\partial }{\partial p_{\alpha}} \frac{\partial H}{\partial q_{\alpha}} + \frac{\partial }{\partial q_{\alpha}} \frac{\partial H}{\partial p_{\alpha}}\right] = 0</script><p><em>证明end</em></p>
+<h1 id="symplecticness"><a href="#symplecticness" class="headerlink" title="symplecticness"></a>symplecticness</h1><p>辛特性与刘维尔方程的time-reversibility有关，并保证了玻尔兹曼分布函数的不变性（不懂）</p>
+<p>定义算符$i\hat{L}$：</p>
+<script type="math/tex; mode=display">i\hat{L} = \sum_{j=1}^{3N} \left( \frac{\partial H^N}{\partial p_j} \frac{\partial}{\partial x_j} - \frac{\partial H^N}{\partial x_j} \frac{\partial}{\partial p_j} \right)</script><p>刘维尔方程可以写成</p>
+<script type="math/tex; mode=display">\frac{\partial f^N}{\partial t} = -i\hat{L} f^N</script><p>其解为</p>
+<script type="math/tex; mode=display">f(x,t) = exp(-it\hat{L})f(x,0)</script><p>$exp(-it\hat{L})$称为传播算符，以上公式是连续的。但当时间离散化时，根据Moivre’s theorem，</p>
+<script type="math/tex; mode=display">exp(-it\hat{L}) = exp(-in\Delta t \hat{L}) = [exp(-i\Delta t \hat{L})]^n</script><p>将广义动量与广义坐标区分开，定义$i\hat{L_1},i\hat{L_2}$，由Trotter’s theorem，</p>
+<script type="math/tex; mode=display">i\hat{L_1} = \sum_{j=1}^{3N} \left( \dot{x}_j \frac{\partial}{\partial x_j} \right)</script><script type="math/tex; mode=display">i\hat{L_1} = \sum_{j=1}^{3N} \left( \dot{p}_j \frac{\partial}{\partial p_j} \right)</script><script type="math/tex; mode=display">\left[ exp(-i\Delta t \{\hat{L_1}+\hat{L_2}\}) \right]^n = \left[ exp(-i\Delta t \hat{L_2}/2) exp(-i\Delta t \hat{L_1}) exp(-i\Delta t \hat{L_2}/2)\right]^n + O(n^2)</script><p>所以</p>
+<script type="math/tex; mode=display">f(x,n\Delta t) = \left[ \sum_{j=1}^{3N} \left\{ 1+\frac{\Delta t}{2} \dot{p}_j \frac{\partial}{\partial p_j} \right\} \cdot \sum_{j=1}^{3N} \left\{ 1+ \Delta t \dot{r}_j \frac{\partial}{\partial r_j} \right\} \cdot \sum_{j=1}^{3N} \left\{ 1+\frac{\Delta t}{2} \dot{p}_j \frac{\partial}{\partial p_j} \right\} \right]^n f(x,0)</script><p>考虑广义坐标的分布函数，前后两时刻</p>
+<script type="math/tex; mode=display">f_x(x;\Delta t) = \left[ \sum_{j=1}^{3N} \left\{ 1+ \Delta t \dot{r}_j \frac{\partial}{\partial r_j} \right\} \right] f_x(x;0)</script><p>$0$时刻前后两位置</p>
+<script type="math/tex; mode=display">f_x(x+\dot{x}\Delta t;0) = \left\{ 1+\dot{x} \Delta t \frac{\partial}{\partial x}\right\} f_x(x;0)</script><p>所以有</p>
+<script type="math/tex; mode=display">f_x(x;\Delta t) = f_x(x+\dot{x}\Delta t;0)</script><p>这意味着概率密度在时间上的传播等效于在相空间的传播（$f_p$类似），永远保持相同的玻尔兹曼分布。</p>
+<h1 id="Question"><a href="#Question" class="headerlink" title="Question"></a>Question</h1><p>如果初始给一个高斯分布，是否永远不会平衡到玻尔兹曼分布呢？</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/MD/" rel="tag"># MD</a>
+              <a href="/tags/dl-poly/" rel="tag"># dl-poly</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/04/26/Utopia/" rel="prev" title="反乌托邦三部曲·阅读">
+      <i class="fa fa-chevron-left"></i> 反乌托邦三部曲·阅读
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/05/01/mantis/" rel="next" title="饲养记录">
+      饲养记录 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Liouville-equation"><span class="nav-number">1.</span> <span class="nav-text">Liouville equation</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#symplecticness"><span class="nav-number">2.</span> <span class="nav-text">symplecticness</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#Question"><span class="nav-number">3.</span> <span class="nav-text">Question</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Niccol"
+      src="/images/zhouyu-rectangle.png">
+  <p class="site-author-name" itemprop="name">Niccol</p>
+  <div class="site-description" itemprop="description">Go ahead</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">12</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zwnie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zwnie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zwnie1008@gmail.com" title="E-Mail → mailto:zwnie1008@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niccol</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">81k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:14</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+      
+
+<script>
+  if (typeof MathJax === 'undefined') {
+    window.MathJax = {
+      loader: {
+        source: {
+          '[tex]/amsCd': '[tex]/amscd',
+          '[tex]/AMScd': '[tex]/amscd'
+        }
+      },
+      tex: {
+        inlineMath: {'[+]': [['$', '$']]},
+        tags: 'ams'
+      },
+      options: {
+        renderActions: {
+          findScript: [10, doc => {
+            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
+              const display = !!node.type.match(/; *mode=display/);
+              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
+              const text = document.createTextNode('');
+              node.parentNode.replaceChild(text, node);
+              math.start = {node: text, delim: '', n: 0};
+              math.end = {node: text, delim: '', n: 0};
+              doc.math.push(math);
+            });
+          }, '', false],
+          insertedScript: [200, () => {
+            document.querySelectorAll('mjx-container').forEach(node => {
+              let target = node.parentNode;
+              if (target.nodeName.toLowerCase() === 'li') {
+                target.parentNode.classList.add('has-jax');
+              }
+            });
+          }, '', false]
+        }
+      }
+    };
+    (function () {
+      var script = document.createElement('script');
+      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
+      script.defer = true;
+      document.head.appendChild(script);
+    })();
+  } else {
+    MathJax.startup.document.state(0);
+    MathJax.texReset();
+    MathJax.typeset();
+  }
+</script>
+
+    
+
+  
+
+</body>
+</html>
