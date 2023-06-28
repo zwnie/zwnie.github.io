@@ -20,19 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="Here&#39;s something encrypted, password is required to continue reading.">
+  <meta name="description" content="忍不住先吐槽下，这是F77或更久？这个标准的Fortran对长度缩进都有限制，没指定输入输出，用起来贼麻烦。 主文件是dlpoly.f，本篇介绍初始化部分">
 <meta property="og:type" content="article">
 <meta property="og:title" content="dl-poly初始化">
 <meta property="og:url" content="https://example.com/2021/11/27/dl-poly-init/index.html">
 <meta property="og:site_name" content="Niccol的小站">
-<meta property="og:description" content="Here&#39;s something encrypted, password is required to continue reading.">
+<meta property="og:description" content="忍不住先吐槽下，这是F77或更久？这个标准的Fortran对长度缩进都有限制，没指定输入输出，用起来贼麻烦。 主文件是dlpoly.f，本篇介绍初始化部分">
 <meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://example.com/images/dl-poly-init/parset.png">
 <meta property="article:published_time" content="2021-11-27T09:16:03.000Z">
-<meta property="article:modified_time" content="2023-06-28T09:45:39.686Z">
+<meta property="article:modified_time" content="2023-06-28T11:17:07.000Z">
 <meta property="article:author" content="Niccol">
 <meta property="article:tag" content="dl-poly">
 <meta property="article:tag" content="Fortran">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://example.com/images/dl-poly-init/parset.png">
 
 <link rel="canonical" href="https://example.com/2021/11/27/dl-poly-init/">
 
@@ -207,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-28 17:45:39" itemprop="dateModified" datetime="2023-06-28T17:45:39+08:00">2023-06-28</time>
+                <time title="修改时间：2023-06-28 19:17:07" itemprop="dateModified" datetime="2023-06-28T19:17:07+08:00">2023-06-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -244,18 +246,22 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <div class="hbe hbe-container" id="hexo-blog-encrypt" data-wpm="Oh, this is an invalid password. Check and try again, please." data-whm="OOPS, these decrypted content may changed, but you can still have a look.">
-  <script id="hbeData" type="hbeData" data-hmacdigest="7afe632b90edfe6e0af76a66956672a7304c74cff15234256aa68c836bcce35d">d483d2eb94d10f6c03133f362407066ab877bea0a47fd379459df71b68489417e1e58b09ee2e3f9b32c147f89bd626b0052f0a4c5d1be1ee9890589c75ee0f7adb5cfef4f2019e883223babc3e6b7a5b0c93bb256a137e7f884444aa345e68c6b5b2238cfa4da3f22f06aaba26c2d9b7a9bd9c279f9e24406b35f8435e8273b305aff543262db7b671ceb70b8cc54b9fd6a1fee8cd6c7c9b28a67ff0e15b627ffa59aecdc34b8cf7d3a81912463b64412c00ee06dc056b45bcf9077ab48f745398fc3b689b4ef5ba97fed2fa26372e7004cac0d210401205c114d39ece4d455e489f6e55dc79e76bf4e62992588d8275da39631ef9d5837210b97352173ab3e5a7499392503fb10e626525fb4eae836cf541afaae2877d94d15dece470db12bac472cd315331d0dd627d6bda8f4a681c6d076dfdcbbfb61b555a66967ccef21aba6da687536754a95ee66462b8b36db5081a1c3a0a1362ff71e153d28f694bdef9e55b27fa81a9afae976194960dbfd4c111ddf3e37df5b242146ea9b5a1da826996919ea618615cb1159a3fea97d347f0a8cb28448ca21c64115aa7162fcd2842098acdcb240dfb91eb7eb1592b5347e92da891c414bb6243d1b257e1e54a9a3c8719d99d4ba1dcb642970335d649edb699e68d5744a3a16781cd992ddd69499fe62360e3f5b2207cabf74fad0ee7c44e96a8f8d6c08960ce62ef48ff16590634cab10b65ede11095ab9fb6c8f983126d0fe4661bb0592d256008de1234fa31093a2e9097c168d3c4625b80e97622ef5a7b05ecb3b9217c1303b92d9c705f657f6f2c09db2aa24d7e6d32ee9f397922c3a5dbcf547616a68bc83f5066a789aba24edef922074e38ac7b0934f5fbac5bf5c4aeabccbdd4336071a30876f8f95a2eb2f7e8c5fa2ac33e775c67652886ccabf70fb7fc16552e230ba15127093f29eab33549ab1ffce60857105b2766463b159f36a03658c2d14827f4fe3773100d4c5adf65b36dfa3a9b57bf94502aa362fa5bd2d0adcf5ff2445294145fdc551cff837352fa4ec805bf983069e7445afa8c044a4f36d7b3e125eb82707dc119433bd2840d377777b99738b937eaeeedf927bf75aa236de6602bc9b217eb696d74abe04137c37f7ea59f5423e2a4bc518e530df89ae649b51793a82f9ff71824712e5dd03b93ef9a5e46db0974ffdfcda7bca90530498ebfe82ee33a0f2584f8e18145bce0576a5c719e1a734b65985e3c0f65f2e1692a6a6f842907c8fcc3032f4b0a057713800691787e6506151ff6a0073bb4069b96a0f4134a296828fa8fadf319ab3c106ccf98d3b74c3d54fcd6ef79a8916eff4ccef9654c89771689b69971e68b299f89bf61a023b469b63e676b2ada4ff9d4ae94e6aa9b41ef01a534aa8f3482d15ccb6eb3aa6056021deb50d0c2fafa4c2bce9ff13384ec9cc976a7caefb8bbff6bae83ef28383aac65099addd25b9523e96b5918406ad9200814e07fee7218d28856a3ca0764b67b8bf4d920de9b503a0be86636c743030352de86d1fd249c11f3466891487c399ef1b90e2e08b6c7e16595fc9778bb1da3e1ba8aae382a29ff3bee8a9dffd7df5b49f0a591e2d87a374b408f0109d1d369ffc23eee24b5ad4901f4a749f2ac2b4a377c1b19a5d12c564d59d9c930eb1c5efc8a634e31f6465c54662e2279747510dac5fb467446c99fe1b15fa191e41cf3339ea124aa93b0ebd0c32c7e2822c2d7b6b38daf21f5e94e8e4722a351c345d957446b70</script>
-  <div class="hbe hbe-content">
-    <div class="hbe hbe-input hbe-input-default">
-      <input class="hbe hbe-input-field hbe-input-field-default" type="password" id="hbePass">
-      <label class="hbe hbe-input-label hbe-input-label-default" for="hbePass">
-        <span class="hbe hbe-input-label-content hbe-input-label-content-default">Hey, password is required here.</span>
-      </label>
-    </div>
-  </div>
+        <p>忍不住先吐槽下，这是F77或更久？这个标准的Fortran对长度缩进都有限制，没指定输入输出，用起来贼麻烦。</p>
+<p>主文件是dlpoly.f，本篇介绍初始化部分<br><span id="more"></span></p>
+<h1 id="MPI初始化"><a href="#MPI初始化" class="headerlink" title="MPI初始化"></a>MPI初始化</h1><pre><code>call initcomms()
+call gsync()
+call machine(idnode,mxnode)
+</code></pre><h1 id="格式检查"><a href="#格式检查" class="headerlink" title="格式检查"></a>格式检查</h1><pre><code>call parset(redirect,idnode,mxnode,tbuffer)
+</code></pre><p>通过这个命令完成，它会依次检索FIELD, CONFIG和CONTROL文件的格式，确保（浮点数、字符串、行数目etc）没写错，调用关系如下图：</p>
+<div  align="center"> 
+<img src="/images/dl-poly-init/parset.png" width = "1467" height = "649" alt="parset.png" align=center />
 </div>
-<script data-pjax src="/lib/hbe.js"></script><link href="/css/hbe.style.css" rel="stylesheet" type="text/css">
+
+<h1 id="申请数组"><a href="#申请数组" class="headerlink" title="申请数组"></a>申请数组</h1><pre><code>call alloc_ang_arrays(idnode, mxnode)
+...
+call alloc_vdw_arrays(idnode, mxnode)
+</code></pre><p>根据上一步格式检查读入的必要数据，申请足够大的动态数组，用以储存文件</p>
+
     </div>
 
     
@@ -339,6 +345,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#MPI%E5%88%9D%E5%A7%8B%E5%8C%96"><span class="nav-number">1.</span> <span class="nav-text">MPI初始化</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A0%BC%E5%BC%8F%E6%A3%80%E6%9F%A5"><span class="nav-number">2.</span> <span class="nav-text">格式检查</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%B3%E8%AF%B7%E6%95%B0%E7%BB%84"><span class="nav-number">3.</span> <span class="nav-text">申请数组</span></a></li></ol></div>
       </div>
       <!--/noindex-->
 

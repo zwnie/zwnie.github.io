@@ -20,23 +20,21 @@
     var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
   </script>
 
-  <meta name="description" content="断续记录">
+  <meta name="description" content="CMakeLists.txtcmake是makefile的上层工具，用以产生可移植的Makefile，并简化工作量">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MDrun">
-<meta property="og:url" content="https://example.com/2022/05/10/mdrun/index.html">
+<meta property="og:title" content="cmake阅读记录">
+<meta property="og:url" content="https://example.com/2021/11/01/cmake-read/index.html">
 <meta property="og:site_name" content="Niccol的小站">
-<meta property="og:description" content="断续记录">
+<meta property="og:description" content="CMakeLists.txtcmake是makefile的上层工具，用以产生可移植的Makefile，并简化工作量">
 <meta property="og:locale" content="zh_CN">
-<meta property="og:image" content="https://example.com/images/MDrun/MDrun.png">
-<meta property="article:published_time" content="2022-05-10T04:16:09.000Z">
-<meta property="article:modified_time" content="2023-06-28T11:34:08.000Z">
+<meta property="article:published_time" content="2021-11-01T11:39:34.000Z">
+<meta property="article:modified_time" content="2023-06-28T11:11:11.000Z">
 <meta property="article:author" content="Niccol">
-<meta property="article:tag" content="MD">
-<meta property="article:tag" content="dl-poly">
+<meta property="article:tag" content="Linux">
+<meta property="article:tag" content="cmake">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="https://example.com/images/MDrun/MDrun.png">
 
-<link rel="canonical" href="https://example.com/2022/05/10/mdrun/">
+<link rel="canonical" href="https://example.com/2021/11/01/cmake-read/">
 
 
 <script id="page-configurations">
@@ -49,7 +47,7 @@
   };
 </script>
 
-  <title>MDrun | Niccol的小站</title>
+  <title>cmake阅读记录 | Niccol的小站</title>
   
     <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
     <script>
@@ -179,7 +177,7 @@
   
   
   <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
-    <link itemprop="mainEntityOfPage" href="https://example.com/2022/05/10/mdrun/">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2021/11/01/cmake-read/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/zhouyu-rectangle.png">
@@ -192,7 +190,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          MDrun
+          cmake阅读记录
         </h1>
 
         <div class="post-meta">
@@ -202,14 +200,14 @@
               </span>
               <span class="post-meta-item-text">发表于</span>
 
-              <time title="创建时间：2022-05-10 12:16:09" itemprop="dateCreated datePublished" datetime="2022-05-10T12:16:09+08:00">2022-05-10</time>
+              <time title="创建时间：2021-11-01 19:39:34" itemprop="dateCreated datePublished" datetime="2021-11-01T19:39:34+08:00">2021-11-01</time>
             </span>
               <span class="post-meta-item">
                 <span class="post-meta-item-icon">
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-28 19:34:08" itemprop="dateModified" datetime="2023-06-28T19:34:08+08:00">2023-06-28</time>
+                <time title="修改时间：2023-06-28 19:11:11" itemprop="dateModified" datetime="2023-06-28T19:11:11+08:00">2023-06-28</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -217,7 +215,7 @@
               </span>
               <span class="post-meta-item-text">分类于</span>
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/dl-poly/" itemprop="url" rel="index"><span itemprop="name">dl-poly</span></a>
+                  <a href="/categories/Gromacs/" itemprop="url" rel="index"><span itemprop="name">Gromacs</span></a>
                 </span>
             </span>
 
@@ -227,14 +225,14 @@
                 <i class="far fa-file-word"></i>
               </span>
                 <span class="post-meta-item-text">本文字数：</span>
-              <span>4</span>
+              <span>4.5k</span>
             </span>
             <span class="post-meta-item" title="阅读时长">
               <span class="post-meta-item-icon">
                 <i class="far fa-clock"></i>
               </span>
                 <span class="post-meta-item-text">阅读时长 &asymp;</span>
-              <span>1 分钟</span>
+              <span>4 分钟</span>
             </span>
 
         </div>
@@ -246,10 +244,113 @@
     <div class="post-body" itemprop="articleBody">
 
       
-        <p>断续记录<br><span id="more"></span></p>
-<div  align="center"> 
-<img src="/images/MDrun/MDrun.png" width = "622" height = "360" alt="MDrun" align=center />
-</div>
+        <h1 id="CMakeLists-txt"><a href="#CMakeLists-txt" class="headerlink" title="CMakeLists.txt"></a>CMakeLists.txt</h1><p>cmake是makefile的上层工具，用以产生可移植的Makefile，并简化工作量<span id="more"></span>。CMakeLists.txt是cmake的构建配置文件：</p>
+<pre><code>list(APPEND CMAKE_MODULE_PATH $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/cmak    $&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/cmake/Platform)
+</code></pre><p>扩充了CMAKE_MODULE_PATH路径，随后我们调用的模块会在相应路径下搜寻*.cmake文件；</p>
+<pre><code>project(Gromacs)
+</code></pre><p>项目的名称是Gromacs；</p>
+<pre><code>set(CMAKE_LIBRARY_OUTPUT_DIRECTORY $&#123;CMAKE_BINARY_DIR&#125;/lib)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY $&#123;CMAKE_BINARY_DIR&#125;/lib)
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY $&#123;CMAKE_BINARY_DIR&#125;/bin)
+</code></pre><p>设定了动态库、静态库以及可执行文件的build路径；</p>
+<pre><code>option(GMX_MPI    &quot;Build a parallel (message-passing) version of GROMACS&quot; OFF)
+</code></pre><p>后面一大部分，利用option读取用户输入，构建相应变量。以GMX_MPI为例，-DGMX_MPI=on，如果未指定，默认值off；</p>
+<p>&nbsp;</p>
+<p>再往后一大段都是外部package的处理，无非是find_package - include_diractories，因为我们使用默认值编译，所以没影响；</p>
+<p>再后面一大段是一些对硬件、系统管线等的测试，影响不大；接下来是FFT库的部分：</p>
+<pre><code>include(gmxManageFFTLibraries)
+</code></pre><p>决定FFT库的单精度还是双精度，添加了include头文件搜索路径等；</p>
+<pre><code>include(gmxManageLinearAlgebraLibraries)
+</code></pre><p>判断BLAS, LAPACK是否由用户指定，否则compile internal，库的路径保存在LINEAR_ALGEBRA_LIBRARIES；</p>
+<p>之后又定义了一堆诸如GMX_PUBLIC_LIBRARIES之类的变量；</p>
+<pre><code>if (NOT GMX_SKIP_DEFAULT_CFLAGS)
+    set(CMAKE_EXE_LINKER_FLAGS &quot;$&#123;FFT_LINKER_FLAGS&#125; $&#123;MPI_LINKER_FLAGS&#125; $&#123;CMAKE_EXE_LINKER_FLAGS&#125; $&#123;DISABLE_SYCL_CXX_FLAGS&#125;&quot;)
+    set(CMAKE_SHARED_LINKER_FLAGS &quot;$&#123;FFT_LINKER_FLAGS&#125; $&#123;MPI_LINKER_FLAGS&#125; $&#123;CMAKE_SHARED_LINKER_FLAGS&#125; $&#123;DISABLE_SYCL_CXX_FLAGS&#125;&quot;)
+</code></pre><p>最后汇总前面的标签，产生了CMAKE_EXE_LINKER_FLAGS， CMAKE_SHARED_LINKER_FLAGS两个用来链接可执行文件和共享库的标签；</p>
+<pre><code>install(FILES COPYING DESTINATION $&#123;GMX_INSTALL_GMXDATADIR&#125; COMPONENT data)
+</code></pre><p>漫长cmake文件中第一个install指令(ಥ_ಥ) 具体是将${CMAKE_SOURCE_DIR}下的COPYING文件安装到${CMAKE_INSTALL_PREFIX}/${GMX_INSTALL_GMXDATADIR}下，在make - make install后能在./my-install/share/gromacs找到；</p>
+<pre><code>if (BUILD_TESTING)
+    include(tests/CheckTarget.cmake)
+endif()
+</code></pre><p>include CheckTarget.cmake文件，看了下，具体内容是调用ctest构建了make check等一系列指令，前提是有一个名为test的target，test具体是什么还没定义；</p>
+<p>我们忽略用不上的docs,share,scripts,api等，关注src目录：</p>
+<pre><code>add_subdirectory(src)
+</code></pre><h2 id="src-gromacs-CMakelist-txt"><a href="#src-gromacs-CMakelist-txt" class="headerlink" title="src/gromacs/CMakelist.txt"></a>src/gromacs/CMakelist.txt</h2><p>它里面又分为gromacs,programs,api三个部分，首先关注gromacs</p>
+<pre><code>add_subdirectory(gromacs)
+</code></pre><p>里面定义了一个变量</p>
+<pre><code>set(LIBGROMACS_SOURCES)
+</code></pre><p>后续所有的源文件都会放进去；</p>
+<p>里面还定义了gmx_add_libgromacs_sources函数</p>
+<pre><code>function (_gmx_add_files_to_property PROPERTY)
+    foreach (_file $&#123;ARGN&#125;)
+        if (IS_ABSOLUTE &quot;$&#123;_file&#125;&quot;)
+            set_property(GLOBAL APPEND PROPERTY $&#123;PROPERTY&#125; $&#123;_file&#125;)
+        else()
+            set_property(GLOBAL APPEND PROPERTY $&#123;PROPERTY&#125;
+                        $&#123;CMAKE_CURRENT_LIST_DIR&#125;/$&#123;_file&#125;)
+        endif()
+    endforeach()
+endfunction ()
+
+function (gmx_add_libgromacs_sources)
+    _gmx_add_files_to_property(GMX_LIBGROMACS_SOURCES $&#123;ARGN&#125;)
+endfunction ()
+</code></pre><p>可以看到，具体作用是设定了一个名为GMX_LIBGROMACS_SOURCES的全局的特性，会将ARGN里面所有文件的绝对路径都添加进去，这个函数被反复调用，用以储存所有源文件。</p>
+<pre><code>get_property(PROPERTY_SOURCES GLOBAL PROPERTY GMX_LIBGROMACS_SOURCES)
+list(APPEND LIBGROMACS_SOURCES $&#123;GMXLIB_SOURCES&#125; $&#123;MDLIB_SOURCES&#125; $&#123;PROPERTY_SOURCES&#125;)
+</code></pre><p>最终，所有的源文件都被放到LIBGROMACS_SOURCES里边。</p>
+<pre><code>target_link_libraries(libgromacs
+                    PRIVATE
+                    $&#123;EXTRAE_LIBRARIES&#125;
+                    $&#123;GMX_EXTRA_LIBRARIES&#125;
+                    $&#123;GMX_COMMON_LIBRARIES&#125;
+                    $&#123;FFT_LIBRARIES&#125; $&#123;LINEAR_ALGEBRA_LIBRARIES&#125;
+                    $&#123;THREAD_LIB&#125; $&#123;GMX_SHARED_LINKER_FLAGS&#125;
+                    $&#123;SYCL_CXX_FLAGS&#125;
+                    $&#123;OpenCL_LIBRARIES&#125;
+                    $&lt;$&lt;PLATFORM_ID:SunOS&gt;:socket&gt;
+                    PUBLIC
+                    $&#123;GMX_PUBLIC_LIBRARIES&#125;
+                    )
+</code></pre><p>将需要用到的的共享库链接到libgromacs库；</p>
+<pre><code>set_target_properties(libgromacs PROPERTIES
+                    OUTPUT_NAME &quot;gromacs$&#123;GMX_LIBS_SUFFIX&#125;&quot;
+                    SOVERSION $&#123;LIBRARY_SOVERSION_MAJOR&#125;
+                    VERSION $&#123;LIBRARY_VERSION&#125;
+                    )
+</code></pre><p>设定了输出名称:gmx_mpi，及版本信息；</p>
+<pre><code>install(TARGETS libgromacs
+        EXPORT libgromacs
+        LIBRARY
+            DESTINATION $&#123;CMAKE_INSTALL_LIBDIR&#125;
+            COMPONENT libraries
+        RUNTIME
+            DESTINATION $&#123;CMAKE_INSTALL_BINDIR&#125;
+            COMPONENT libraries
+        ARCHIVE
+            DESTINATION $&#123;CMAKE_INSTALL_LIBDIR&#125;
+            COMPONENT libraries
+        INCLUDES DESTINATION include)
+target_compile_definitions(libgromacs PUBLIC $&lt;INSTALL_INTERFACE:GMX_DOUBLE=$&#123;GMX_DOUBLE_VALUE&#125;&gt;)
+</code></pre><p>指定了动态库、静态库以及可执行文件的安装路径，add_library(libgromacs)是动态库，所以只会有动态库安装到lib目录下；</p>
+<h2 id="src-programs-CMakelist-txt"><a href="#src-programs-CMakelist-txt" class="headerlink" title="src/programs/CMakelist.txt"></a>src/programs/CMakelist.txt</h2><pre><code>add_subdirectory(programs)
+...
+add_executable(gmx
+    $&lt;TARGET_OBJECTS:gmx_objlib&gt;
+    $&lt;TARGET_OBJECTS:mdrun_objlib&gt;
+    $&lt;TARGET_OBJECTS:view_objlib&gt;)
+...
+target_link_libraries(gmx libgromacs
+    $&#123;GMX_COMMON_LIBRARIES&#125;
+    $&#123;GMX_EXE_LINKER_FLAGS&#125;)
+...
+set(BINARY_NAME &quot;gmx$&#123;GMX_BINARY_SUFFIX&#125;&quot;)
+set_target_properties(gmx PROPERTIES
+    OUTPUT_NAME &quot;$&#123;BINARY_NAME&#125;&quot;)
+</code></pre><p>定义了这样3个库：mdrun_objlib, view_objlib, gmx_objlib，共同用他们生成了名为gmx${GMX_BINARY_SUFFIX}的可执行文件，链接上上一步生成的libgromacs动态库，最后被安装到bin目录下；</p>
+<p>api不重要，忽略；</p>
+<p>其余也不重要，忽略</p>
+
     </div>
 
     
@@ -258,8 +359,8 @@
 
       <footer class="post-footer">
           <div class="post-tags">
-              <a href="/tags/MD/" rel="tag"># MD</a>
-              <a href="/tags/dl-poly/" rel="tag"># dl-poly</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+              <a href="/tags/cmake/" rel="tag"># cmake</a>
           </div>
 
         
@@ -268,12 +369,12 @@
         
     <div class="post-nav">
       <div class="post-nav-item">
-    <a href="/2022/05/01/mantis/" rel="prev" title="饲养记录">
-      <i class="fa fa-chevron-left"></i> 饲养记录
+    <a href="/2021/10/30/Gromacs-install/" rel="prev" title="Gromacs安装">
+      <i class="fa fa-chevron-left"></i> Gromacs安装
     </a></div>
       <div class="post-nav-item">
-    <a href="/2022/05/18/propletobe/" rel="next" title="who do you wanna to be?">
-      who do you wanna to be? <i class="fa fa-chevron-right"></i>
+    <a href="/2021/11/07/soviet-union/" rel="next" title="Soviet Union——为了忘却的纪念">
+      Soviet Union——为了忘却的纪念 <i class="fa fa-chevron-right"></i>
     </a></div>
     </div>
       </footer>
@@ -333,6 +434,7 @@
 
       <!--noindex-->
       <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#CMakeLists-txt"><span class="nav-number">1.</span> <span class="nav-text">CMakeLists.txt</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#src-gromacs-CMakelist-txt"><span class="nav-number">1.1.</span> <span class="nav-text">src&#x2F;gromacs&#x2F;CMakelist.txt</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#src-programs-CMakelist-txt"><span class="nav-number">1.2.</span> <span class="nav-text">src&#x2F;programs&#x2F;CMakelist.txt</span></a></li></ol></li></ol></div>
       </div>
       <!--/noindex-->
 
@@ -466,59 +568,6 @@
   
 
   
-      
-
-<script>
-  if (typeof MathJax === 'undefined') {
-    window.MathJax = {
-      loader: {
-        source: {
-          '[tex]/amsCd': '[tex]/amscd',
-          '[tex]/AMScd': '[tex]/amscd'
-        }
-      },
-      tex: {
-        inlineMath: {'[+]': [['$', '$']]},
-        tags: 'ams'
-      },
-      options: {
-        renderActions: {
-          findScript: [10, doc => {
-            document.querySelectorAll('script[type^="math/tex"]').forEach(node => {
-              const display = !!node.type.match(/; *mode=display/);
-              const math = new doc.options.MathItem(node.textContent, doc.inputJax[0], display);
-              const text = document.createTextNode('');
-              node.parentNode.replaceChild(text, node);
-              math.start = {node: text, delim: '', n: 0};
-              math.end = {node: text, delim: '', n: 0};
-              doc.math.push(math);
-            });
-          }, '', false],
-          insertedScript: [200, () => {
-            document.querySelectorAll('mjx-container').forEach(node => {
-              let target = node.parentNode;
-              if (target.nodeName.toLowerCase() === 'li') {
-                target.parentNode.classList.add('has-jax');
-              }
-            });
-          }, '', false]
-        }
-      }
-    };
-    (function () {
-      var script = document.createElement('script');
-      script.src = '//cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js';
-      script.defer = true;
-      document.head.appendChild(script);
-    })();
-  } else {
-    MathJax.startup.document.state(0);
-    MathJax.texReset();
-    MathJax.typeset();
-  }
-</script>
-
-    
 
   
 
