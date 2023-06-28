@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.4.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+<script id="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"example.com","root":"/","scheme":"Gemini","version":"7.8.0","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12,"onmobile":false},"copycode":{"enable":false,"show_result":false,"style":null},"back2top":{"enable":true,"sidebar":true,"scrollpercent":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"algolia":{"hits":{"per_page":10},"labels":{"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}},"localsearch":{"enable":false,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}}};
+  </script>
+
+  <meta name="description" content="目前搞不太懂，参照教程">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Gentoo试水">
+<meta property="og:url" content="https://example.com/2022/11/22/gentoo/index.html">
+<meta property="og:site_name" content="Niccol的小站">
+<meta property="og:description" content="目前搞不太懂，参照教程">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2022-11-22T14:12:52.000Z">
+<meta property="article:modified_time" content="2023-06-28T12:03:41.000Z">
+<meta property="article:author" content="Niccol">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+
+<link rel="canonical" href="https://example.com/2022/11/22/gentoo/">
+
+
+<script id="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'zh-CN'
+  };
+</script>
+
+  <title>Gentoo试水 | Niccol的小站</title>
+  
+    <script async src="https://www.googletagmanager.com/gtag/js?id=<app_id>"></script>
+    <script>
+      if (CONFIG.hostname === location.hostname) {
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', '<app_id>');
+      }
+    </script>
+
+
+  <script>
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?<app_id>";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+  <noscript>
+  <style>
+  .use-motion .brand,
+  .use-motion .menu-item,
+  .sidebar-inner,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line-before i { left: initial; }
+  .use-motion .logo-line-after i { right: initial; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage">
+  <div class="container use-motion">
+    <div class="headband"></div>
+
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏">
+      <span class="toggle-line toggle-line-first"></span>
+      <span class="toggle-line toggle-line-middle"></span>
+      <span class="toggle-line toggle-line-last"></span>
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <span class="logo-line-before"><i></i></span>
+      <h1 class="site-title">Niccol的小站</h1>
+      <span class="logo-line-after"><i></i></span>
+    </a>
+      <p class="site-subtitle" itemprop="description">温故可以知新</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+<nav class="site-nav">
+  <ul id="menu" class="main-menu menu">
+        <li class="menu-item menu-item-首页">
+
+    <a href="/" rel="section"><i class="fa fa-home fa-fw"></i>首页</a>
+
+  </li>
+        <li class="menu-item menu-item-标签">
+
+    <a href="/tags/" rel="section"><i class="fa fa-tags fa-fw"></i>标签</a>
+
+  </li>
+        <li class="menu-item menu-item-分类">
+
+    <a href="/categories/" rel="section"><i class="fa fa-th fa-fw"></i>分类</a>
+
+  </li>
+        <li class="menu-item menu-item-归档">
+
+    <a href="/archives/" rel="section"><i class="fa fa-archive fa-fw"></i>归档</a>
+
+  </li>
+  </ul>
+</nav>
+
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+
+          <div class="content post posts-expand">
+            
+
+    
+  
+  
+  <article itemscope itemtype="http://schema.org/Article" class="post-block" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="https://example.com/2022/11/22/gentoo/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/zhouyu-rectangle.png">
+      <meta itemprop="name" content="Niccol">
+      <meta itemprop="description" content="Go ahead">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Niccol的小站">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Gentoo试水
+        </h1>
+
+        <div class="post-meta">
+            <span class="post-meta-item">
+              <span class="post-meta-item-icon">
+                <i class="far fa-calendar"></i>
+              </span>
+              <span class="post-meta-item-text">发表于</span>
+
+              <time title="创建时间：2022-11-22 22:12:52" itemprop="dateCreated datePublished" datetime="2022-11-22T22:12:52+08:00">2022-11-22</time>
+            </span>
+              <span class="post-meta-item">
+                <span class="post-meta-item-icon">
+                  <i class="far fa-calendar-check"></i>
+                </span>
+                <span class="post-meta-item-text">更新于</span>
+                <time title="修改时间：2023-06-28 20:03:41" itemprop="dateModified" datetime="2023-06-28T20:03:41+08:00">2023-06-28</time>
+              </span>
+
+          <br>
+            <span class="post-meta-item" title="本文字数">
+              <span class="post-meta-item-icon">
+                <i class="far fa-file-word"></i>
+              </span>
+                <span class="post-meta-item-text">本文字数：</span>
+              <span>3.5k</span>
+            </span>
+            <span class="post-meta-item" title="阅读时长">
+              <span class="post-meta-item-icon">
+                <i class="far fa-clock"></i>
+              </span>
+                <span class="post-meta-item-text">阅读时长 &asymp;</span>
+              <span>3 分钟</span>
+            </span>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+        <p>目前搞不太懂，参照教程<br><span id="more"></span></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p><a target="_blank" rel="noopener" href="https://www.thegeekghost.com/2022/02/13/installing-gentoo-on-vmware-workstation-16/">链接</a></p>
+<p><a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/122222365">链接</a></p>
+<p>以及<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Handbook\:AMD64">说明书</a></p>
+<h1 id="桌面环境"><a href="#桌面环境" class="headerlink" title="桌面环境"></a>桌面环境</h1><h2 id="KDE"><a href="#KDE" class="headerlink" title="KDE"></a>KDE</h2><p><a target="_blank" rel="noopener" href="https://blog.csdn.net/Zhang_Pro/article/details/108137270">链接</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emerge --ask --verbose --update --deep --newuse @world</span><br></pre></td></tr></table></figure>
+<p>sddm开机图形界面遇到问题，xdm废弃不用，通过gui-libs/display-manager-init引导。参照<a href="gui-libs/display-manager-init">链接</a></p>
+<h2 id="xfce"><a href="#xfce" class="headerlink" title="xfce"></a>xfce</h2><p>安装主要参考<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Xfce">链接</a></p>
+<p>安装完成后，设置开机启动，以及dm登陆，主要参考<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Xfce/Guide">链接</a></p>
+<h1 id="远程桌面"><a href="#远程桌面" class="headerlink" title="远程桌面"></a>远程桌面</h1><h2 id="安装-1"><a href="#安装-1" class="headerlink" title="安装"></a>安装</h2><p>这里在引入第三方仓库后，选择了<a target="_blank" rel="noopener" href="https://gpo.zugaina.org/net-misc/xrdp">xrdp</a>。然而国内墙的原因，git一直失败，不得已安装了clash和chrome乃至汉语字体，参照<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/482306131">链接</a>，git设置代理，最终安装成功。</p>
+<p>这有一篇<a target="_blank" rel="noopener" href="https://blog.csdn.net/weixin_42417818/article/details/114306814">教程</a>，目前通过宿主机的远程桌面已经可以操控了。把端口映射到宿主机，一开始ubuntu laptop连接失败，后来发现是没打开win10防火墙，打开端口就可以了（只需要3389，不需要3350）。随后发现，同样的方法能用来操纵windows，甚至在登陆PIN之前，只能说，太牛批了。</p>
+<h1 id="分辨率"><a href="#分辨率" class="headerlink" title="分辨率"></a>分辨率</h1><p>安装好桌面后，只有很小的屏幕。</p>
+<p>参考<a target="_blank" rel="noopener" href="https://docs.vmware.com/en/VMware-Workstation-Pro/15.0/com.vmware.ws.using.doc/GUID-08BB9465-D40A-4E16-9E15-8C016CC8166F.html">vmware官方教程</a>以及<a target="_blank" rel="noopener" href="https://www.cnblogs.com/sunilsun/p/5974028.html">问题解决</a>，但也只能在第一遍安装完成后放大分辨率。</p>
+<p>解决方案未知，放弃。</p>
+<h1 id="v2ray"><a href="#v2ray" class="headerlink" title="v2ray"></a><del>v2ray</del></h1><p><del>去github下载linux版解压缩就可以，有关配置文件的说明见</del><a target="_blank" rel="noopener" href="https://toutyrater.github.io/basic/vmess.html"><del>这里</del></a></p>
+<p>虽然它的说明挺好，但我不知道该怎么写配置文件（订阅全是密文），所以还是用clash吧。</p>
+<h1 id="clash"><a href="#clash" class="headerlink" title="clash"></a>clash</h1><h2 id="install"><a href="#install" class="headerlink" title="install"></a>install</h2><p>去<a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash/releases">链接</a>下载安装，linux二进制版本，参照(说明书)[<a target="_blank" rel="noopener" href="https://github.com/Dreamacro/clash/wiki/Configuration]，">https://github.com/Dreamacro/clash/wiki/Configuration]，</a></p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">clash -d . <span class="comment">#当前目录生成yaml配置文件</span></span><br><span class="line">clash -f config.yaml <span class="comment"># 按照配置文件实现代理</span></span><br></pre></td></tr></table></figure>
+<h2 id="config"><a href="#config" class="headerlink" title="config"></a>config</h2><p>想要生成配置文件的话，需要<a target="_blank" rel="noopener" href="https://github.com/tindy2013/subconverter">subconverter</a>对订阅做一个转换处理，具体操作看说明书。</p>
+<h2 id="proxy"><a href="#proxy" class="headerlink" title="proxy"></a>proxy</h2><p>我用的chrome浏览器，在setting下搜索proxy，修改http和sockets监听端口，改成127.0.0.1，就可以google了。</p>
+<h2 id="dashboard"><a href="#dashboard" class="headerlink" title="dashboard"></a>dashboard</h2><p>浏览器打开<a target="_blank" rel="noopener" href="http://clash.razord.top/">http://clash.razord.top/</a>，可以进行节点选择与配置</p>
+<h1 id="显示中文"><a href="#显示中文" class="headerlink" title="显示中文"></a>显示中文</h1><p>参照<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/How_to_read_and_write_in_Chinese">链接</a></p>
+<p>这里我选用的是</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">eselect fontconfig list</span><br><span class="line">eselect fontconfig <span class="built_in">enable</span> 55</span><br></pre></td></tr></table></figure>
+<p>想要输入中文貌似还有点问题，不过这不是问题的核心，放弃了</p>
+<h1 id="内网穿透"><a href="#内网穿透" class="headerlink" title="内网穿透"></a>内网穿透</h1><h2 id="zerotier-install-Gentoo"><a href="#zerotier-install-Gentoo" class="headerlink" title="zerotier install (Gentoo)"></a>zerotier install (Gentoo)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">emerge --ask net-msic/zerotier</span><br></pre></td></tr></table></figure>
+<p>会报错，似乎被mask掉了，需要autounmask解禁。然而<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Knowledge_Base\:Unmasking_a_package">官网</a>手段过时了，参照<a target="_blank" rel="noopener" href="https://forums.gentoo.org/viewtopic-t-1105466-start-0.html">链接</a>，</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">emerge --ask --automask net-msic/zerotier</span><br><span class="line">etc-update</span><br><span class="line">emerge --ask net-msic/zerotier</span><br></pre></td></tr></table></figure>
+<p>安装成功。</p>
+<p>记得添加自启动</p>
+<pre><code>rc-update add zerotier default
+</code></pre><h2 id="zerotier-install-Ubuntu"><a href="#zerotier-install-Ubuntu" class="headerlink" title="zerotier install (Ubuntu)"></a>zerotier install (Ubuntu)</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -s https://install.zerotier.com | sudo bash</span><br></pre></td></tr></table></figure>
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p>一开始连接失败，重启一下就好了</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">/etc/init.d/zerotier restart</span><br><span class="line">zerotier-cli <span class="built_in">join</span>  NetworkID</span><br><span class="line">zerotier-cli listnetworks</span><br></pre></td></tr></table></figure>
+<h2 id="直连"><a href="#直连" class="headerlink" title="直连"></a>直连</h2><p>在建立了笔记本与虚拟机的虚拟局域网后，发现连接方式是RELAY而非DIRECT，只能经由国外中转，导致网络延迟很高。<a target="_blank" rel="noopener" href="https://blog.csdn.net/wmdscjhdpy/article/details/110670451">链接</a>里提供了几种解决思路。</p>
+<p>我搞了半天，最终没能给虚拟机打开ipv6从而直连；但我发现一个好方法，可以手机v6直连win10，再用win10直连虚拟机，达到同样的效果。如此就能随时随地办公了！</p>
+<h2 id="下载文献"><a href="#下载文献" class="headerlink" title="下载文献"></a>下载文献</h2><p>要用到局域网内其它机器的网络环境，思路是把那台机器作为服务器，打开一个端口，其它机器就可以通过端口接入内部了。</p>
+<p>首先，windows下载个v2ray的server。参照<a target="_blank" rel="noopener" href="https://yearliny.com/v2ray-complete-tutorial/">链接</a>，附上服务端设置：</p>
+<pre><code>&#123;
+  &quot;inbounds&quot;: [
+    &#123;
+      &quot;port&quot;: xxx, // Vmess 协议服务器监听端口
+      &quot;protocol&quot;: &quot;vmess&quot;,
+      &quot;settings&quot;: &#123;
+        &quot;clients&quot;: [
+          &#123;
+            &quot;id&quot;: &quot;xxx&quot; // id(UUID) 需要修改
+          &#125;
+        ]
+      &#125;
+    &#125;
+  ],
+  &quot;outbounds&quot;: [
+    &#123;
+      &quot;protocol&quot;: &quot;freedom&quot;,
+      &quot;settings&quot;: &#123;&#125;
+    &#125;
+  ]
+&#125;
+</code></pre><p>如此一来，只要在win10-iop上打开服务，外部就能通过局域网地址和port经由主机代理访问其它网站。</p>
+<p>需要用主机代理时，设主机为活动服务器。我们要下载文章的网站是墙内的，所以autoswitch会自动切换直连（也即手机热点），下载不了文章。用proxy强制走代理，就能通过主机进行下载了。</p>
+<p>主机端记得开机启动。</p>
+<h3 id="windows"><a href="#windows" class="headerlink" title="windows"></a>windows</h3><p>在laptop的v2ray客户端添加vmess服务-输入ip、port、id-选中服务，即可执行。</p>
+<h3 id="ubuntu"><a href="#ubuntu" class="headerlink" title="ubuntu"></a>ubuntu</h3><p>ubuntu我用的是clash</p>
+<p>config-win10.yaml</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">port: 7890</span><br><span class="line">socks-port: 7891</span><br><span class="line">redir-port: 7892</span><br><span class="line">allow-lan: false</span><br><span class="line">mode: Global</span><br><span class="line">log-level: silent</span><br><span class="line">external-controller: &#x27;0.0.0.0:9090&#x27;</span><br><span class="line">secret: &#x27;&#x27;</span><br><span class="line">proxies:</span><br><span class="line">  -</span><br><span class="line">    name: &#x27;win10-iop&#x27;</span><br><span class="line">    type: vmess</span><br><span class="line">    server: 10.147.18.52</span><br><span class="line">    port: 3455</span><br><span class="line">    uuid: 7fe093ae-6491-11ed-81ce-0242ac120002</span><br><span class="line">    alterId: 10</span><br><span class="line">    cipher: none</span><br><span class="line">    udp: true</span><br><span class="line">    network: tcp</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>profile引入文件后，在proxies选中即可以调用</p>
+<h2 id="samba"><a href="#samba" class="headerlink" title="samba"></a>samba</h2><p>参考<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Samba">wiki</a>以及<a target="_blank" rel="noopener" href="https://pomelojiang.github.io/linux_deploy_samba.html">网页</a>，利用我们搭建的虚拟局域网，共享了samba文件系统的网盘。</p>
+<p>这是我添加的内容</p>
+<pre><code>[smbshare]
+    path = /home/niccol/smbshare
+    browseable = yes
+    writable = yes
+    available = yes
+    create mask = 777
+    directory mask = 777
+    valid users = niccol
+    force create mode = 0644
+    force directory mode = 0644
+    public = yes
+    case sensitive = no
+    short preserve case = yes
+    sync always = yes
+</code></pre><p>windows端，添加网络映射；ubuntu端，执行以下命令</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo mount -t cifs -o username=xxx,password=xxx //xxx/smbshare /home/niccol/samba</span><br></pre></td></tr></table></figure>
+<p>可以看到硬盘被成功挂载！想要开机自动在系统挂载，需要修改/etc/fstab文件</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># zwnie, samba</span></span><br><span class="line">//10.147.18.152/smbshare   /home/niccol/samba cifs auto,username=niccol,password=nzw262626  0   0</span><br><span class="line">sudo mount -a</span><br></pre></td></tr></table></figure>
+<p>注意空格！</p>
+<h2 id="搭建moon节点"><a href="#搭建moon节点" class="headerlink" title="搭建moon节点"></a>搭建moon节点</h2><p>参照<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/123956151">链接</a></p>
+<p>最后生成的000*.moon文件似乎是一个密钥之类的东西，把它放在每个客户端的moons.d目录下就能直连moon了</p>
+<p>测试了一下，手机热点连接虚拟机几乎感受不到延迟（之前延迟很严重</p>
+<h2 id="内网转发"><a href="#内网转发" class="headerlink" title="内网转发"></a>内网转发</h2><p>初衷是win上的vmware没法和笔记本直连，每次ssh win10又ssh内网vmware感觉很不方便，于是想到是否能将win看作路由器，将vm看作路由下的设备，内网穿透后直连整个内网网段。在网络上找到了这个<a target="_blank" rel="noopener" href="https://blog.51cto.com/u_6364219/5264985">帖子</a>，可惜这套方法是给linux服务器作的，在linux下运行，win不知道该用怎样的指令。</p>
+<p>iptables进行ip转发，<a target="_blank" rel="noopener" href="https://bobcares.com/blog/iptables-nat-masquerade/">链接</a>中有比较详细的说明。</p>
+<p>目前只找到这个<a target="_blank" rel="noopener" href="https://www.cnblogs.com/maohai-kdg/p/13225305.html">端口映射</a>，将虚拟机某个端口映射到win的某个端口上，测试成功。</p>
+<h1 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h1><p>参照<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Upgrading_Gentoo">链接</a></p>
+<pre><code>emerge sync
+</code></pre><p>报错，应该是连不上外网。参照<a target="_blank" rel="noopener" href="https://mirrors.tuna.tsinghua.edu.cn/help/gentoo-portage/">链接</a>，利用清华的镜像网站，即可。</p>
+<h1 id="从第三方仓库安装软件"><a href="#从第三方仓库安装软件" class="headerlink" title="从第三方仓库安装软件"></a>从第三方仓库安装软件</h1><p>参照<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Eselect/Repository">链接</a>，安装eselect-repository工具，能够从第三方仓库下载更新；再参照<a target="_blank" rel="noopener" href="https://wiki.gentoo.org/wiki/Ebuild_repository">链接</a>，设置优先度。</p>
+
+    </div>
+
+    
+    
+    
+
+      <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+
+        
+    <div class="post-nav">
+      <div class="post-nav-item">
+    <a href="/2022/06/25/reviewCP/" rel="prev" title="九评苏共">
+      <i class="fa fa-chevron-left"></i> 九评苏共
+    </a></div>
+      <div class="post-nav-item">
+    <a href="/2022/12/21/bikeinstall/" rel="next" title="公路车组装">
+      公路车组装 <i class="fa fa-chevron-right"></i>
+    </a></div>
+    </div>
+      </footer>
+    
+  </article>
+  
+  
+  
+
+
+
+          </div>
+          
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      let activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      let commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+
+        </div>
+          
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line toggle-line-first"></span>
+    <span class="toggle-line toggle-line-middle"></span>
+    <span class="toggle-line toggle-line-last"></span>
+  </div>
+
+  <aside class="sidebar">
+    <div class="sidebar-inner">
+
+      <ul class="sidebar-nav motion-element">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <!--noindex-->
+      <div class="post-toc-wrap sidebar-panel">
+          <div class="post-toc motion-element"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%A1%8C%E9%9D%A2%E7%8E%AF%E5%A2%83"><span class="nav-number">2.</span> <span class="nav-text">桌面环境</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#KDE"><span class="nav-number">2.1.</span> <span class="nav-text">KDE</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#xfce"><span class="nav-number">2.2.</span> <span class="nav-text">xfce</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%BF%9C%E7%A8%8B%E6%A1%8C%E9%9D%A2"><span class="nav-number">3.</span> <span class="nav-text">远程桌面</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85-1"><span class="nav-number">3.1.</span> <span class="nav-text">安装</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E8%BE%A8%E7%8E%87"><span class="nav-number">4.</span> <span class="nav-text">分辨率</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#v2ray"><span class="nav-number">5.</span> <span class="nav-text">v2ray</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#clash"><span class="nav-number">6.</span> <span class="nav-text">clash</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#install"><span class="nav-number">6.1.</span> <span class="nav-text">install</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#config"><span class="nav-number">6.2.</span> <span class="nav-text">config</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#proxy"><span class="nav-number">6.3.</span> <span class="nav-text">proxy</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#dashboard"><span class="nav-number">6.4.</span> <span class="nav-text">dashboard</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%98%BE%E7%A4%BA%E4%B8%AD%E6%96%87"><span class="nav-number">7.</span> <span class="nav-text">显示中文</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E7%A9%BF%E9%80%8F"><span class="nav-number">8.</span> <span class="nav-text">内网穿透</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#zerotier-install-Gentoo"><span class="nav-number">8.1.</span> <span class="nav-text">zerotier install (Gentoo)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#zerotier-install-Ubuntu"><span class="nav-number">8.2.</span> <span class="nav-text">zerotier install (Ubuntu)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8"><span class="nav-number">8.3.</span> <span class="nav-text">使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%B4%E8%BF%9E"><span class="nav-number">8.4.</span> <span class="nav-text">直连</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8B%E8%BD%BD%E6%96%87%E7%8C%AE"><span class="nav-number">8.5.</span> <span class="nav-text">下载文献</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#windows"><span class="nav-number">8.5.1.</span> <span class="nav-text">windows</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ubuntu"><span class="nav-number">8.5.2.</span> <span class="nav-text">ubuntu</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#samba"><span class="nav-number">8.6.</span> <span class="nav-text">samba</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%90%AD%E5%BB%BAmoon%E8%8A%82%E7%82%B9"><span class="nav-number">8.7.</span> <span class="nav-text">搭建moon节点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%86%85%E7%BD%91%E8%BD%AC%E5%8F%91"><span class="nav-number">8.8.</span> <span class="nav-text">内网转发</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%9B%B4%E6%96%B0"><span class="nav-number">9.</span> <span class="nav-text">更新</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BB%8E%E7%AC%AC%E4%B8%89%E6%96%B9%E4%BB%93%E5%BA%93%E5%AE%89%E8%A3%85%E8%BD%AF%E4%BB%B6"><span class="nav-number">10.</span> <span class="nav-text">从第三方仓库安装软件</span></a></li></ol></div>
+      </div>
+      <!--/noindex-->
+
+      <div class="site-overview-wrap sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+    <img class="site-author-image" itemprop="image" alt="Niccol"
+      src="/images/zhouyu-rectangle.png">
+  <p class="site-author-name" itemprop="name">Niccol</p>
+  <div class="site-description" itemprop="description">Go ahead</div>
+</div>
+<div class="site-state-wrap motion-element">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">36</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+            <a href="/categories/">
+        <span class="site-state-item-count">2</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+            <a href="/tags/">
+        <span class="site-state-item-count">13</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author motion-element">
+      <span class="links-of-author-item">
+        <a href="https://github.com/zwnie" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;zwnie" rel="noopener" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+      <span class="links-of-author-item">
+        <a href="mailto:zwnie1008@gmail.com" title="E-Mail → mailto:zwnie1008@gmail.com" rel="noopener" target="_blank"><i class="fa fa-envelope fa-fw"></i>E-Mail</a>
+      </span>
+  </div>
+
+
+
+      </div>
+        <div class="back-to-top motion-element">
+          <i class="fa fa-arrow-up"></i>
+          <span>0%</span>
+        </div>
+
+    </div>
+  </aside>
+  <div id="sidebar-dimmer"></div>
+
+
+      </div>
+    </main>
+
+    <footer class="footer">
+      <div class="footer-inner">
+        
+
+        
+
+<div class="copyright">
+  
+  &copy; 2021 – 
+  <span itemprop="copyrightYear">2023</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Niccol</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-chart-area"></i>
+    </span>
+      <span class="post-meta-item-text">站点总字数：</span>
+    <span title="站点总字数">127k</span>
+    <span class="post-meta-divider">|</span>
+    <span class="post-meta-item-icon">
+      <i class="fa fa-coffee"></i>
+    </span>
+      <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
+    <span title="站点阅读时长">1:55</span>
+</div>
+
+        
+
+
+
+
+
+
+
+
+      </div>
+    </footer>
+  </div>
+
+  
+  <script src="/lib/anime.min.js"></script>
+  <script src="/lib/velocity/velocity.min.js"></script>
+  <script src="/lib/velocity/velocity.ui.min.js"></script>
+
+<script src="/js/utils.js"></script>
+
+<script src="/js/motion.js"></script>
+
+
+<script src="/js/schemes/pisces.js"></script>
+
+
+<script src="/js/next-boot.js"></script>
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+  
+
+  
+
+</body>
+</html>
