@@ -30,7 +30,7 @@
 <meta property="og:image" content="https://example.com/images/orbital-momentum/sphereh.png">
 <meta property="og:image" content="https://example.com/images/orbital-momentum/mz.png">
 <meta property="article:published_time" content="2021-12-24T12:42:07.000Z">
-<meta property="article:modified_time" content="2023-06-28T09:45:39.686Z">
+<meta property="article:modified_time" content="2023-12-19T04:48:44.437Z">
 <meta property="article:author" content="Niccol">
 <meta property="article:tag" content="DFT">
 <meta name="twitter:card" content="summary">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-28 17:45:39" itemprop="dateModified" datetime="2023-06-28T17:45:39+08:00">2023-06-28</time>
+                <time title="修改时间：2023-12-19 12:48:44" itemprop="dateModified" datetime="2023-12-19T12:48:44+08:00">2023-12-19</time>
               </span>
 
           <br>
@@ -253,10 +253,7 @@
 <p>$ylm(ig,6)=-\sqrt{\frac{15}{\pi}}sin\ \theta \cos\ \theta cos\ 2\varphi$</p>
 <p>$ylm(ig,7)=-\sqrt{\frac{15}{\pi}}sin\ \theta \cos\ \theta sin\ 2\varphi$</p>
 <p>$…$</p>
-<div  align="center"> 
-<img src="/images/orbital-momentum/sphereh.png" width = "713" height = "289" alt="sph-h" align=center />
-</div>
-
+<p><img decoding="async" src="/images/orbital-momentum/sphereh.png" width="100%"></p>
 <p>与球谐函数对比，不知道为啥差了1/2倍，先忽略这个问题；如果按照它所给的归一化因子，我们可以写出相应的球谐函数（以$l=1$为例）：</p>
 <script type="math/tex; mode=display">Y_1^1 = -\sqrt{\frac{3}{\pi}}sin\ \theta \frac{e^{i\varphi}}{\sqrt{2}}=\frac{ylm(ig,3)+i\cdot ylm(ig,4)}{\sqrt{2}}</script><script type="math/tex; mode=display">Y_1^{-1} = -\sqrt{\frac{3}{\pi}}sin\ \theta \frac{e^{-i\varphi}}{\sqrt{2}}=\frac{ylm(ig,3)-i\cdot ylm(ig,4)}{\sqrt{2}}</script><p>也即</p>
 <script type="math/tex; mode=display">ylm(ig,3)=(Y_1^{1}+Y_1^{-1})/\sqrt{2}</script><script type="math/tex; mode=display">ylm(ig,4)=(Y_1^{1}-Y_1^{-1})/\sqrt{2}i</script><p>就建立了$p_x,p_y$与各自轨道角动量的联系，对一个本征波函数</p>
@@ -267,10 +264,7 @@
 <p>将复数数组$proj0$的模方赋给了$proj$，后者是最终的打印值。事实上，复数$A,B$都被储存在数组$proj_aux(natomwfc, nbnd, nkstot)$，将它输出就可以了：</p>
 <figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">! zwnie</span></span><br><span class="line"><span class="keyword">INTEGER</span> :: iunproj_aux</span><br><span class="line"><span class="keyword">CHARACTER</span>(len=<span class="number">256</span>) :: filename_aux</span><br><span class="line">...</span><br><span class="line">filename_aux=<span class="built_in">trim</span>(filproj)//<span class="string">&#x27;.projwfc_aux&#x27;</span></span><br><span class="line">...</span><br><span class="line">iunproj_aux=<span class="number">333</span></span><br><span class="line"><span class="keyword">CALL</span> write_io_header(filename_aux, iunproj_aux, title, dfftp%nr1x, dfftp%nr2x, dfftp%nr3x, &amp;</span><br><span class="line">    dfftp%nr1, dfftp%nr2, dfftp%nr3, nat, ntyp, ibrav, celldm, at, gcutm, dual,   &amp;</span><br><span class="line">    ecutwfc, nkstot/nspin, nbnd, natomwfc)</span><br><span class="line"><span class="keyword">DO</span> nwfc = <span class="number">1</span>, natomwfc</span><br><span class="line">    <span class="built_in">WRITE</span>(iunproj_aux,<span class="string">&#x27;(2i5,1x,a4,1x,a2,1x,3i5)&#x27;</span>) &amp;</span><br><span class="line">      nwfc, nlmchi(nwfc)%na, atm(ityp(nlmchi(nwfc)%na)), &amp;</span><br><span class="line">      nlmchi(nwfc)%els, nlmchi(nwfc)%n, nlmchi(nwfc)%l, nlmchi(nwfc)%m</span><br><span class="line">    <span class="keyword">DO</span> ik=nksinit,nkslast</span><br><span class="line">        <span class="keyword">DO</span> ibnd=<span class="number">1</span>,nbnd</span><br><span class="line">        <span class="built_in">WRITE</span>(iunproj_aux,<span class="string">&#x27;(2i8,2f20.10)&#x27;</span>) ik,ibnd, &amp;</span><br><span class="line">                                        proj(nwfc,ibnd,ik)</span><br><span class="line">        <span class="keyword">ENDDO</span></span><br><span class="line">    <span class="keyword">ENDDO</span></span><br><span class="line"><span class="keyword">ENDDO</span></span><br><span class="line">CLOSE(iunproj_aux)</span><br></pre></td></tr></table></figure>
 <p>最终效果如图：</p>
-<div  align="center"> 
-<img src="/images/orbital-momentum/mz.png" width = "575" height = "500" alt="lz" align=center />
-</div>
-
+<p><img decoding="async" src="/images/orbital-momentum/mz.png" width="100%"></p>
 <hr>
 
     </div>
@@ -429,13 +423,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">135k</span>
+    <span title="站点总字数">137k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:03</span>
+    <span title="站点阅读时长">2:05</span>
 </div>
 
         

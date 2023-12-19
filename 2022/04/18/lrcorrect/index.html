@@ -29,7 +29,7 @@
 <meta property="og:locale" content="zh_CN">
 <meta property="og:image" content="https://example.com/images/lrcorrect/unit_temp.png">
 <meta property="article:published_time" content="2022-04-18T14:34:15.000Z">
-<meta property="article:modified_time" content="2023-06-28T09:45:39.686Z">
+<meta property="article:modified_time" content="2023-12-19T04:50:06.474Z">
 <meta property="article:author" content="Niccol">
 <meta property="article:tag" content="MD">
 <meta property="article:tag" content="dl-poly">
@@ -209,7 +209,7 @@
                   <i class="far fa-calendar-check"></i>
                 </span>
                 <span class="post-meta-item-text">更新于</span>
-                <time title="修改时间：2023-06-28 17:45:39" itemprop="dateModified" datetime="2023-06-28T17:45:39+08:00">2023-06-28</time>
+                <time title="修改时间：2023-12-19 12:50:06" itemprop="dateModified" datetime="2023-12-19T12:50:06+08:00">2023-12-19</time>
               </span>
             <span class="post-meta-item">
               <span class="post-meta-item-icon">
@@ -265,10 +265,7 @@
 <script type="math/tex; mode=display">E_{full}\approx E_c+E_{LRC}=E_c+2\pi N\rho \int_{0}^{\infty} r^2 v(r)dr</script><script type="math/tex; mode=display">(PV)_{full}\approx(PV)_c+(PV)_{LRC}=(PV)_c-\frac{2}{3}\pi N \rho \int_{0}^{\infty} r^2 w(r)dr</script><p>以$12-6$势为例，它包含repulsion term &amp; dispersion term，代入</p>
 <script type="math/tex; mode=display">U(r)=\frac{A}{r^{12}}-\frac{B}{r^6}</script><p>可求出能量修正以及压强修正（已推导）</p>
 <h1 id="单位制"><a href="#单位制" class="headerlink" title="单位制"></a>单位制</h1><p>最后，更正单位制的问题：</p>
-<div  align="center"> 
-<img src="/images/lrcorrect/unit_temp.png" width = "680" height = "227" alt="Ewald-1" align=center />
-</div>
-
+<p><img decoding="async" src="/images/lrcorrect/unit_temp.png" width="100%"></p>
 <h1 id="Radial-distribution-function"><a href="#Radial-distribution-function" class="headerlink" title="Radial distribution function"></a>Radial distribution function</h1><figure class="highlight fortran"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">c loop over atom i, and its type</span></span><br><span class="line"><span class="keyword">do</span> i=idnode+<span class="number">1</span>,natms,mxnode</span><br><span class="line">  ai=ltype(i)</span><br><span class="line"><span class="comment">c loop over atom j, and its type</span></span><br><span class="line">  <span class="keyword">do</span> m=<span class="number">1</span>,lentry(ii)</span><br><span class="line">    aj=ltype(ilist(m))</span><br><span class="line"><span class="comment">c k represent the only map with type i and j</span></span><br><span class="line">      <span class="keyword">if</span>(ai.gt.aj)<span class="keyword">then</span></span><br><span class="line">        k=<span class="built_in">int</span>(ai*(ai-<span class="number">1.d0</span>)*<span class="number">0.5d0</span>+aj+<span class="number">0.5d0</span>)</span><br><span class="line">      <span class="keyword">else</span></span><br><span class="line">        k=<span class="built_in">int</span>(aj*(aj-<span class="number">1.d0</span>)*<span class="number">0.5d0</span>+ai+<span class="number">0.5d0</span>)</span><br><span class="line">      <span class="keyword">endif</span></span><br><span class="line"><span class="comment">c count</span></span><br><span class="line">      <span class="keyword">if</span>(rrr.lt.rcut)</span><br><span class="line">        rdf(ll,k)=rdf(ll,k)+<span class="number">1.d0</span></span><br><span class="line">      <span class="keyword">endif</span></span><br><span class="line">  <span class="keyword">enddo</span></span><br><span class="line"><span class="keyword">enddo</span></span><br></pre></td></tr></table></figure>
 <p>用rdf计数径向分布函数，ll标注距离远近，k标注原子对种类，每对原子只计数一次；</p>
 <p>（前面的因子待补充）</p>
@@ -431,13 +428,13 @@
       <i class="fa fa-chart-area"></i>
     </span>
       <span class="post-meta-item-text">站点总字数：</span>
-    <span title="站点总字数">135k</span>
+    <span title="站点总字数">137k</span>
     <span class="post-meta-divider">|</span>
     <span class="post-meta-item-icon">
       <i class="fa fa-coffee"></i>
     </span>
       <span class="post-meta-item-text">站点阅读时长 &asymp;</span>
-    <span title="站点阅读时长">2:03</span>
+    <span title="站点阅读时长">2:05</span>
 </div>
 
         
